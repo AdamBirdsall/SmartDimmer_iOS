@@ -22,47 +22,36 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var connectedLabel: UILabel!
     @IBOutlet weak var mainSwitch: UISwitch!
+    @IBOutlet weak var mainSlider: UISlider!
+    @IBOutlet weak var brightnessLabel: UILabel!
+    @IBOutlet weak var dimStepper: UIStepper!
     
+    /**
+     * View did load default functions
+     */
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.mainSlider.isEnabled = false
+        self.dimStepper.isEnabled = false
         centralManager = CBCentralManager(delegate: self, queue: nil)
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(DiscoverTableViewController.scanForDevice), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ViewController.scanForDevice), userInfo: nil, repeats: false)
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
-    
-    @IBAction func switchToggled(_ sender: Any) {
-        if (self.mainSwitch.isOn) {
-            self.connectedLabel.text = "On"
-            writeCharacteristic.setValue("<25>", forKey: "value")
-            print("Characteristic: \(writeCharacteristic!)")
-            writeBLEData(string: "<value>15")
-        } else {
-            self.connectedLabel.text = "Off"
-            writeCharacteristic.setValue("<1>", forKey: "value")
-            print("Characteristic: \(writeCharacteristic!)")
-            writeBLEData(string: "<value>10")
-        }
-    }
-    
-    func writeBLEData(string: String) {
-        let data = string.data(using: String.Encoding.utf8)
-        
-        connectedPeripheral.writeValue(data!, for: writeCharacteristic, type: CBCharacteristicWriteType.withResponse)
-        
-        connectedPeripheral.discoverServices(nil)
-    }
-    
-    // MARK: - Table view data source
-    
+    /**
+     * Tableview functions
+     */
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -92,15 +81,110 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         centralManager.connect(connectedPeripheral, options: nil)
     }
     
-    // Central Manager Delegates
-    /*********************************************/
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        self.tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        let peripheral = peripherals[indexPath.row]
+        
+        let alert = UIAlertController(title: "Rename Device", message: nil, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Save", style: .default) { action in
+            let firstTextField = alert.textFields![0] as UITextField
+
+            peripheral.setValue(firstTextField.text, forKey: "name")
+            peripheral.setValue(firstTextField.text, forKey: "displayName")
+            
+            print("\n\n \(peripheral)")
+            self.tableView.reloadData()
+        })
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { action in
+        })
+        
+        alert.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "Enter Device Name"
+        }
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    /**
+     * Switch and slider functions
+     */
+    @IBAction func switchToggled(_ sender: Any) {
+        if (self.mainSwitch.isOn) {
+            
+            self.mainSlider.value = 100
+            self.dimStepper.value = 100
+            
+            self.mainSlider.isEnabled = true
+            self.dimStepper.isEnabled = true
+            
+            writeBLEData(value: 100)
+        } else {
+            
+            self.mainSlider.value = 0
+            self.dimStepper.value = 0
+            
+            self.mainSlider.isEnabled = false
+            self.dimStepper.isEnabled = false
+            
+            writeBLEData(value: 00)
+        }
+    }
+    
+    @IBAction func dimLights(_ sender: Any) {
+        
+//        let currentValue = Int(self.mainSlider.value)
+        
+        let step: Float = 10
+        let roundedValue = round(self.mainSlider.value / step) * step
+        self.mainSlider.value = roundedValue
+        
+        self.brightnessLabel.text = "\(roundedValue)"
+        
+        writeBLEData(value: Int(roundedValue))
+    }
+    
+    @IBAction func dimStepChanged(_ sender: Any) {
+        let currentValue = Int(self.dimStepper.value)
+        
+        self.mainSlider.value = Float(currentValue)
+        
+        self.brightnessLabel.text = "\(currentValue)"
+        
+        writeBLEData(value: currentValue)
+    }
+    
+    /**
+     * Writing to the bluetooth module
+     */
+    func writeBLEData(value: Int) {
+        
+        let hex = String(format:"%2X", value)
+        
+        let trimmedString = hex.trimmingCharacters(in: .whitespaces)
+
+        let data = trimmedString.hexadecimal()
+        
+//        let data = NSData(bytes: value, length: value.count)
+        
+        connectedPeripheral?.writeValue(data!, for: writeCharacteristic, type: CBCharacteristicWriteType.withResponse)
+    }
+    
+    /**
+     * Discovery of bluetooth devices
+     */
     func scanForDevice() {
         
         centralManager.scanForPeripherals(withServices: [CBUUID(string: DISCOVERY_UUID)], options: nil)
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        
+//        peripheral.setValue("SmartDimmer (proto) Blue", forKey: "name")
+        print("Peripheral: \(peripheral)")
         peripherals.append(peripheral)
         self.tableView.reloadData()
         
@@ -140,6 +224,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    func discoverProperties(characteristic: CBCharacteristic, error: Error?) {
+//        for property in characteristic.properties {
+//            print("Properties: \(property)")
+//        }
+    }
+    
+    
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         
         switch (central.state) {
@@ -165,3 +256,27 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 }
 
+extension String {
+    
+    /// Create `Data` from hexadecimal string representation
+    ///
+    /// This takes a hexadecimal representation and creates a `Data` object. Note, if the string has any spaces or non-hex characters (e.g. starts with '<' and with a '>'), those are ignored and only hex characters are processed.
+    ///
+    /// - returns: Data represented by this hexadecimal string.
+    
+    func hexadecimal() -> Data? {
+        var data = Data(capacity: characters.count / 2)
+        
+        let regex = try! NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive)
+        regex.enumerateMatches(in: self, range: NSMakeRange(0, utf16.count)) { match, flags, stop in
+            let byteString = (self as NSString).substring(with: match!.range)
+            var num = UInt8(byteString, radix: 16)!
+            data.append(&num, count: 1)
+        }
+        
+        guard data.count > 0 else { return nil }
+        
+        return data
+    }
+    
+}

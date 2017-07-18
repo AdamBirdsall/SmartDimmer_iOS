@@ -14,7 +14,8 @@
 		813DD1F31F04824C0025A93C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 813DD1F21F04824C0025A93C /* Assets.xcassets */; };
 		813DD1F61F04824C0025A93C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 813DD1F41F04824C0025A93C /* LaunchScreen.storyboard */; };
 		813DD1FF1F04871A0025A93C /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 813DD1FE1F04871A0025A93C /* CoreBluetooth.framework */; };
-		813DD2011F049ADB0025A93C /* DiscoverTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813DD2001F049ADB0025A93C /* DiscoverTableViewController.swift */; };
+		81D4085E1F159F2F006DEC13 /* DiscoverTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D4085D1F159F2F006DEC13 /* DiscoverTableViewController.swift */; };
+		81D408601F15A0E2006DEC13 /* DiscoverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D4085F1F15A0E2006DEC13 /* DiscoverTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +28,8 @@
 		813DD1F51F04824C0025A93C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		813DD1F71F04824C0025A93C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		813DD1FE1F04871A0025A93C /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
-		813DD2001F049ADB0025A93C /* DiscoverTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewController.swift; sourceTree = "<group>"; };
+		81D4085D1F159F2F006DEC13 /* DiscoverTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewController.swift; sourceTree = "<group>"; };
+		81D4085F1F15A0E2006DEC13 /* DiscoverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,9 +64,9 @@
 		813DD1E71F04824C0025A93C /* Smart Dimmer */ = {
 			isa = PBXGroup;
 			children = (
+				81D4085C1F159F18006DEC13 /* DiscoverTableView */,
 				813DD1E81F04824C0025A93C /* AppDelegate.swift */,
 				813DD1EA1F04824C0025A93C /* ViewController.swift */,
-				813DD2001F049ADB0025A93C /* DiscoverTableViewController.swift */,
 				813DD1EC1F04824C0025A93C /* Main.storyboard */,
 				813DD1F21F04824C0025A93C /* Assets.xcassets */,
 				813DD1F41F04824C0025A93C /* LaunchScreen.storyboard */,
@@ -80,6 +82,15 @@
 				813DD1FE1F04871A0025A93C /* CoreBluetooth.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		81D4085C1F159F18006DEC13 /* DiscoverTableView */ = {
+			isa = PBXGroup;
+			children = (
+				81D4085D1F159F2F006DEC13 /* DiscoverTableViewController.swift */,
+				81D4085F1F15A0E2006DEC13 /* DiscoverTableViewCell.swift */,
+			);
+			name = DiscoverTableView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,8 +167,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				813DD1F11F04824C0025A93C /* Smart_Dimmer.xcdatamodeld in Sources */,
+				81D408601F15A0E2006DEC13 /* DiscoverTableViewCell.swift in Sources */,
 				813DD1EB1F04824C0025A93C /* ViewController.swift in Sources */,
-				813DD2011F049ADB0025A93C /* DiscoverTableViewController.swift in Sources */,
+				81D4085E1F159F2F006DEC13 /* DiscoverTableViewController.swift in Sources */,
 				813DD1E91F04824C0025A93C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -324,6 +336,7 @@
 				813DD1FC1F04824C0025A93C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
