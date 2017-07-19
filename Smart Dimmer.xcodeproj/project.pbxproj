@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		813AFBED1F1EF632007A11AC /* DiscoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813AFBEC1F1EF632007A11AC /* DiscoveryViewController.swift */; };
+		813AFBF01F1F06D2007A11AC /* BLEHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813AFBEF1F1F06D2007A11AC /* BLEHelper.swift */; };
 		813DD1E91F04824C0025A93C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813DD1E81F04824C0025A93C /* AppDelegate.swift */; };
 		813DD1EB1F04824C0025A93C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813DD1EA1F04824C0025A93C /* ViewController.swift */; };
 		813DD1EE1F04824C0025A93C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 813DD1EC1F04824C0025A93C /* Main.storyboard */; };
@@ -14,11 +16,11 @@
 		813DD1F31F04824C0025A93C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 813DD1F21F04824C0025A93C /* Assets.xcassets */; };
 		813DD1F61F04824C0025A93C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 813DD1F41F04824C0025A93C /* LaunchScreen.storyboard */; };
 		813DD1FF1F04871A0025A93C /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 813DD1FE1F04871A0025A93C /* CoreBluetooth.framework */; };
-		81D4085E1F159F2F006DEC13 /* DiscoverTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D4085D1F159F2F006DEC13 /* DiscoverTableViewController.swift */; };
-		81D408601F15A0E2006DEC13 /* DiscoverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D4085F1F15A0E2006DEC13 /* DiscoverTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		813AFBEC1F1EF632007A11AC /* DiscoveryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoveryViewController.swift; sourceTree = "<group>"; };
+		813AFBEF1F1F06D2007A11AC /* BLEHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEHelper.swift; sourceTree = "<group>"; };
 		813DD1E51F04824C0025A93C /* Smart Dimmer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Smart Dimmer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		813DD1E81F04824C0025A93C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		813DD1EA1F04824C0025A93C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -28,8 +30,6 @@
 		813DD1F51F04824C0025A93C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		813DD1F71F04824C0025A93C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		813DD1FE1F04871A0025A93C /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
-		81D4085D1F159F2F006DEC13 /* DiscoverTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewController.swift; sourceTree = "<group>"; };
-		81D4085F1F15A0E2006DEC13 /* DiscoverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +44,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		813AFBEE1F1F06B6007A11AC /* BLE */ = {
+			isa = PBXGroup;
+			children = (
+				813AFBEF1F1F06D2007A11AC /* BLEHelper.swift */,
+			);
+			name = BLE;
+			sourceTree = "<group>";
+		};
 		813DD1DC1F04824C0025A93C = {
 			isa = PBXGroup;
 			children = (
@@ -64,6 +72,7 @@
 		813DD1E71F04824C0025A93C /* Smart Dimmer */ = {
 			isa = PBXGroup;
 			children = (
+				813AFBEE1F1F06B6007A11AC /* BLE */,
 				81D4085C1F159F18006DEC13 /* DiscoverTableView */,
 				813DD1E81F04824C0025A93C /* AppDelegate.swift */,
 				813DD1EA1F04824C0025A93C /* ViewController.swift */,
@@ -87,8 +96,7 @@
 		81D4085C1F159F18006DEC13 /* DiscoverTableView */ = {
 			isa = PBXGroup;
 			children = (
-				81D4085D1F159F2F006DEC13 /* DiscoverTableViewController.swift */,
-				81D4085F1F15A0E2006DEC13 /* DiscoverTableViewCell.swift */,
+				813AFBEC1F1EF632007A11AC /* DiscoveryViewController.swift */,
 			);
 			name = DiscoverTableView;
 			sourceTree = "<group>";
@@ -167,9 +175,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				813DD1F11F04824C0025A93C /* Smart_Dimmer.xcdatamodeld in Sources */,
-				81D408601F15A0E2006DEC13 /* DiscoverTableViewCell.swift in Sources */,
+				813AFBF01F1F06D2007A11AC /* BLEHelper.swift in Sources */,
+				813AFBED1F1EF632007A11AC /* DiscoveryViewController.swift in Sources */,
 				813DD1EB1F04824C0025A93C /* ViewController.swift in Sources */,
-				81D4085E1F159F2F006DEC13 /* DiscoverTableViewController.swift in Sources */,
 				813DD1E91F04824C0025A93C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
