@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreBluetooth
+import SideMenu
 
 class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate {
     
@@ -36,12 +37,15 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         self.mainSlider.isEnabled = true
         self.mainSlider.isContinuous = false
         self.popUpView.layer.cornerRadius = 25.0
+        
+        setupSideMenu()
+        
         self.startManager()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(DiscoveryViewController.scanForDevice), userInfo: nil, repeats: false)
+//        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(DiscoveryViewController.scanForDevice), userInfo: nil, repeats: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -50,6 +54,19 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    fileprivate func setupSideMenu() {
+        // Define the menus
+        SideMenuManager.menuLeftNavigationController = storyboard!.instantiateViewController(withIdentifier: "LeftSideMenu") as? UISideMenuNavigationController
+        
+        SideMenuManager.menuPresentMode = .menuSlideIn
+        
+        // Enable gestures. The left and/or right menus must be set up above for these to work.
+        // Note that these continue to work on the Navigation Controller independent of the View Controller it displays!
+        SideMenuManager.menuAddPanGestureToPresent(toView: self.navigationController!.navigationBar)
+        SideMenuManager.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
+        
     }
     
     func startManager() {
@@ -73,7 +90,6 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         self.tableView.deselectRow(at: indexPath, animated: true)
         
         connectedPeripheral = peripherals[indexPath.row]
@@ -108,7 +124,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         
         self.brightnessLabel.text = "Brightness: \(Int(roundedValue))"
         
-        writeBLEData(value: Int(roundedValue))
+        writeBLEData(Int(roundedValue))
     }
     
     @IBAction func doneClicked(_ sender: Any) {
@@ -127,7 +143,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     /**
      * Writing to the bluetooth module
      */
-    func writeBLEData(value: Int) {
+    func writeBLEData(_ value: Int) {
         
         let hex = String(format:"%2X", value)
         

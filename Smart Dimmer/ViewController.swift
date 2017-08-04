@@ -122,7 +122,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.mainSlider.isEnabled = true
             self.dimStepper.isEnabled = true
             
-            writeBLEData(value: 100)
+            writeBLEData(100)
         } else {
             
             self.mainSlider.value = 0
@@ -131,7 +131,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.mainSlider.isEnabled = false
             self.dimStepper.isEnabled = false
             
-            writeBLEData(value: 00)
+            writeBLEData(00)
         }
     }
     
@@ -143,7 +143,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         self.brightnessLabel.text = "\(Int(roundedValue))"
         
-        writeBLEData(value: Int(roundedValue))
+        writeBLEData(Int(roundedValue))
     }
     
     @IBAction func dimStepChanged(_ sender: Any) {
@@ -153,13 +153,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         self.brightnessLabel.text = "\(currentValue)"
         
-        writeBLEData(value: currentValue)
+        writeBLEData(currentValue)
     }
     
     /**
      * Writing to the bluetooth module
      */
-    func writeBLEData(value: Int) {
+    func writeBLEData(_ value: Int) {
         
         let hex = String(format:"%2X", value)
         
@@ -220,7 +220,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    func discoverProperties(characteristic: CBCharacteristic, error: Error?) {
+    func discoverProperties(_ characteristic: CBCharacteristic, error: Error?) {
 //        for property in characteristic.properties {
 //            print("Properties: \(property)")
 //        }
