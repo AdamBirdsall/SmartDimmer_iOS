@@ -23,24 +23,25 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var connectedLabel: UILabel!
-    @IBOutlet weak var mainSwitch: UISwitch!
     @IBOutlet weak var mainSlider: UISlider!
     @IBOutlet weak var brightnessLabel: UILabel!
     @IBOutlet weak var popUpView: UIView!
+    @IBOutlet weak var scanAgainButton: UIBarButtonItem!
     
     /**
      * View did load default functions
      */
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.mainSlider.isEnabled = false
+        self.mainSlider.isEnabled = true
+        self.mainSlider.isContinuous = false
         self.popUpView.layer.cornerRadius = 25.0
         self.startManager()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ViewController.scanForDevice), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(DiscoveryViewController.scanForDevice), userInfo: nil, repeats: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -53,10 +54,11 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func startManager() {
         centralManager = CBCentralManager(delegate: self, queue: nil)
+//        centralManager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerOptionRestoreIdentifierKey : Device.restoreIdentifier])
     }
     
-    /***********************************************************************************************************************/
-    /***********************************************************************************************************************/
+    /**************************************************************************************/
+    /**************************************************************************************/
     /**
      * Tableview functions
      */
@@ -70,6 +72,17 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         return peripherals.count
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        self.tableView.deselectRow(at: indexPath, animated: true)
+        
+        connectedPeripheral = peripherals[indexPath.row]
+        centralManager.connect(connectedPeripheral, options: nil)
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        self.tableView.deselectRow(at: indexPath, animated: true)
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
@@ -78,78 +91,14 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         
         let peripheral = peripherals[indexPath.row]
         cell.textLabel?.text = peripheral.name
+        cell.detailTextLabel?.text = peripheral.identifier.uuidString
         
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        self.tableView.deselectRow(at: indexPath, animated: true)
-        
-        connectedPeripheral = peripherals[indexPath.row]
-        centralManager.stopScan()
-        centralManager.connect(connectedPeripheral, options: nil)
-        
-        UIView.animate(withDuration: 0.75, animations: {
-            self.popUpView.alpha = 1.0
-        })
-    }
+    /**************************************************************************************/
+    /**************************************************************************************/
     
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        self.tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        let peripheral = peripherals[indexPath.row]
-        
-        let alert = UIAlertController(title: "Rename Device", message: nil, preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "Save", style: .default) { action in
-            let firstTextField = alert.textFields![0] as UITextField
-            
-            peripheral.setValue(firstTextField.text, forKey: "name")
-            peripheral.setValue(firstTextField.text, forKey: "displayName")
-            
-            print("\n\n \(peripheral)")
-            self.tableView.reloadData()
-        })
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { action in
-        })
-        
-        alert.addTextField { (textField : UITextField!) -> Void in
-            textField.placeholder = "Enter Device Name"
-        }
-        
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    /***********************************************************************************************************************/
-    /***********************************************************************************************************************/
-    /**
-     * Switch and slider functions
-     */
-    @IBAction func switchToggled(_ sender: Any) {
-        if (self.mainSwitch.isOn) {
-            
-            self.mainSlider.value = 100
-            
-            self.mainSlider.isEnabled = true
-            
-            self.brightnessLabel.text = "Brightness: 100"
-            
-            writeBLEData(value: 100)
-        } else {
-            
-            self.mainSlider.value = 0
-            
-            self.mainSlider.isEnabled = false
-            
-            self.brightnessLabel.text = "Brightness: 0"
-            
-            writeBLEData(value: 00)
-        }
-    }
     
     @IBAction func updateLightValue(_ sender: Any) {
         
@@ -158,11 +107,6 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         self.mainSlider.value = roundedValue
         
         self.brightnessLabel.text = "Brightness: \(Int(roundedValue))"
-    }
-    
-    @IBAction func updateSliderValueLabel(_ sender: Any) {
-        let step: Float = 10
-        let roundedValue = round(self.mainSlider.value / step) * step
         
         writeBLEData(value: Int(roundedValue))
     }
@@ -170,13 +114,16 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBAction func doneClicked(_ sender: Any) {
         
         centralManager.cancelPeripheralConnection(connectedPeripheral)
-        
-        UIView.animate(withDuration: 0.75, animations: {
-            self.popUpView.alpha = 0.0
-        })        
     }
-    /***********************************************************************************************************************/
-    /***********************************************************************************************************************/
+    
+    @IBAction func scanAgain(_ sender: Any) {
+        self.peripherals.removeAll()
+        self.tableView.reloadData()
+        scanForDevice()
+    }
+    
+    /**************************************************************************************/
+    /**************************************************************************************/
     /**
      * Writing to the bluetooth module
      */
@@ -188,10 +135,9 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         
         let data = trimmedString.hexadecimal()
         
-        writeCharacteristic.setValue(data!, forKey: "value")
-        connectedPeripheral?.writeValue(data!, for: writeCharacteristic, type: CBCharacteristicWriteType.withoutResponse)
-        
-        connectedPeripheral.readValue(for: readCharacteristic)
+//        writeCharacteristic.setValue(data!, forKey: "value")
+//        readCharacteristic.setValue(data!, forKey: "value")
+        connectedPeripheral?.writeValue(data!, for: writeCharacteristic, type: CBCharacteristicWriteType.withResponse)
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
@@ -201,11 +147,13 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             print("\n\nUpdate Succeeded\n\n")
         }
     }
+    
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         if let error = error {
             print("Writing error", error)
         } else {
             print("\n\nWrite Succeeded")
+//            connectedPeripheral.readValue(for: writeCharacteristic)
             connectedPeripheral.discoverServices(nil)
         }
     }
@@ -214,8 +162,11 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
      * Discovery of bluetooth devices
      */
     func scanForDevice() {
-        peripherals.removeAll()
         centralManager.scanForPeripherals(withServices: [CBUUID(string: DISCOVERY_UUID)], options: nil)
+        Timer.scheduledTimer(timeInterval: 6.0, target: self, selector: #selector(DiscoveryViewController.stopScanning), userInfo: nil, repeats: false)
+    }
+    func stopScanning() {
+        centralManager.stopScan()
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
@@ -223,16 +174,22 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         print("Peripheral: \(peripheral)")
         peripherals.append(peripheral)
         self.tableView.reloadData()
-        
     }
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         
         self.connectedLabel.text = "Connected to: \(connectedPeripheral.name!)"
         
+        self.tableView.isUserInteractionEnabled = false
+        
         connectedPeripheral.delegate = self
         
         connectedPeripheral.discoverServices(nil)
+    }
+    
+    func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+        
+        print(error.debugDescription)
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?){
@@ -242,7 +199,12 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             self.writeCharacteristic = nil
             self.readCharacteristic = nil
         }
+        
+        UIView.animate(withDuration: 0.75, animations: {
+            self.popUpView.alpha = 0.0
+        })
         print("did disconnect")
+        self.tableView.isUserInteractionEnabled = true
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
@@ -259,6 +221,10 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         
+        UIView.animate(withDuration: 0.75, animations: {
+            self.popUpView.alpha = 1.0
+        })
+        
         for characteristic in service.characteristics! {
             
             let aCharacteristic = characteristic
@@ -270,7 +236,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                 
             } else if (aCharacteristic.uuid == CBUUID(string: READ_CHARACTERISTIC)) {
                 readCharacteristic = aCharacteristic
-                connectedPeripheral.setNotifyValue(true, for: readCharacteristic)
+//                connectedPeripheral.setNotifyValue(true, for: readCharacteristic)
                 print("\n\nRead Characteristic: \(characteristic)")
             }
         }
@@ -298,7 +264,6 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         default:
             print("default")
         }
-        self.scanForDevice()
     }
 }
 
