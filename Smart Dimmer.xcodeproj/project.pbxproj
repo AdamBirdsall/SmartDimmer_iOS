@@ -7,18 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		81136FFB1F3402FC001CA824 /* Brilliance LED logo 2016_Horizontal.png in Resources */ = {isa = PBXBuildFile; fileRef = 81136FF91F3402FC001CA824 /* Brilliance LED logo 2016_Horizontal.png */; };
+		81136FFB1F3402FC001CA824 /* titleImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 81136FF91F3402FC001CA824 /* titleImage.png */; };
 		81136FFC1F3402FC001CA824 /* Brilliance LED logo 2016_Stacked.png in Resources */ = {isa = PBXBuildFile; fileRef = 81136FFA1F3402FC001CA824 /* Brilliance LED logo 2016_Stacked.png */; };
 		813AFBED1F1EF632007A11AC /* DiscoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813AFBEC1F1EF632007A11AC /* DiscoveryViewController.swift */; };
 		813AFBF01F1F06D2007A11AC /* BLEHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813AFBEF1F1F06D2007A11AC /* BLEHelper.swift */; };
 		813DD1E91F04824C0025A93C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813DD1E81F04824C0025A93C /* AppDelegate.swift */; };
-		813DD1EB1F04824C0025A93C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813DD1EA1F04824C0025A93C /* ViewController.swift */; };
 		813DD1EE1F04824C0025A93C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 813DD1EC1F04824C0025A93C /* Main.storyboard */; };
 		813DD1F11F04824C0025A93C /* Smart_Dimmer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 813DD1EF1F04824C0025A93C /* Smart_Dimmer.xcdatamodeld */; };
 		813DD1F31F04824C0025A93C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 813DD1F21F04824C0025A93C /* Assets.xcassets */; };
 		813DD1F61F04824C0025A93C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 813DD1F41F04824C0025A93C /* LaunchScreen.storyboard */; };
 		813DD1FF1F04871A0025A93C /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 813DD1FE1F04871A0025A93C /* CoreBluetooth.framework */; };
-		819225281F342C0700DA080E /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819225271F342C0700DA080E /* MenuViewController.swift */; };
+		817B2BC91F42AD1700D9B7E9 /* appIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 817B2BC81F42AD1700D9B7E9 /* appIcon.png */; };
+		817B2BCB1F42AD1E00D9B7E9 /* topBarTitle.png in Resources */ = {isa = PBXBuildFile; fileRef = 817B2BCA1F42AD1E00D9B7E9 /* topBarTitle.png */; };
+		818BBA921F42B14000B6F1DD /* icons8-Menu-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 818BBA911F42B14000B6F1DD /* icons8-Menu-50.png */; };
+		818BBA941F42B1A600B6F1DD /* icons8-Menu-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 818BBA931F42B1A600B6F1DD /* icons8-Menu-25.png */; };
 		8192252A1F342E7800DA080E /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819225291F342E7800DA080E /* MenuTableViewController.swift */; };
 		DD5E2600D95112704FC70449 /* Pods_Smart_Dimmer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DA9427C4E4A846EB51BCB55 /* Pods_Smart_Dimmer.framework */; };
 /* End PBXBuildFile section */
@@ -27,20 +29,22 @@
 		483F3B2D24426763ABBCFFAC /* Pods-Smart Dimmer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Smart Dimmer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Smart Dimmer/Pods-Smart Dimmer.debug.xcconfig"; sourceTree = "<group>"; };
 		6342C8E4208484267D5B76CE /* Pods-Smart Dimmer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Smart Dimmer.release.xcconfig"; path = "Pods/Target Support Files/Pods-Smart Dimmer/Pods-Smart Dimmer.release.xcconfig"; sourceTree = "<group>"; };
 		6DA9427C4E4A846EB51BCB55 /* Pods_Smart_Dimmer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Smart_Dimmer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		81136FF91F3402FC001CA824 /* Brilliance LED logo 2016_Horizontal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Brilliance LED logo 2016_Horizontal.png"; sourceTree = "<group>"; };
+		81136FF91F3402FC001CA824 /* titleImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = titleImage.png; sourceTree = "<group>"; };
 		81136FFA1F3402FC001CA824 /* Brilliance LED logo 2016_Stacked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Brilliance LED logo 2016_Stacked.png"; sourceTree = "<group>"; };
 		813AFBEC1F1EF632007A11AC /* DiscoveryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoveryViewController.swift; sourceTree = "<group>"; };
 		813AFBEF1F1F06D2007A11AC /* BLEHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEHelper.swift; sourceTree = "<group>"; };
 		813DD1E51F04824C0025A93C /* Smart Dimmer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Smart Dimmer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		813DD1E81F04824C0025A93C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		813DD1EA1F04824C0025A93C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		813DD1ED1F04824C0025A93C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		813DD1F01F04824C0025A93C /* Smart_Dimmer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Smart_Dimmer.xcdatamodel; sourceTree = "<group>"; };
 		813DD1F21F04824C0025A93C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		813DD1F51F04824C0025A93C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		813DD1F71F04824C0025A93C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		813DD1FE1F04871A0025A93C /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
-		819225271F342C0700DA080E /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		817B2BC81F42AD1700D9B7E9 /* appIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = appIcon.png; sourceTree = "<group>"; };
+		817B2BCA1F42AD1E00D9B7E9 /* topBarTitle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topBarTitle.png; sourceTree = "<group>"; };
+		818BBA911F42B14000B6F1DD /* icons8-Menu-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-Menu-50.png"; sourceTree = "<group>"; };
+		818BBA931F42B1A600B6F1DD /* icons8-Menu-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-Menu-25.png"; sourceTree = "<group>"; };
 		819225291F342E7800DA080E /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,8 +78,6 @@
 			children = (
 				813AFBEE1F1F06B6007A11AC /* BLE */,
 				813AFBEC1F1EF632007A11AC /* DiscoveryViewController.swift */,
-				813DD1EA1F04824C0025A93C /* ViewController.swift */,
-				819225271F342C0700DA080E /* MenuViewController.swift */,
 				819225291F342E7800DA080E /* MenuTableViewController.swift */,
 			);
 			name = Main;
@@ -93,7 +95,11 @@
 		81136FF81F3402EB001CA824 /* Pictures */ = {
 			isa = PBXGroup;
 			children = (
-				81136FF91F3402FC001CA824 /* Brilliance LED logo 2016_Horizontal.png */,
+				818BBA931F42B1A600B6F1DD /* icons8-Menu-25.png */,
+				818BBA911F42B14000B6F1DD /* icons8-Menu-50.png */,
+				817B2BCA1F42AD1E00D9B7E9 /* topBarTitle.png */,
+				817B2BC81F42AD1700D9B7E9 /* appIcon.png */,
+				81136FF91F3402FC001CA824 /* titleImage.png */,
 				81136FFA1F3402FC001CA824 /* Brilliance LED logo 2016_Stacked.png */,
 			);
 			name = Pictures;
@@ -225,11 +231,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				817B2BCB1F42AD1E00D9B7E9 /* topBarTitle.png in Resources */,
 				81136FFC1F3402FC001CA824 /* Brilliance LED logo 2016_Stacked.png in Resources */,
 				813DD1F61F04824C0025A93C /* LaunchScreen.storyboard in Resources */,
+				818BBA941F42B1A600B6F1DD /* icons8-Menu-25.png in Resources */,
+				817B2BC91F42AD1700D9B7E9 /* appIcon.png in Resources */,
 				813DD1F31F04824C0025A93C /* Assets.xcassets in Resources */,
+				818BBA921F42B14000B6F1DD /* icons8-Menu-50.png in Resources */,
 				813DD1EE1F04824C0025A93C /* Main.storyboard in Resources */,
-				81136FFB1F3402FC001CA824 /* Brilliance LED logo 2016_Horizontal.png in Resources */,
+				81136FFB1F3402FC001CA824 /* titleImage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,9 +301,7 @@
 				813DD1F11F04824C0025A93C /* Smart_Dimmer.xcdatamodeld in Sources */,
 				8192252A1F342E7800DA080E /* MenuTableViewController.swift in Sources */,
 				813AFBF01F1F06D2007A11AC /* BLEHelper.swift in Sources */,
-				819225281F342C0700DA080E /* MenuViewController.swift in Sources */,
 				813AFBED1F1EF632007A11AC /* DiscoveryViewController.swift in Sources */,
-				813DD1EB1F04824C0025A93C /* ViewController.swift in Sources */,
 				813DD1E91F04824C0025A93C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
