@@ -1,16 +1,16 @@
 //
-//  DiscoveryViewController.swift
+//  SetupViewController.swift
 //  Smart Dimmer
 //
-//  Created by Adam Birdsall on 7/18/17.
+//  Created by Adam Birdsall on 8/16/17.
 //  Copyright © 2017 Adam Birdsall. All rights reserved.
 //
 
 import UIKit
 import CoreBluetooth
-import SideMenu
 
-class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate {
+class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate {
+
     
     let DISCOVERY_UUID = "00001523-1212-EFDE-1523-785FEABCD123"
     let WRITE_CHARACTERISTIC = "00001525-1212-EFDE-1523-785FEABCD123"
@@ -22,35 +22,17 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     var writeCharacteristic: CBCharacteristic!
     var readCharacteristic: CBCharacteristic!
     
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var connectedLabel: UILabel!
-    @IBOutlet weak var mainSlider: UISlider!
-    @IBOutlet weak var brightnessLabel: UILabel!
     @IBOutlet weak var popUpView: UIView!
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var backgroundView: UIView!
     
-    @IBOutlet weak var fadeInSlider: UISlider!
     /**
      * View did load default functions
      */
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.mainSlider.isEnabled = true
-        self.mainSlider.isContinuous = false
         self.popUpView.layer.cornerRadius = 12.5
-        self.popUpView.frame.origin.y = self.tableView.frame.maxY
-        
-        let rect = CGRect(origin: CGPoint(x: 0,y :0), size: CGSize(width: 10, height: 50))
-
-        var titleView : UIImageView
-        titleView = UIImageView(frame:rect)
-        titleView.contentMode = .scaleAspectFit
-        titleView.image = UIImage(named: "topBarTitle.png")
-        
-        self.navigationItem.titleView = titleView
-        
-        setupSideMenu()
         
         self.startManager()
     }
@@ -59,35 +41,24 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         super.viewWillAppear(animated)
         
         let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector (DiscoveryViewController.scanAgain))
-        self.navigationItem.rightBarButtonItem  = refreshButton
+        self.navigationItem.rightBarButtonItem = refreshButton
         
-        peripherals.removeAll()
-        self.tableView.reloadData()
-    
         Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(DiscoveryViewController.scanForDevice), userInfo: nil, repeats: false)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.popUpView.frame.origin.y = self.view.frame.maxY
-        self.backgroundView.alpha = 0.0
+//        self.backgroundView.alpha = 0.0
     }
     
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
-    fileprivate func setupSideMenu() {
-        SideMenuManager.menuLeftNavigationController = storyboard!.instantiateViewController(withIdentifier: "LeftSideMenu") as? UISideMenuNavigationController
-        SideMenuManager.menuPresentMode = .menuSlideIn
-        SideMenuManager.menuAddPanGestureToPresent(toView: self.navigationController!.navigationBar)
-        SideMenuManager.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
-    }
     
-    /**************************************************************************************/
-    /**************************************************************************************/
-    /**
-     * Tableview functions
-     */
+    
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -101,7 +72,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         self.tableView.cellForRow(at: indexPath)?.detailTextLabel?.text = "Connected"
-
+        
         connectedPeripheral = peripherals[indexPath.row]
         centralManager.connect(connectedPeripheral, options: nil)
     }
@@ -118,98 +89,37 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         let peripheral = peripherals[indexPath.row]
         
         cell.textLabel?.text = peripheral.name
-        cell.detailTextLabel?.text = "Not Connected"
+        cell.detailTextLabel?.text = "Not Configured"
         
         return cell
     }
     
-    /**************************************************************************************/
-    /**************************************************************************************/
-    
-    var sliderStartValue: Float = 0.0
-    func fadeBrightnessLowToHigh(_ endValue: Float) {
-        
-//        for index in stride(from: sliderStartValue, through: endValue, by: 10) {
-//            writeBLEData(Int(index))
-//        }
+
+    @IBAction func lowestBrightness(_ sender: Any) {
+        writeBLEData(202)
     }
     
-    func fadeBrightnessHighToLow(_ endValue: Float) {
-        
-//        for index in stride(from: sliderStartValue, through: endValue, by: -10) {
-//            writeBLEData(Int(index))
-//        }
+    @IBAction func highestBrightness(_ sender: Any) {
+        writeBLEData(201)
     }
     
-    @IBAction func fadeInBrightness(_ sender: Any) {
-        let step: Float = 10
-        let roundedValue = round(self.mainSlider.value / step) * step
-        self.mainSlider.value = roundedValue
-        
-        self.brightnessLabel.text = "Brightness: \(Int(roundedValue))"
-        
-        writeBLEData(Int(roundedValue))
-    }
-    
-    @IBAction func updateLightValue(_ sender: Any) {
-        
-        let step: Float = 10
-        let roundedValue = round(self.mainSlider.value / step) * step
-        self.mainSlider.value = roundedValue
-        
-        self.brightnessLabel.text = "Brightness: \(Int(roundedValue))"
-        
-        if (self.mainSlider.value > sliderStartValue) {
-            self.fadeBrightnessLowToHigh(self.mainSlider.value)
-        } else {
-            self.fadeBrightnessHighToLow(self.mainSlider.value)
-        }
-        
-        self.sliderStartValue = roundedValue
-        
-        writeBLEData(Int(roundedValue))
-    }
-    
-    @IBAction func doneClicked(_ sender: Any) {
-        
+    @IBAction func disconnectPressed(_ sender: Any) {
         centralManager.cancelPeripheralConnection(connectedPeripheral)
     }
     
-    var aleViewIsShowing: Bool = false
     func scanAgain() {
-        
         scanForNewPeripherals()
-        //
-        //        aleViewIsShowing = !aleViewIsShowing
-        //
-        //        if (aleViewIsShowing) {
-        //            // open the view
-        //            UIView.animate(withDuration: 0.35, animations: {
-        //                self.popUpView.frame.origin.y = self.view.frame.maxY - self.popUpView.frame.size.height - 10
-        //                self.backgroundView.alpha = 0.5
-        //            })
-        //        } else {
-        //            // close the view
-        //            UIView.animate(withDuration: 0.35, animations: {
-        //                self.popUpView.frame.origin.y = self.view.frame.maxY
-        //                self.backgroundView.alpha = 0.0
-        //            })
-        //        }
-
     }
-
+    
     func scanForNewPeripherals() {
         self.peripherals.removeAll()
         self.tableView.reloadData()
         scanForDevice()
     }
     
-    /**************************************************************************************/
-    /**************************************************************************************/
     /**
      * Writing to the bluetooth module
      */
-    
     func startManager() {
         centralManager = CBCentralManager(delegate: self, queue: nil)
         //        centralManager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerOptionRestoreIdentifierKey : Device.restoreIdentifier])
@@ -221,16 +131,16 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         uiBusy.hidesWhenStopped = true
         uiBusy.startAnimating()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uiBusy)
-
+        
         centralManager.scanForPeripherals(withServices: [CBUUID(string: DISCOVERY_UUID)], options: nil)
+
         Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(DiscoveryViewController.stopScanning), userInfo: nil, repeats: false)
     }
     func stopScanning() {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
         
         let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector (DiscoveryViewController.scanAgain))
-        self.navigationItem.rightBarButtonItem  = refreshButton
-
+        self.navigationItem.rightBarButtonItem = refreshButton
+        
         centralManager.stopScan()
     }
     
@@ -263,20 +173,19 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
      * Discovery of bluetooth devices
      */
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-
+        
         print("Peripheral: \(peripheral)")
         peripherals.append(peripheral)
         self.tableView.reloadData()
     }
-        
+    
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         
-        UIView.animate(withDuration: 0.35, animations: {
-            self.popUpView.frame.origin.y = self.tableView.frame.maxY - self.popUpView.frame.size.height - 10
+        UIView.animate(withDuration: 0.15, animations: {
             self.backgroundView.alpha = 0.5
+            self.popUpView.alpha = 1.0
         })
-        
-        self.connectedLabel.text = "Connected to: \(connectedPeripheral.name!)"
+    
         self.tableView.isUserInteractionEnabled = false
         
         connectedPeripheral.delegate = self
@@ -289,10 +198,10 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?){
-       
-        UIView.animate(withDuration: 0.35, animations: {
-            self.popUpView.frame.origin.y = self.tableView.frame.maxY
+        
+        UIView.animate(withDuration: 0.15, animations: {
             self.backgroundView.alpha = 0.0
+            self.popUpView.alpha = 0.0
         })
         
         if self.connectedPeripheral != nil {
