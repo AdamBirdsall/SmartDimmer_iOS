@@ -71,7 +71,7 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
-        self.tableView.cellForRow(at: indexPath)?.detailTextLabel?.text = "Connected"
+//        self.tableView.cellForRow(at: indexPath)?.detailTextLabel?.text = "Connected"
         
         connectedPeripheral = peripherals[indexPath.row]
         centralManager.connect(connectedPeripheral, options: nil)
@@ -89,7 +89,7 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let peripheral = peripherals[indexPath.row]
         
         cell.textLabel?.text = peripheral.name
-        cell.detailTextLabel?.text = "Not Configured"
+        cell.detailTextLabel?.text = peripheral.identifier.uuidString
         
         return cell
     }
@@ -147,9 +147,13 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func writeBLEData(_ value: Int) {
         
         let hex = String(format:"%2X", value)
-        let hexData = hex.data(using: .utf8)
+        //        let hexData = hex.data(using: .utf8)
         
-        connectedPeripheral?.writeValue(hexData!, for: writeCharacteristic, type: CBCharacteristicWriteType.withResponse)
+        let trimmedString = hex.trimmingCharacters(in: .whitespaces)
+        
+        let data = trimmedString.newHexadecimal()
+        
+        connectedPeripheral?.writeValue(data!, for: writeCharacteristic, type: CBCharacteristicWriteType.withResponse)
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
@@ -184,6 +188,7 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
         UIView.animate(withDuration: 0.15, animations: {
             self.backgroundView.alpha = 0.5
             self.popUpView.alpha = 1.0
+            self.navigationController?.navigationBar.isUserInteractionEnabled = false
         })
     
         self.tableView.isUserInteractionEnabled = false
@@ -202,6 +207,7 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
         UIView.animate(withDuration: 0.15, animations: {
             self.backgroundView.alpha = 0.0
             self.popUpView.alpha = 0.0
+            self.navigationController?.navigationBar.isUserInteractionEnabled = true
         })
         
         if self.connectedPeripheral != nil {
@@ -214,7 +220,7 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
         print("did disconnect")
         
         self.tableView.isUserInteractionEnabled = true
-        scanForNewPeripherals()
+//        scanForNewPeripherals()
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
@@ -270,4 +276,22 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
             print("default")
         }
     }
+}
+extension String {
+    
+    func newHexadecimal() -> Data? {
+        var data = Data(capacity: characters.count / 2)
+        
+        let regex = try! NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive)
+        regex.enumerateMatches(in: self, range: NSMakeRange(0, utf16.count)) { match, flags, stop in
+            let byteString = (self as NSString).substring(with: match!.range)
+            var num = UInt8(byteString, radix: 16)!
+            data.append(&num, count: 1)
+        }
+        
+        guard data.count > 0 else { return nil }
+        
+        return data
+    }
+    
 }

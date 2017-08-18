@@ -28,6 +28,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var brightnessLabel: UILabel!
     @IBOutlet weak var popUpView: UIView!
     @IBOutlet weak var backgroundView: UIView!
+    @IBOutlet weak var menuButton: UIBarButtonItem!
     
     @IBOutlet weak var fadeInSlider: UISlider!
     /**
@@ -100,7 +101,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
-        self.tableView.cellForRow(at: indexPath)?.detailTextLabel?.text = "Connected"
+//        self.tableView.cellForRow(at: indexPath)?.detailTextLabel?.text = "Connected"
 
         connectedPeripheral = peripherals[indexPath.row]
         centralManager.connect(connectedPeripheral, options: nil)
@@ -118,7 +119,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         let peripheral = peripherals[indexPath.row]
         
         cell.textLabel?.text = peripheral.name
-        cell.detailTextLabel?.text = "Not Connected"
+        cell.detailTextLabel?.text = peripheral.identifier.uuidString
         
         return cell
     }
@@ -237,9 +238,14 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     func writeBLEData(_ value: Int) {
         
         let hex = String(format:"%2X", value)
-        let hexData = hex.data(using: .utf8)
+//        let hexData = hex.data(using: .utf8)
         
-        connectedPeripheral?.writeValue(hexData!, for: writeCharacteristic, type: CBCharacteristicWriteType.withResponse)
+        let trimmedString = hex.trimmingCharacters(in: .whitespaces)
+        
+        let data = trimmedString.hexadecimal()
+
+        
+        connectedPeripheral?.writeValue(data!, for: writeCharacteristic, type: CBCharacteristicWriteType.withResponse)
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
@@ -274,6 +280,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         UIView.animate(withDuration: 0.35, animations: {
             self.popUpView.frame.origin.y = self.tableView.frame.maxY - self.popUpView.frame.size.height - 10
             self.backgroundView.alpha = 0.5
+            self.navigationController?.navigationBar.isUserInteractionEnabled = false
         })
         
         self.connectedLabel.text = "Connected to: \(connectedPeripheral.name!)"
@@ -293,6 +300,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         UIView.animate(withDuration: 0.35, animations: {
             self.popUpView.frame.origin.y = self.tableView.frame.maxY
             self.backgroundView.alpha = 0.0
+            self.navigationController?.navigationBar.isUserInteractionEnabled = true
         })
         
         if self.connectedPeripheral != nil {
@@ -305,7 +313,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         print("did disconnect")
         
         self.tableView.isUserInteractionEnabled = true
-        scanForNewPeripherals()
+//        scanForNewPeripherals()
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
@@ -362,3 +370,22 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
 }
+extension String {
+    
+    func hexadecimal() -> Data? {
+        var data = Data(capacity: characters.count / 2)
+        
+        let regex = try! NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive)
+        regex.enumerateMatches(in: self, range: NSMakeRange(0, utf16.count)) { match, flags, stop in
+            let byteString = (self as NSString).substring(with: match!.range)
+            var num = UInt8(byteString, radix: 16)!
+            data.append(&num, count: 1)
+        }
+        
+        guard data.count > 0 else { return nil }
+        
+        return data
+    }
+    
+}
+
