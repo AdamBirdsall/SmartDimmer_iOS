@@ -503,6 +503,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 483F3B2D24426763ABBCFFAC /* Pods-Smart Dimmer.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = FT34PLEEM7;
 				INFOPLIST_FILE = "Smart Dimmer/Info.plist";
@@ -517,6 +518,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6342C8E4208484267D5B76CE /* Pods-Smart Dimmer.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = FT34PLEEM7;
 				INFOPLIST_FILE = "Smart Dimmer/Info.plist";
