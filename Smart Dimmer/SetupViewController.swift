@@ -10,7 +10,7 @@ import UIKit
 import CoreBluetooth
 import CoreData
 
-class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
+class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate, UINavigationControllerDelegate {
 
     let managedObjectContext = (UIApplication.shared.delegate
         as! AppDelegate).persistentContainer.viewContext
@@ -40,6 +40,7 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         self.popUpView.layer.cornerRadius = 12.5
         self.popUpView.alpha = 0.0
+        self.backgroundView.alpha = 0.0
         
         self.nameTextField.delegate = self
         
@@ -49,6 +50,10 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.nameTextField.resignFirstResponder()
         return true
+    }
+    
+    override func viewWillLayoutSubviews() {
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -61,7 +66,8 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     override func viewDidAppear(_ animated: Bool) {
-//        self.backgroundView.alpha = 0.0
+        self.backgroundView.alpha = 0.0
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
 
@@ -69,8 +75,6 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
     
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections

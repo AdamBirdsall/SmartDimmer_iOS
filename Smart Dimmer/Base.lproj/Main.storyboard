@@ -160,11 +160,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="7tK-zM-99s">
-                        <barButtonItem key="leftBarButtonItem" image="icons8-Menu-25.png" id="6ch-8i-O5k">
-                            <connections>
-                                <segue destination="Ima-W2-Aa9" kind="presentation" id="QMs-OP-PSe"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Groups" id="Yjx-Dc-vqQ">
                             <connections>
                                 <action selector="switchToGroups:" destination="YtX-dz-OMg" id="mMn-YU-NVx"/>
@@ -178,9 +173,9 @@
                         <outlet property="fadeInSlider" destination="Tam-NK-t8G" id="VPB-lh-txc"/>
                         <outlet property="groupsButton" destination="Yjx-Dc-vqQ" id="RpJ-gL-eO3"/>
                         <outlet property="mainSlider" destination="Nb5-rR-d9g" id="BG4-Fx-224"/>
-                        <outlet property="menuButton" destination="6ch-8i-O5k" id="kZY-Za-wH5"/>
                         <outlet property="popUpView" destination="EUn-2h-PdL" id="yXa-Bm-hn2"/>
                         <outlet property="tableView" destination="uYe-2a-INI" id="Nit-BO-99b"/>
+                        <segue destination="Ima-W2-Aa9" kind="presentation" identifier="showMenu" id="DE8-7F-Mfg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oX7-g8-DFi" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -199,10 +194,10 @@
                             <tableViewSection headerTitle="Version" id="cCF-ni-3fN">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="RA2-PU-yMR">
-                                        <rect key="frame" x="0.0" y="55" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RA2-PU-yMR" id="bdP-3l-2xV">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.0.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YtG-cp-4QS">
@@ -224,10 +219,10 @@
                             <tableViewSection id="H5U-jT-UPz">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="kuI-x6-fef">
-                                        <rect key="frame" x="0.0" y="135" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="136" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kuI-x6-fef" id="1EU-RW-dXq">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nNo-Y8-KC4">
@@ -247,10 +242,10 @@
                             <tableViewSection id="iZt-dT-xwj">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="yTm-Xl-MRx">
-                                        <rect key="frame" x="0.0" y="215" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="216" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yTm-Xl-MRx" id="twT-ox-31q">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MCm-NB-giv">
@@ -305,7 +300,7 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="rxW-jV-5Ue" detailTextLabel="gzM-tN-HGB" style="IBUITableViewCellStyleSubtitle" id="e3r-Dh-MOk">
-                                        <rect key="frame" x="0.0" y="55" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="e3r-Dh-MOk" id="jCj-eO-YUe">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -489,7 +484,4 @@
             <point key="canvasLocation" x="3998" y="699"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="icons8-Menu-25.png" width="25" height="25"/>
-    </resources>
 </document>
