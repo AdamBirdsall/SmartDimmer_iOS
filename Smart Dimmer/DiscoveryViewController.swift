@@ -9,6 +9,7 @@
 import UIKit
 import CoreBluetooth
 import SideMenu
+import CoreData
 
 class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate {
     
@@ -22,6 +23,12 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     var writeCharacteristic: CBCharacteristic!
     var readCharacteristic: CBCharacteristic!
     
+    var tempPeripheralArray = Array<CBPeripheral>()
+    var connectedPeripheralArray = Array<Peripherals>()
+    var writeCharacteristicArray = Array<CBCharacteristic>()
+    
+    var tableObjects: [NSManagedObject] = []
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var connectedLabel: UILabel!
     @IBOutlet weak var mainSlider: UISlider!
@@ -29,8 +36,13 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var popUpView: UIView!
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var menuButton: UIBarButtonItem!
+    @IBOutlet weak var groupsButton: UIBarButtonItem!
     
     @IBOutlet weak var fadeInSlider: UISlider!
+    
+    
+    var addFlag: Bool = true
+
     /**
      * View did load default functions
      */
@@ -59,8 +71,8 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector (DiscoveryViewController.scanAgain))
-        self.navigationItem.rightBarButtonItem  = refreshButton
+//        let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector (DiscoveryViewController.scanAgain))
+//        self.navigationItem.rightBarButtonItem  = refreshButton
         
         peripherals.removeAll()
         self.tableView.reloadData()
@@ -71,6 +83,10 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewDidAppear(_ animated: Bool) {
         self.popUpView.frame.origin.y = self.view.frame.maxY
         self.backgroundView.alpha = 0.0
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        // Disconnect from all devices
     }
     
     override func didReceiveMemoryWarning() {
@@ -99,12 +115,27 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         return peripherals.count
     }
     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tableView.deselectRow(at: indexPath, animated: true)
-//        self.tableView.cellForRow(at: indexPath)?.detailTextLabel?.text = "Connected"
 
-        connectedPeripheral = peripherals[indexPath.row]
-        centralManager.connect(connectedPeripheral, options: nil)
+        if (self.tableView.isEditing) {
+
+//            let newPeripheral: Peripherals = Peripherals()
+//            newPeripheral.connectedPeripheral = peripherals[indexPath.row]
+//            
+//            let containsObject = connectedPeripheralArray.contains(where: { $0.connectedPeripheral == newPeripheral.connectedPeripheral })
+//            
+//            if (containsObject) {
+//                connectedPeripheralArray.remove(at: 0)
+//            } else {
+//                connectedPeripheralArray.append(newPeripheral)
+//            }
+            
+        } else {
+            self.tableView.deselectRow(at: indexPath, animated: true)
+            connectedPeripheral = peripherals[indexPath.row]
+            centralManager.connect(connectedPeripheral, options: nil)
+        }
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -127,21 +158,6 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     /**************************************************************************************/
     /**************************************************************************************/
     
-    var sliderStartValue: Float = 0.0
-    func fadeBrightnessLowToHigh(_ endValue: Float) {
-        
-//        for index in stride(from: sliderStartValue, through: endValue, by: 10) {
-//            writeBLEData(Int(index))
-//        }
-    }
-    
-    func fadeBrightnessHighToLow(_ endValue: Float) {
-        
-//        for index in stride(from: sliderStartValue, through: endValue, by: -10) {
-//            writeBLEData(Int(index))
-//        }
-    }
-    
     @IBAction func fadeInBrightness(_ sender: Any) {
         let step: Float = 10
         let roundedValue = round(self.mainSlider.value / step) * step
@@ -160,14 +176,6 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         
         self.brightnessLabel.text = "Brightness: \(Int(roundedValue))"
         
-        if (self.mainSlider.value > sliderStartValue) {
-            self.fadeBrightnessLowToHigh(self.mainSlider.value)
-        } else {
-            self.fadeBrightnessHighToLow(self.mainSlider.value)
-        }
-        
-        self.sliderStartValue = roundedValue
-        
         writeBLEData(Int(roundedValue))
     }
     
@@ -176,27 +184,19 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         centralManager.cancelPeripheralConnection(connectedPeripheral)
     }
     
-    var aleViewIsShowing: Bool = false
+    @IBAction func switchToGroups(_ sender: Any) {
+        
+        if (self.groupsButton.title == "Groups") {
+            self.tableView?.setEditing(true, animated: true)
+            self.groupsButton.title = "Connect"
+        } else {
+            self.connectToGroups()
+        }
+    }
+    
     func scanAgain() {
         
-        scanForNewPeripherals()
-        //
-        //        aleViewIsShowing = !aleViewIsShowing
-        //
-        //        if (aleViewIsShowing) {
-        //            // open the view
-        //            UIView.animate(withDuration: 0.35, animations: {
-        //                self.popUpView.frame.origin.y = self.view.frame.maxY - self.popUpView.frame.size.height - 10
-        //                self.backgroundView.alpha = 0.5
-        //            })
-        //        } else {
-        //            // close the view
-        //            UIView.animate(withDuration: 0.35, animations: {
-        //                self.popUpView.frame.origin.y = self.view.frame.maxY
-        //                self.backgroundView.alpha = 0.0
-        //            })
-        //        }
-
+//        scanForNewPeripherals()
     }
 
     func scanForNewPeripherals() {
@@ -215,37 +215,65 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         centralManager = CBCentralManager(delegate: self, queue: nil)
         //        centralManager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerOptionRestoreIdentifierKey : Device.restoreIdentifier])
     }
+    
     func scanForDevice() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        let uiBusy = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-        uiBusy.hidesWhenStopped = true
-        uiBusy.startAnimating()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uiBusy)
+//        let uiBusy = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+//        uiBusy.hidesWhenStopped = true
+//        uiBusy.startAnimating()
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uiBusy)
 
         centralManager.scanForPeripherals(withServices: [CBUUID(string: DISCOVERY_UUID)], options: nil)
         Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(DiscoveryViewController.stopScanning), userInfo: nil, repeats: false)
     }
+    
     func stopScanning() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         
-        let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector (DiscoveryViewController.scanAgain))
-        self.navigationItem.rightBarButtonItem  = refreshButton
+//        let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector (DiscoveryViewController.scanAgain))
+//        self.navigationItem.rightBarButtonItem  = refreshButton
 
         centralManager.stopScan()
     }
     
-    func writeBLEData(_ value: Int) {
+    func connectToGroups() {
         
+        let rows = self.tableView.indexPathsForSelectedRows?.map{$0.row}
+        
+        for row in rows! {
+            
+            let newPeripheral: Peripherals = Peripherals()
+            newPeripheral.connectedPeripheral = peripherals[row]
+            
+            connectedPeripheral = peripherals[row]
+            tempPeripheralArray.append(connectedPeripheral)
+            
+        }
+        connectToBLEDevice()
+    }
+    
+    func connectToBLEDevice() {
+        centralManager.connect(tempPeripheralArray[0], options: nil)
+    }
+    
+    func writeBLEData(_ value: Int) {
+        addFlag = false
+
         let hex = String(format:"%2X", value)
-//        let hexData = hex.data(using: .utf8)
         
         let trimmedString = hex.trimmingCharacters(in: .whitespaces)
         
         let data = trimmedString.hexadecimal()
-
         
-        connectedPeripheral?.writeValue(data!, for: writeCharacteristic, type: CBCharacteristicWriteType.withResponse)
+        if (self.tableView.isEditing) {
+            for newPeripheral in connectedPeripheralArray {
+                newPeripheral.connectedPeripheral.writeValue(data!, for: newPeripheral.connectedWriteCharacteristic, type: CBCharacteristicWriteType.withResponse)
+            }
+            
+        } else {
+            connectedPeripheral?.writeValue(data!, for: writeCharacteristic, type: CBCharacteristicWriteType.withResponse)
+        }
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
@@ -335,13 +363,22 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             let aCharacteristic = characteristic
             
             if (aCharacteristic.uuid == CBUUID(string: WRITE_CHARACTERISTIC)) {
+                
                 writeCharacteristic = aCharacteristic
                 
                 print("\n\nWrite Characteristics: \(characteristic)")
                 
-            } else if (aCharacteristic.uuid == CBUUID(string: READ_CHARACTERISTIC)) {
-                readCharacteristic = aCharacteristic
-                print("\n\nRead Characteristic: \(characteristic)")
+                let newPeripheral: Peripherals = Peripherals()
+                newPeripheral.connectedPeripheral = peripheral
+                newPeripheral.connectedWriteCharacteristic = aCharacteristic
+                connectedPeripheralArray.append(newPeripheral)
+                
+                tempPeripheralArray.remove(at: 0)
+                
+                if (self.tableView.isEditing && tempPeripheralArray.count > 0) {
+                    
+                    connectToBLEDevice()
+                }
             }
         }
     }
@@ -386,6 +423,5 @@ extension String {
         
         return data
     }
-    
 }
 

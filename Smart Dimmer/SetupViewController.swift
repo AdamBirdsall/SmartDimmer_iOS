@@ -8,9 +8,12 @@
 
 import UIKit
 import CoreBluetooth
+import CoreData
 
-class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate {
+class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
 
+    let managedObjectContext = (UIApplication.shared.delegate
+        as! AppDelegate).persistentContainer.viewContext
     
     let DISCOVERY_UUID = "00001523-1212-EFDE-1523-785FEABCD123"
     let WRITE_CHARACTERISTIC = "00001525-1212-EFDE-1523-785FEABCD123"
@@ -22,10 +25,13 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var writeCharacteristic: CBCharacteristic!
     var readCharacteristic: CBCharacteristic!
     
+    var coreDataArray = Array<CoreDataDevice>()
+    
     @IBOutlet weak var popUpView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var backgroundView: UIView!
     
+    @IBOutlet weak var nameTextField: UITextField!
     /**
      * View did load default functions
      */
@@ -33,8 +39,16 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
         super.viewDidLoad()
         
         self.popUpView.layer.cornerRadius = 12.5
+        self.popUpView.alpha = 0.0
+        
+        self.nameTextField.delegate = self
         
         self.startManager()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.nameTextField.resignFirstResponder()
+        return true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,8 +70,7 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // Dispose of any resources that can be recreated.
     }
     
-    
-    
+
     
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -72,6 +85,8 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
 //        self.tableView.cellForRow(at: indexPath)?.detailTextLabel?.text = "Connected"
+        
+        retrieveCoreData()
         
         connectedPeripheral = peripherals[indexPath.row]
         centralManager.connect(connectedPeripheral, options: nil)
@@ -104,7 +119,65 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     @IBAction func disconnectPressed(_ sender: Any) {
+        saveToCoreData(peripheral: connectedPeripheral)
         centralManager.cancelPeripheralConnection(connectedPeripheral)
+    }
+    
+    func saveToCoreData(peripheral: CBPeripheral) {
+        let entityDescription =
+            NSEntityDescription.entity(forEntityName: "Devices",
+                                       in: managedObjectContext)
+        
+        let device = DevicesMO(entity: entityDescription!,
+                               insertInto: managedObjectContext)
+        
+        device.name = nameTextField.text!
+        device.uuid = peripheral.identifier.uuidString
+        device.groups = ""
+        
+        do {
+            try managedObjectContext.save()
+            self.nameTextField.text = ""
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func retrieveCoreData() {
+        let entityDescription =
+            NSEntityDescription.entity(forEntityName: "Devices",
+                                       in: managedObjectContext)
+        
+        let request: NSFetchRequest<DevicesMO> = DevicesMO.fetchRequest()
+        request.entity = entityDescription
+        
+//        let pred = NSPredicate(format: "(name = %@)", name.text!)
+//        request.predicate = pred
+        
+        do {
+            var results =
+                try managedObjectContext.fetch(request as!
+                    NSFetchRequest<NSFetchRequestResult>)
+            
+            if results.count > 0 {
+                let match = results[0] as! NSManagedObject
+                
+                let newDevice: CoreDataDevice = CoreDataDevice()
+                newDevice.name = match.value(forKey: "name") as! String
+                newDevice.uuid = match.value(forKey: "uuid") as! String
+                newDevice.groups = match.value(forKey: "groups") as! String
+                
+                coreDataArray.append(newDevice)
+                
+            } else {
+//                status.text = "No Match"
+            }
+            
+        } catch let error {
+            print(error.localizedDescription)
+//            status.text = error.localizedDescription
+        }
     }
     
     func scanAgain() {
