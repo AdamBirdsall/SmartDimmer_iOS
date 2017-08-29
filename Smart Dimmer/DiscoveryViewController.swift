@@ -368,15 +368,14 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                 print("\n\nWrite Characteristics: \(characteristic)")
                 
-                let newPeripheral: Peripherals = Peripherals()
-                newPeripheral.connectedPeripheral = peripheral
-                newPeripheral.connectedWriteCharacteristic = aCharacteristic
-                connectedPeripheralArray.append(newPeripheral)
-                
-                tempPeripheralArray.remove(at: 0)
+//                let newPeripheral: Peripherals = Peripherals()
+//                newPeripheral.connectedPeripheral = peripheral
+//                newPeripheral.connectedWriteCharacteristic = aCharacteristic
+//                connectedPeripheralArray.append(newPeripheral)
+//                
+//                tempPeripheralArray.remove(at: 0)
                 
                 if (self.tableView.isEditing && tempPeripheralArray.count > 0) {
-                    
                     connectToBLEDevice()
                 }
             }
