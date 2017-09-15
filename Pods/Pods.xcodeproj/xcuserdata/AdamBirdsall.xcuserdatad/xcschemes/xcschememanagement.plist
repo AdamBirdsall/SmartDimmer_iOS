@@ -14,15 +14,25 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>StepSlider.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>71B4C38C5DEE8E3FFFC79F0BB186880A</key>
+		<key>196B59368133A04D74A30F7888166361</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FB02B4A36669B2DD97A047C3E3488C48</key>
+		<key>B35FC17BF93BD6043348E6E4A6207673</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C125D595C8690DFBAA153EA4E7E344A3</key>
 		<dict>
 			<key>primary</key>
 			<true/>

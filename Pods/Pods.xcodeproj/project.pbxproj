@@ -7,69 +7,98 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		159CF18C72415DB72DD4768D87BB7880 /* SideMenu-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 35093DD994A172D53932151A6DBAEBC3 /* SideMenu-dummy.m */; };
-		4495DDC940B979EFB65A3F603819D004 /* SideMenu-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E72E3ED37D9B76098CC2B9BB49D386DF /* SideMenu-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4ECDB37E66048DBD972CD015D874C301 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
-		ABB95D0625B2F651B6689A3A9AF34485 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
-		B7504C4455F20F9104000CBF9DF21465 /* Pods-Smart Dimmer-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F017BDB4C78A0A535248D92E54F0FB /* Pods-Smart Dimmer-dummy.m */; };
-		C6BC13F9D2CB83744502D36E7C6415EF /* UISideMenuNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4F5E4E267C03BAC23C64C2DEC825B6 /* UISideMenuNavigationController.swift */; };
-		C92716AEE2A19E2560CC2C4A48AAC48E /* SideMenuTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DB323BB3B2B0A52D555C01DBCD0305 /* SideMenuTransition.swift */; };
-		D4C167BC9B098822FEAA958DCBE54875 /* Pods-Smart Dimmer-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 75C8343CFFA8555B10A8CADEC9451497 /* Pods-Smart Dimmer-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F780BD439CC4B84B714129AE8A8C6934 /* UITableViewVibrantCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FF13F0BB1AB42B2F1C6A72A59BD82F /* UITableViewVibrantCell.swift */; };
-		FCA73A341BA778DF5E6BD64D27101850 /* SideMenuManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0049F4BA49D06E8F4C1A0DF192A1FB11 /* SideMenuManager.swift */; };
+		110C726A62A5005A1AC6C96CCF215F04 /* StepSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = 59143567BDA140C2822F8E96D38AEDD6 /* StepSlider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14D3BB0CE600D2A2BCB939B1EA4E1A51 /* UITableViewVibrantCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C75CEA17F14C11B5E4327DBFACC84 /* UITableViewVibrantCell.swift */; };
+		18E7DAA1ACF9FB18BCAADD85DDD8B11D /* SideMenuManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21F172BBE0BD43769840C6419CF15B1 /* SideMenuManager.swift */; };
+		1AF0D16DCE45CA9AEB52B4A6ABA41A28 /* Pods-Smart Dimmer-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F017BDB4C78A0A535248D92E54F0FB /* Pods-Smart Dimmer-dummy.m */; };
+		438BCCD8D6FB0286ED395B942C7A0B29 /* UISideMenuNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD3AE5516717B6BAAEF0379FC868C49 /* UISideMenuNavigationController.swift */; };
+		4F7AD5C549F7E19A348B099BEF0D080C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
+		5AE4BEEC189CEE97D24BF3CE2611C9FC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
+		5FBF9A39B70B94E615EBBC0162A15A85 /* SideMenu-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC79B4016633AAF35760D6BEACADBF7 /* SideMenu-dummy.m */; };
+		96770045B33049150CFEC046D809FCCB /* SideMenu-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEC732FF092E25C8BF7F57772FF6233 /* SideMenu-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B440BAF7EA3998C0BF62B26AAE7AB844 /* StepSlider-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F676A72C3F2DE4897506D7B9C84B6920 /* StepSlider-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE6D8949597D280B65285D30CB532F9C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
+		BF382D591B236EF2042FD1A806380E7D /* StepSlider-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC7B6DE505E9939616B7E9C5CBA528 /* StepSlider-dummy.m */; };
+		C712A113AF806426FA58BF5DC67686F4 /* StepSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A123D516BF8D07507FB54E4E9A69C8B /* StepSlider.m */; };
+		CE0509409E0A5111FC1C7EDBE96A4563 /* SideMenuTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387B45AF1D57E8B561707551F85E32A3 /* SideMenuTransition.swift */; };
+		ECAB96BF399D1478307630FF7495207F /* Pods-Smart Dimmer-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 75C8343CFFA8555B10A8CADEC9451497 /* Pods-Smart Dimmer-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		01A19539C731006614CCF0E0678C6961 /* PBXContainerItemProxy */ = {
+		0993AFB7191016266EDBAB1F99FBB429 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 71B4C38C5DEE8E3FFFC79F0BB186880A;
+			remoteGlobalIDString = 196B59368133A04D74A30F7888166361;
+			remoteInfo = StepSlider;
+		};
+		E6A2022CD8C103DC25F8BFA558388541 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C125D595C8690DFBAA153EA4E7E344A3;
 			remoteInfo = SideMenu;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0049F4BA49D06E8F4C1A0DF192A1FB11 /* SideMenuManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SideMenuManager.swift; path = Pod/Classes/SideMenuManager.swift; sourceTree = "<group>"; };
-		35093DD994A172D53932151A6DBAEBC3 /* SideMenu-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SideMenu-dummy.m"; sourceTree = "<group>"; };
-		38FF13F0BB1AB42B2F1C6A72A59BD82F /* UITableViewVibrantCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UITableViewVibrantCell.swift; path = Pod/Classes/UITableViewVibrantCell.swift; sourceTree = "<group>"; };
+		2512F4B5B6000DAE38A3EB0F0558FE8D /* StepSlider.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = StepSlider.xcconfig; sourceTree = "<group>"; };
+		3307910DAE8FE645756235931AADAF15 /* StepSlider.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StepSlider.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3722FCEE85047DBBF3E0697E0B9ACF5B /* SideMenu.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = SideMenu.modulemap; sourceTree = "<group>"; };
+		387B45AF1D57E8B561707551F85E32A3 /* SideMenuTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SideMenuTransition.swift; path = Pod/Classes/SideMenuTransition.swift; sourceTree = "<group>"; };
+		38C4D6D31B03EE8C772AFB021996536A /* StepSlider-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "StepSlider-prefix.pch"; sourceTree = "<group>"; };
+		3F4C75CEA17F14C11B5E4327DBFACC84 /* UITableViewVibrantCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UITableViewVibrantCell.swift; path = Pod/Classes/UITableViewVibrantCell.swift; sourceTree = "<group>"; };
+		4171D053D6BF095069D06E3824865082 /* SideMenu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SideMenu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		41F017BDB4C78A0A535248D92E54F0FB /* Pods-Smart Dimmer-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Smart Dimmer-dummy.m"; sourceTree = "<group>"; };
 		53057B8BADB308CE4AFD66F3EE7BEC9F /* Pods-Smart Dimmer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Smart Dimmer.debug.xcconfig"; sourceTree = "<group>"; };
 		585F630BE1822563E6E2DEE426097EFD /* Pods-Smart Dimmer-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Smart Dimmer-resources.sh"; sourceTree = "<group>"; };
-		590CE65C2F79DE250663A131CD6DC8A0 /* SideMenu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SideMenu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6CF81980B2B851D5ED4718BC47020609 /* SideMenu-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SideMenu-prefix.pch"; sourceTree = "<group>"; };
+		59143567BDA140C2822F8E96D38AEDD6 /* StepSlider.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = StepSlider.h; path = StepSlider/source/StepSlider/StepSlider.h; sourceTree = "<group>"; };
+		5BEC732FF092E25C8BF7F57772FF6233 /* SideMenu-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SideMenu-umbrella.h"; sourceTree = "<group>"; };
+		5CC84497B125A813921BED9CF325AFFD /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		718E85761C37E3EBBD1629B7C709E3CE /* SideMenu-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SideMenu-prefix.pch"; sourceTree = "<group>"; };
 		75C8343CFFA8555B10A8CADEC9451497 /* Pods-Smart Dimmer-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Smart Dimmer-umbrella.h"; sourceTree = "<group>"; };
 		79239D8BEF47B2B92E4C78CD3925DC52 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8A123D516BF8D07507FB54E4E9A69C8B /* StepSlider.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = StepSlider.m; path = StepSlider/source/StepSlider/StepSlider.m; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		995DC884942ED5E9B85C72A343F9AB5D /* SideMenu.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = SideMenu.modulemap; sourceTree = "<group>"; };
-		A9DB323BB3B2B0A52D555C01DBCD0305 /* SideMenuTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SideMenuTransition.swift; path = Pod/Classes/SideMenuTransition.swift; sourceTree = "<group>"; };
+		9CD3AE5516717B6BAAEF0379FC868C49 /* UISideMenuNavigationController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UISideMenuNavigationController.swift; path = Pod/Classes/UISideMenuNavigationController.swift; sourceTree = "<group>"; };
+		A973C758A12934741AC47BFD339AB207 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AAC79B4016633AAF35760D6BEACADBF7 /* SideMenu-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SideMenu-dummy.m"; sourceTree = "<group>"; };
 		ACDFA7D09DEDD5353F434AE57B34D0CE /* Pods-Smart Dimmer-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Smart Dimmer-frameworks.sh"; sourceTree = "<group>"; };
+		B11C29672ADD9129A5C2DCE2192622F3 /* SideMenu.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SideMenu.xcconfig; sourceTree = "<group>"; };
+		B2DB4513DEB75D84882DE71B9094B87F /* StepSlider.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = StepSlider.modulemap; sourceTree = "<group>"; };
 		B2F088DC2118CC88E3F9526C0FBD6D72 /* Pods-Smart Dimmer-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Smart Dimmer-acknowledgements.markdown"; sourceTree = "<group>"; };
+		C8CC7B6DE505E9939616B7E9C5CBA528 /* StepSlider-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "StepSlider-dummy.m"; sourceTree = "<group>"; };
 		CDD05601C988515029D25B68C332D825 /* Pods-Smart Dimmer-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Smart Dimmer-acknowledgements.plist"; sourceTree = "<group>"; };
-		CE3564477EFDE2E6DF955EA3CAF4FF9E /* Pods_Smart_Dimmer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Smart_Dimmer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		DED023BB91B0543C5F259F380B72C910 /* Pods-Smart Dimmer.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Smart Dimmer.modulemap"; sourceTree = "<group>"; };
-		E72E3ED37D9B76098CC2B9BB49D386DF /* SideMenu-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SideMenu-umbrella.h"; sourceTree = "<group>"; };
+		E21F172BBE0BD43769840C6419CF15B1 /* SideMenuManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SideMenuManager.swift; path = Pod/Classes/SideMenuManager.swift; sourceTree = "<group>"; };
+		E7FF2EA68DB83C96DF53A210CD2BCA0A /* Pods_Smart_Dimmer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Smart_Dimmer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E83DBFAD9540C9D3FBB7E2F3509E9773 /* Pods-Smart Dimmer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Smart Dimmer.release.xcconfig"; sourceTree = "<group>"; };
-		EA4F5E4E267C03BAC23C64C2DEC825B6 /* UISideMenuNavigationController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UISideMenuNavigationController.swift; path = Pod/Classes/UISideMenuNavigationController.swift; sourceTree = "<group>"; };
-		FBB886EBE499ADAF32629979A36A3169 /* SideMenu.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SideMenu.xcconfig; sourceTree = "<group>"; };
-		FC0BD2A3E45C40B9C9716812311BF563 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F676A72C3F2DE4897506D7B9C84B6920 /* StepSlider-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "StepSlider-umbrella.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		498CD3231A4D559584247A150A966CF9 /* Frameworks */ = {
+		5923EE49F5013C8AD3661D6AE38D4FB3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4ECDB37E66048DBD972CD015D874C301 /* Foundation.framework in Frameworks */,
+				4F7AD5C549F7E19A348B099BEF0D080C /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8692089546DD1EF7EDD66B5AD77F00B1 /* Frameworks */ = {
+		A2E36226FC9D4F26B6609838FACAD515 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABB95D0625B2F651B6689A3A9AF34485 /* Foundation.framework in Frameworks */,
+				5AE4BEEC189CEE97D24BF3CE2611C9FC /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF376917D462EA0734B58B154F36EB12 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE6D8949597D280B65285D30CB532F9C /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +131,30 @@
 			path = "Target Support Files/Pods-Smart Dimmer";
 			sourceTree = "<group>";
 		};
+		1406349244C856031F53D19DAC7CEBB8 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				5CC84497B125A813921BED9CF325AFFD /* Info.plist */,
+				B2DB4513DEB75D84882DE71B9094B87F /* StepSlider.modulemap */,
+				2512F4B5B6000DAE38A3EB0F0558FE8D /* StepSlider.xcconfig */,
+				C8CC7B6DE505E9939616B7E9C5CBA528 /* StepSlider-dummy.m */,
+				38C4D6D31B03EE8C772AFB021996536A /* StepSlider-prefix.pch */,
+				F676A72C3F2DE4897506D7B9C84B6920 /* StepSlider-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/StepSlider";
+			sourceTree = "<group>";
+		};
+		158947CA9D79B9DB1D239D1C66FD3F4F /* StepSlider */ = {
+			isa = PBXGroup;
+			children = (
+				59143567BDA140C2822F8E96D38AEDD6 /* StepSlider.h */,
+				8A123D516BF8D07507FB54E4E9A69C8B /* StepSlider.m */,
+				1406349244C856031F53D19DAC7CEBB8 /* Support Files */,
+			);
+			path = StepSlider;
+			sourceTree = "<group>";
+		};
 		3DCAB2B7CDE207B3958B6CB957FCC758 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -110,24 +163,28 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		4C7DECB9505A3661801AB8D77F9249EF /* Pods */ = {
+		564F963D5758C2DE86074053D4C73C2C /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				6139AD2A3B1702A32298B3F55914EA43 /* SideMenu */,
+				A973C758A12934741AC47BFD339AB207 /* Info.plist */,
+				3722FCEE85047DBBF3E0697E0B9ACF5B /* SideMenu.modulemap */,
+				B11C29672ADD9129A5C2DCE2192622F3 /* SideMenu.xcconfig */,
+				AAC79B4016633AAF35760D6BEACADBF7 /* SideMenu-dummy.m */,
+				718E85761C37E3EBBD1629B7C709E3CE /* SideMenu-prefix.pch */,
+				5BEC732FF092E25C8BF7F57772FF6233 /* SideMenu-umbrella.h */,
 			);
-			name = Pods;
+			name = "Support Files";
+			path = "../Target Support Files/SideMenu";
 			sourceTree = "<group>";
 		};
-		6139AD2A3B1702A32298B3F55914EA43 /* SideMenu */ = {
+		74C902FFA83E797FC848BABAB54102B8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0049F4BA49D06E8F4C1A0DF192A1FB11 /* SideMenuManager.swift */,
-				A9DB323BB3B2B0A52D555C01DBCD0305 /* SideMenuTransition.swift */,
-				EA4F5E4E267C03BAC23C64C2DEC825B6 /* UISideMenuNavigationController.swift */,
-				38FF13F0BB1AB42B2F1C6A72A59BD82F /* UITableViewVibrantCell.swift */,
-				F9853A6F97D22D33E240344F832559E2 /* Support Files */,
+				E7FF2EA68DB83C96DF53A210CD2BCA0A /* Pods_Smart_Dimmer.framework */,
+				4171D053D6BF095069D06E3824865082 /* SideMenu.framework */,
+				3307910DAE8FE645756235931AADAF15 /* StepSlider.framework */,
 			);
-			path = SideMenu;
+			name = Products;
 			sourceTree = "<group>";
 		};
 		7DB346D0F39D3F0E887471402A8071AB = {
@@ -135,19 +192,19 @@
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
-				4C7DECB9505A3661801AB8D77F9249EF /* Pods */,
-				BA416284D450994DB02282CCAD7D4E96 /* Products */,
+				989E0F9495D30905C05F8D19F98AF92A /* Pods */,
+				74C902FFA83E797FC848BABAB54102B8 /* Products */,
 				0A6559010CC8134EA80B92CB33F9F5A3 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		BA416284D450994DB02282CCAD7D4E96 /* Products */ = {
+		989E0F9495D30905C05F8D19F98AF92A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				CE3564477EFDE2E6DF955EA3CAF4FF9E /* Pods_Smart_Dimmer.framework */,
-				590CE65C2F79DE250663A131CD6DC8A0 /* SideMenu.framework */,
+				D1B03CF9493504DB1FDC687349339B29 /* SideMenu */,
+				158947CA9D79B9DB1D239D1C66FD3F4F /* StepSlider */,
 			);
-			name = Products;
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
@@ -158,49 +215,92 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F9853A6F97D22D33E240344F832559E2 /* Support Files */ = {
+		D1B03CF9493504DB1FDC687349339B29 /* SideMenu */ = {
 			isa = PBXGroup;
 			children = (
-				FC0BD2A3E45C40B9C9716812311BF563 /* Info.plist */,
-				995DC884942ED5E9B85C72A343F9AB5D /* SideMenu.modulemap */,
-				FBB886EBE499ADAF32629979A36A3169 /* SideMenu.xcconfig */,
-				35093DD994A172D53932151A6DBAEBC3 /* SideMenu-dummy.m */,
-				6CF81980B2B851D5ED4718BC47020609 /* SideMenu-prefix.pch */,
-				E72E3ED37D9B76098CC2B9BB49D386DF /* SideMenu-umbrella.h */,
+				E21F172BBE0BD43769840C6419CF15B1 /* SideMenuManager.swift */,
+				387B45AF1D57E8B561707551F85E32A3 /* SideMenuTransition.swift */,
+				9CD3AE5516717B6BAAEF0379FC868C49 /* UISideMenuNavigationController.swift */,
+				3F4C75CEA17F14C11B5E4327DBFACC84 /* UITableViewVibrantCell.swift */,
+				564F963D5758C2DE86074053D4C73C2C /* Support Files */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/SideMenu";
+			path = SideMenu;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		22E3D90E095D81E02DB8EAEF5CE690A8 /* Headers */ = {
+		018FC2883987A8F1FCB1A0923619A896 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4C167BC9B098822FEAA958DCBE54875 /* Pods-Smart Dimmer-umbrella.h in Headers */,
+				ECAB96BF399D1478307630FF7495207F /* Pods-Smart Dimmer-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F4143DCAAA32DBF77349D482F0BC435A /* Headers */ = {
+		2135B821F4C3B9CFEF8115E2ABE2E819 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4495DDC940B979EFB65A3F603819D004 /* SideMenu-umbrella.h in Headers */,
+				B440BAF7EA3998C0BF62B26AAE7AB844 /* StepSlider-umbrella.h in Headers */,
+				110C726A62A5005A1AC6C96CCF215F04 /* StepSlider.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		449222FDB0B212CA8B0E6D39EF4BF88F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96770045B33049150CFEC046D809FCCB /* SideMenu-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		71B4C38C5DEE8E3FFFC79F0BB186880A /* SideMenu */ = {
+		196B59368133A04D74A30F7888166361 /* StepSlider */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DDF7431EA08DCAC263F8C3E12E19B2BB /* Build configuration list for PBXNativeTarget "SideMenu" */;
+			buildConfigurationList = B5AE4D79C79502093C3B4BF6FA0A5467 /* Build configuration list for PBXNativeTarget "StepSlider" */;
 			buildPhases = (
-				0E074F4D0DD32DEE6C582A1516C80206 /* Sources */,
-				498CD3231A4D559584247A150A966CF9 /* Frameworks */,
-				F4143DCAAA32DBF77349D482F0BC435A /* Headers */,
+				79B0EC4FFBA1AB5197948CC9DFEBAB37 /* Sources */,
+				A2E36226FC9D4F26B6609838FACAD515 /* Frameworks */,
+				2135B821F4C3B9CFEF8115E2ABE2E819 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StepSlider;
+			productName = StepSlider;
+			productReference = 3307910DAE8FE645756235931AADAF15 /* StepSlider.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		B35FC17BF93BD6043348E6E4A6207673 /* Pods-Smart Dimmer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 504AF1C4E374EAE61E46F3584CEC5B0B /* Build configuration list for PBXNativeTarget "Pods-Smart Dimmer" */;
+			buildPhases = (
+				A6064AE18FA51649BC074216925202AE /* Sources */,
+				BF376917D462EA0734B58B154F36EB12 /* Frameworks */,
+				018FC2883987A8F1FCB1A0923619A896 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				37F27269F7E3127B4F3985920EDF9839 /* PBXTargetDependency */,
+				E0F1257F4E44AB6B1325B87B2859C5BC /* PBXTargetDependency */,
+			);
+			name = "Pods-Smart Dimmer";
+			productName = "Pods-Smart Dimmer";
+			productReference = E7FF2EA68DB83C96DF53A210CD2BCA0A /* Pods_Smart_Dimmer.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		C125D595C8690DFBAA153EA4E7E344A3 /* SideMenu */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F03392BEFB6990DED4885CFDC6365D81 /* Build configuration list for PBXNativeTarget "SideMenu" */;
+			buildPhases = (
+				87A4FAC42C754EC6EA68E7EC0D34A701 /* Sources */,
+				5923EE49F5013C8AD3661D6AE38D4FB3 /* Frameworks */,
+				449222FDB0B212CA8B0E6D39EF4BF88F /* Headers */,
 			);
 			buildRules = (
 			);
@@ -208,25 +308,7 @@
 			);
 			name = SideMenu;
 			productName = SideMenu;
-			productReference = 590CE65C2F79DE250663A131CD6DC8A0 /* SideMenu.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		FB02B4A36669B2DD97A047C3E3488C48 /* Pods-Smart Dimmer */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DE8311505DE83628FD0E2238800E33DC /* Build configuration list for PBXNativeTarget "Pods-Smart Dimmer" */;
-			buildPhases = (
-				AF4FF73569F0A9AE3FC842F7BDC264FD /* Sources */,
-				8692089546DD1EF7EDD66B5AD77F00B1 /* Frameworks */,
-				22E3D90E095D81E02DB8EAEF5CE690A8 /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				699F48A6D66E639B0B7B18CCBC8290FB /* PBXTargetDependency */,
-			);
-			name = "Pods-Smart Dimmer";
-			productName = "Pods-Smart Dimmer";
-			productReference = CE3564477EFDE2E6DF955EA3CAF4FF9E /* Pods_Smart_Dimmer.framework */;
+			productReference = 4171D053D6BF095069D06E3824865082 /* SideMenu.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -238,10 +320,10 @@
 				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0700;
 				TargetAttributes = {
-					71B4C38C5DEE8E3FFFC79F0BB186880A = {
+					B35FC17BF93BD6043348E6E4A6207673 = {
 						LastSwiftMigration = 0830;
 					};
-					FB02B4A36669B2DD97A047C3E3488C48 = {
+					C125D595C8690DFBAA153EA4E7E344A3 = {
 						LastSwiftMigration = 0830;
 					};
 				};
@@ -254,114 +336,66 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = BA416284D450994DB02282CCAD7D4E96 /* Products */;
+			productRefGroup = 74C902FFA83E797FC848BABAB54102B8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FB02B4A36669B2DD97A047C3E3488C48 /* Pods-Smart Dimmer */,
-				71B4C38C5DEE8E3FFFC79F0BB186880A /* SideMenu */,
+				B35FC17BF93BD6043348E6E4A6207673 /* Pods-Smart Dimmer */,
+				C125D595C8690DFBAA153EA4E7E344A3 /* SideMenu */,
+				196B59368133A04D74A30F7888166361 /* StepSlider */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		0E074F4D0DD32DEE6C582A1516C80206 /* Sources */ = {
+		79B0EC4FFBA1AB5197948CC9DFEBAB37 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				159CF18C72415DB72DD4768D87BB7880 /* SideMenu-dummy.m in Sources */,
-				FCA73A341BA778DF5E6BD64D27101850 /* SideMenuManager.swift in Sources */,
-				C92716AEE2A19E2560CC2C4A48AAC48E /* SideMenuTransition.swift in Sources */,
-				C6BC13F9D2CB83744502D36E7C6415EF /* UISideMenuNavigationController.swift in Sources */,
-				F780BD439CC4B84B714129AE8A8C6934 /* UITableViewVibrantCell.swift in Sources */,
+				BF382D591B236EF2042FD1A806380E7D /* StepSlider-dummy.m in Sources */,
+				C712A113AF806426FA58BF5DC67686F4 /* StepSlider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AF4FF73569F0A9AE3FC842F7BDC264FD /* Sources */ = {
+		87A4FAC42C754EC6EA68E7EC0D34A701 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7504C4455F20F9104000CBF9DF21465 /* Pods-Smart Dimmer-dummy.m in Sources */,
+				5FBF9A39B70B94E615EBBC0162A15A85 /* SideMenu-dummy.m in Sources */,
+				18E7DAA1ACF9FB18BCAADD85DDD8B11D /* SideMenuManager.swift in Sources */,
+				CE0509409E0A5111FC1C7EDBE96A4563 /* SideMenuTransition.swift in Sources */,
+				438BCCD8D6FB0286ED395B942C7A0B29 /* UISideMenuNavigationController.swift in Sources */,
+				14D3BB0CE600D2A2BCB939B1EA4E1A51 /* UITableViewVibrantCell.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6064AE18FA51649BC074216925202AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1AF0D16DCE45CA9AEB52B4A6ABA41A28 /* Pods-Smart Dimmer-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		699F48A6D66E639B0B7B18CCBC8290FB /* PBXTargetDependency */ = {
+		37F27269F7E3127B4F3985920EDF9839 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SideMenu;
-			target = 71B4C38C5DEE8E3FFFC79F0BB186880A /* SideMenu */;
-			targetProxy = 01A19539C731006614CCF0E0678C6961 /* PBXContainerItemProxy */;
+			target = C125D595C8690DFBAA153EA4E7E344A3 /* SideMenu */;
+			targetProxy = E6A2022CD8C103DC25F8BFA558388541 /* PBXContainerItemProxy */;
+		};
+		E0F1257F4E44AB6B1325B87B2859C5BC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = StepSlider;
+			target = 196B59368133A04D74A30F7888166361 /* StepSlider */;
+			targetProxy = 0993AFB7191016266EDBAB1F99FBB429 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		30E513726C4A24C1AF865DAADF235E37 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E83DBFAD9540C9D3FBB7E2F3509E9773 /* Pods-Smart Dimmer.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-Smart Dimmer/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Smart Dimmer/Pods-Smart Dimmer.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_Smart_Dimmer;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		4832D24BE45C7D0C64BCFB2E54C6871C /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FBB886EBE499ADAF32629979A36A3169 /* SideMenu.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/SideMenu/SideMenu-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SideMenu/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/SideMenu/SideMenu.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = SideMenu;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		5184430A2EB74B2F1AD2C0FC42C7F5E0 /* Release */ = {
+		42287DDF97330524BA3EF220F0276DA6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -392,14 +426,173 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = "${SRCROOT}/../build";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		73D845169C007274504228832AD8E243 /* Debug */ = {
+		520DACE7312A5CDE0B0B367C4FC6E83C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E83DBFAD9540C9D3FBB7E2F3509E9773 /* Pods-Smart Dimmer.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-Smart Dimmer/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Smart Dimmer/Pods-Smart Dimmer.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_Smart_Dimmer;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		6CFF09A47F075965E639BFFDBBA5B1EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B11C29672ADD9129A5C2DCE2192622F3 /* SideMenu.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SideMenu/SideMenu-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SideMenu/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/SideMenu/SideMenu.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = SideMenu;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		762BAFC0B7DF8EC0A31EA6B5DAC090F0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 53057B8BADB308CE4AFD66F3EE7BEC9F /* Pods-Smart Dimmer.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-Smart Dimmer/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Smart Dimmer/Pods-Smart Dimmer.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_Smart_Dimmer;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		89170F095B9962B342AC6D84D205E7F5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2512F4B5B6000DAE38A3EB0F0558FE8D /* StepSlider.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/StepSlider/StepSlider-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/StepSlider/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/StepSlider/StepSlider.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = StepSlider;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		916109BA53C35BA3B6337A15917C9A79 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B11C29672ADD9129A5C2DCE2192622F3 /* SideMenu.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SideMenu/SideMenu-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SideMenu/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/SideMenu/SideMenu.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = SideMenu;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		AE9439C22469D35336242DD983DB5C5F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -434,78 +627,41 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				ONLY_ACTIVE_ARCH = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Debug;
 		};
-		7CEDD915A3C94A102295A065ADC295DB /* Debug */ = {
+		FDE8279B3177F0614C868719743801CD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FBB886EBE499ADAF32629979A36A3169 /* SideMenu.xcconfig */;
+			baseConfigurationReference = 2512F4B5B6000DAE38A3EB0F0558FE8D /* StepSlider.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/SideMenu/SideMenu-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SideMenu/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/StepSlider/StepSlider-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/StepSlider/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/SideMenu/SideMenu.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = SideMenu;
+				MODULEMAP_FILE = "Target Support Files/StepSlider/StepSlider.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = StepSlider;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
-		};
-		CB11DD360983A1BF00BDC3851B32D64D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53057B8BADB308CE4AFD66F3EE7BEC9F /* Pods-Smart Dimmer.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-Smart Dimmer/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Smart Dimmer/Pods-Smart Dimmer.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_Smart_Dimmer;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -513,26 +669,35 @@
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				73D845169C007274504228832AD8E243 /* Debug */,
-				5184430A2EB74B2F1AD2C0FC42C7F5E0 /* Release */,
+				AE9439C22469D35336242DD983DB5C5F /* Debug */,
+				42287DDF97330524BA3EF220F0276DA6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DDF7431EA08DCAC263F8C3E12E19B2BB /* Build configuration list for PBXNativeTarget "SideMenu" */ = {
+		504AF1C4E374EAE61E46F3584CEC5B0B /* Build configuration list for PBXNativeTarget "Pods-Smart Dimmer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7CEDD915A3C94A102295A065ADC295DB /* Debug */,
-				4832D24BE45C7D0C64BCFB2E54C6871C /* Release */,
+				762BAFC0B7DF8EC0A31EA6B5DAC090F0 /* Debug */,
+				520DACE7312A5CDE0B0B367C4FC6E83C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DE8311505DE83628FD0E2238800E33DC /* Build configuration list for PBXNativeTarget "Pods-Smart Dimmer" */ = {
+		B5AE4D79C79502093C3B4BF6FA0A5467 /* Build configuration list for PBXNativeTarget "StepSlider" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CB11DD360983A1BF00BDC3851B32D64D /* Debug */,
-				30E513726C4A24C1AF865DAADF235E37 /* Release */,
+				89170F095B9962B342AC6D84D205E7F5 /* Debug */,
+				FDE8279B3177F0614C868719743801CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F03392BEFB6990DED4885CFDC6365D81 /* Build configuration list for PBXNativeTarget "SideMenu" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6CFF09A47F075965E639BFFDBBA5B1EA /* Debug */,
+				916109BA53C35BA3B6337A15917C9A79 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

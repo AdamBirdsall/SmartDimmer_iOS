@@ -10,6 +10,7 @@ import UIKit
 import CoreBluetooth
 import SideMenu
 import CoreData
+import StepSlider
 
 class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate, UINavigationControllerDelegate {
     
@@ -29,7 +30,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var connectedLabel: UILabel!
-    @IBOutlet weak var mainSlider: UISlider!
+    
     @IBOutlet weak var brightnessLabel: UILabel!
     @IBOutlet weak var popUpView: UIView!
     @IBOutlet weak var backgroundView: UIView!
@@ -47,14 +48,23 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         return refreshControl
     }()
     
+    var stepSlider: StepSlider!
     /**
      * View did load default functions
      */
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.mainSlider.isEnabled = true
-        self.mainSlider.isContinuous = false
+        stepSlider = StepSlider.init(frame: CGRect(x: 45, y: 150, width: 300, height: 44))
+        stepSlider.maxCount = 6
+        stepSlider.setIndex(0, animated: true)
+        stepSlider.sliderCircleColor = UIColor.gray
+        stepSlider.isDotsInteractionEnabled = true
+        stepSlider.addTarget(self, action:
+            #selector(DiscoveryViewController.updateLightValue(_:)), for: UIControlEvents.valueChanged)
+        
+        popUpView.addSubview(stepSlider)
+        
         self.popUpView.layer.cornerRadius = 12.5
         self.popUpView.frame.origin.y = self.tableView.frame.maxY
         self.popUpView.alpha = 0.0
@@ -163,25 +173,13 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     /**************************************************************************************/
     /**************************************************************************************/
     
-    @IBAction func fadeInBrightness(_ sender: Any) {
-        let step: Float = 10
-        let roundedValue = round(self.mainSlider.value / step) * step
-        self.mainSlider.value = roundedValue
+    func updateLightValue(_ sender: Any) {
         
-        self.brightnessLabel.text = "Brightness: \(Int(roundedValue))"
+        let brightnessValue = self.stepSlider.index * 20
         
-        writeBLEData(Int(roundedValue))
-    }
-    
-    @IBAction func updateLightValue(_ sender: Any) {
-        
-        let step: Float = 10
-        let roundedValue = round(self.mainSlider.value / step) * step
-        self.mainSlider.value = roundedValue
-        
-        self.brightnessLabel.text = "Brightness: \(Int(roundedValue))"
-        
-        writeBLEData(Int(roundedValue))
+        self.brightnessLabel.text = "Brightness: \(brightnessValue)"
+
+        writeBLEData(Int(brightnessValue))
     }
     
     @IBAction func doneClicked(_ sender: Any) {
@@ -209,12 +207,13 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBAction func switchToGroups(_ sender: Any) {
         
         if (self.groupsButton.title == "Groups") {
-            self.tableView?.setEditing(true, animated: true)
             self.groupsButton.title = "Connect"
             
             cancelOrMenuButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector (DiscoveryViewController.cancelGroupView))
             cancelOrMenuButton.tintColor = UIColor.red
             self.navigationItem.leftBarButtonItem  = cancelOrMenuButton
+            
+            self.tableView?.setEditing(true, animated: true)
         } else {
             if (connectedPeripheralArray.count > 0) {
                 self.popUpView.alpha = 1.0
@@ -231,7 +230,6 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func cancelGroupView() {
-        self.tableView?.setEditing(false, animated: true)
         self.groupsButton.title = "Groups"
         
         cancelOrMenuButton = UIBarButtonItem(image: UIImage(named: "icons8-Menu-25.png"), style: .plain, target: self, action: #selector(DiscoveryViewController.segueToMenu))
@@ -243,6 +241,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             let index = connectedPeripheralArray.index(where: {$0.connectedPeripheral.identifier.uuidString == peripheral.connectedPeripheral.identifier.uuidString})
             self.connectedPeripheralArray.remove(at: index!)
         }
+        self.tableView?.setEditing(false, animated: true)
     }
     
     func segueToMenu() {
