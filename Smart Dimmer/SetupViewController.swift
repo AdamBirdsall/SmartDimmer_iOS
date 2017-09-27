@@ -41,6 +41,9 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Notification Center for resigning the app
+        NotificationCenter.default.addObserver(self, selector: #selector(DiscoveryViewController.disconnectFromPeripherals), name: NSNotification.Name(rawValue: "disconnectFromAll"), object: nil)
+        
         self.brightnessView.layer.cornerRadius = 12.5
         self.disconnectButton.layer.cornerRadius = 12.5
         self.popUpView.layer.cornerRadius = 12.5
@@ -79,6 +82,13 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func disconnectFromPeripherals() {
+        
+        if (connectedPeripheral != nil) {
+            centralManager.cancelPeripheralConnection(connectedPeripheral)
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

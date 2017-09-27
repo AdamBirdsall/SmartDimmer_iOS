@@ -57,6 +57,9 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
      */
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Notification Center for resigning the app
+        NotificationCenter.default.addObserver(self, selector: #selector(DiscoveryViewController.disconnectFromPeripherals), name: NSNotification.Name(rawValue: "disconnectFromAll"), object: nil)
     
         mainStepSlider.setIndex(0, animated: true)
         mainStepSlider.addTarget(self, action:
@@ -130,6 +133,23 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         SideMenuManager.menuPresentMode = .menuSlideIn
         SideMenuManager.menuAddPanGestureToPresent(toView: self.navigationController!.navigationBar)
         SideMenuManager.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
+    }
+    
+    func disconnectFromPeripherals() {
+        if (self.tableView.isEditing) {
+            
+            for peripheral in connectedPeripheralArray {
+                centralManager.cancelPeripheralConnection(peripheral.connectedPeripheral)
+                
+                let index = connectedPeripheralArray.index(where: {$0.connectedPeripheral.identifier.uuidString == peripheral.connectedPeripheral.identifier.uuidString})
+                self.connectedPeripheralArray.remove(at: index!)
+            }
+            
+        } else {
+            if (connectedPeripheral != nil) {
+                centralManager.cancelPeripheralConnection(connectedPeripheral)
+            }
+        }
     }
     
     /**************************************************************************************/
