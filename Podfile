@@ -8,5 +8,6 @@ target 'Smart Dimmer' do
   # Pods for Smart Dimmer
   pod 'SideMenu'
   pod 'StepSlider'
+  pod 'SimpleAnimation'
 
 end

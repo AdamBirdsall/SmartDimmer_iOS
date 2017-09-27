@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B35FC17BF93BD6043348E6E4A6207673"
+               BlueprintIdentifier = "529AB41BF06E3B7E3EE99F8017B9EC37"
                BuildableName = "Pods_Smart_Dimmer.framework"
                BlueprintName = "Pods-Smart Dimmer"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B35FC17BF93BD6043348E6E4A6207673"
+            BlueprintIdentifier = "529AB41BF06E3B7E3EE99F8017B9EC37"
             BuildableName = "Pods_Smart_Dimmer.framework"
             BlueprintName = "Pods-Smart Dimmer"
             ReferencedContainer = "container:Pods.xcodeproj">

@@ -9,6 +9,7 @@
 import UIKit
 import CoreBluetooth
 import CoreData
+import SimpleAnimation
 
 class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate, UINavigationControllerDelegate {
 
@@ -27,6 +28,8 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     var coreDataArray = Array<CoreDataDevice>()
     
+    @IBOutlet weak var disconnectButton: UIButton!
+    @IBOutlet weak var brightnessView: UIView!
     @IBOutlet weak var popUpView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var backgroundView: UIView!
@@ -38,6 +41,8 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.brightnessView.layer.cornerRadius = 12.5
+        self.disconnectButton.layer.cornerRadius = 12.5
         self.popUpView.layer.cornerRadius = 12.5
         self.popUpView.alpha = 0.0
         self.backgroundView.alpha = 0.0
@@ -88,7 +93,6 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
-//        self.tableView.cellForRow(at: indexPath)?.detailTextLabel?.text = "Connected"
         
         retrieveCoreData()
         
@@ -199,7 +203,6 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
      */
     func startManager() {
         centralManager = CBCentralManager(delegate: self, queue: nil)
-        //        centralManager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerOptionRestoreIdentifierKey : Device.restoreIdentifier])
     }
     func scanForDevice() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
@@ -262,9 +265,11 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         
+        self.popUpView.transform = .identity
+        self.popUpView.bounceIn(from: .top)
+        
         UIView.animate(withDuration: 0.15, animations: {
             self.backgroundView.alpha = 0.5
-            self.popUpView.alpha = 1.0
             self.navigationController?.navigationBar.isUserInteractionEnabled = false
         })
     
@@ -281,9 +286,11 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?){
         
+        self.popUpView.transform = .identity
+        self.popUpView.slideOut(to: .top)
+        
         UIView.animate(withDuration: 0.15, animations: {
             self.backgroundView.alpha = 0.0
-            self.popUpView.alpha = 0.0
             self.navigationController?.navigationBar.isUserInteractionEnabled = true
         })
         

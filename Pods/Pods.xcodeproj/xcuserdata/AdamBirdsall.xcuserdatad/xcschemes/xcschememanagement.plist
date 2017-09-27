@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SimpleAnimation.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>StepSlider.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -22,17 +27,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>196B59368133A04D74A30F7888166361</key>
+		<key>277CB672D9BEDFA4BE38E4C4F964B027</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B35FC17BF93BD6043348E6E4A6207673</key>
+		<key>529AB41BF06E3B7E3EE99F8017B9EC37</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C125D595C8690DFBAA153EA4E7E344A3</key>
+		<key>EB3C55A5742F36E80FBB4327C71FCA2C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F35AA06D624A831AC96D435E9C09B0EE</key>
 		<dict>
 			<key>primary</key>
 			<true/>

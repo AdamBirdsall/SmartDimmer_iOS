@@ -18,6 +18,8 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     let WRITE_CHARACTERISTIC = "00001525-1212-EFDE-1523-785FEABCD123"
     let READ_CHARACTERISTIC = "00001524-1212-EFDE-1523-785FEABCD123"
     
+    var openAppFlag: Bool = true
+    
     var centralManager: CBCentralManager!
     var connectedPeripheral: CBPeripheral!
     var peripherals = Array<CBPeripheral>()
@@ -37,7 +39,9 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     var cancelOrMenuButton: UIBarButtonItem!
     @IBOutlet weak var groupsButton: UIBarButtonItem!
     
-    @IBOutlet weak var fadeInSlider: UISlider!
+    @IBOutlet weak var mainStepSlider: StepSlider!
+    @IBOutlet weak var sliderView: UIView!
+    @IBOutlet weak var disconnectButton: UIButton!
     
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -48,26 +52,22 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         return refreshControl
     }()
     
-    var stepSlider: StepSlider!
     /**
      * View did load default functions
      */
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        stepSlider = StepSlider.init(frame: CGRect(x: 45, y: 150, width: 300, height: 44))
-        stepSlider.maxCount = 6
-        stepSlider.setIndex(0, animated: true)
-        stepSlider.sliderCircleColor = UIColor.gray
-        stepSlider.isDotsInteractionEnabled = true
-        stepSlider.addTarget(self, action:
+    
+        mainStepSlider.setIndex(0, animated: true)
+        mainStepSlider.addTarget(self, action:
             #selector(DiscoveryViewController.updateLightValue(_:)), for: UIControlEvents.valueChanged)
         
-        popUpView.addSubview(stepSlider)
-        
+        self.disconnectButton.layer.cornerRadius = 12.5
         self.popUpView.layer.cornerRadius = 12.5
         self.popUpView.frame.origin.y = self.tableView.frame.maxY
         self.popUpView.alpha = 0.0
+        
+        self.sliderView.layer.cornerRadius = 12.5
         
         cancelOrMenuButton = UIBarButtonItem(image: UIImage(named: "icons8-Menu-25.png"), style: .plain, target: self, action: #selector(DiscoveryViewController.segueToMenu))
         self.navigationItem.leftBarButtonItem  = cancelOrMenuButton
@@ -91,9 +91,6 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-//        let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector (DiscoveryViewController.scanAgain))
-//        self.navigationItem.rightBarButtonItem  = refreshButton
-        
         peripherals.removeAll()
         self.tableView.reloadData()
     
@@ -105,12 +102,23 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         self.backgroundView.alpha = 0.0
     }
     
-    override func viewWillLayoutSubviews() {
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        // Disconnect from all devices
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        
+        if (self.tableView.isEditing) {
+            
+            for peripheral in connectedPeripheralArray {
+                centralManager.cancelPeripheralConnection(peripheral.connectedPeripheral)
+                
+                let index = connectedPeripheralArray.index(where: {$0.connectedPeripheral.identifier.uuidString == peripheral.connectedPeripheral.identifier.uuidString})
+                self.connectedPeripheralArray.remove(at: index!)
+            }
+            
+        } else {
+            if (connectedPeripheral != nil) {
+                centralManager.cancelPeripheralConnection(connectedPeripheral)
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -175,7 +183,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func updateLightValue(_ sender: Any) {
         
-        let brightnessValue = self.stepSlider.index * 20
+        let brightnessValue = self.mainStepSlider.index * 20
         
         self.brightnessLabel.text = "Brightness: \(brightnessValue)"
 
@@ -183,12 +191,6 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     @IBAction func doneClicked(_ sender: Any) {
-        
-        UIView.animate(withDuration: 0.35, animations: {
-            self.popUpView.frame.origin.y = self.tableView.frame.maxY
-            self.backgroundView.alpha = 0.0
-            self.navigationController?.navigationBar.isUserInteractionEnabled = true
-        })
         
         if (self.tableView.isEditing) {
             
@@ -200,11 +202,34 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             }
             
         } else {
-            centralManager.cancelPeripheralConnection(connectedPeripheral)
+            if (connectedPeripheral != nil) {
+                centralManager.cancelPeripheralConnection(connectedPeripheral)
+            } else {
+                let alertController = UIAlertController(title: "Error disconnecting", message: "You are not connected to any device", preferredStyle: UIAlertControllerStyle.alert)
+                let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel) {
+                    (result : UIAlertAction) -> Void in
+                    
+                    UIView.animate(withDuration: 0.35, animations: {
+                        self.popUpView.frame.origin.y = self.tableView.frame.maxY
+                        self.backgroundView.alpha = 0.0
+                        self.navigationController?.navigationBar.isUserInteractionEnabled = true
+                    })
+                }
+                
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
         }
     }
     
     @IBAction func switchToGroups(_ sender: Any) {
+        
+//        self.popUpView.alpha = 1.0
+//        UIView.animate(withDuration: 0.35, animations: {
+//            self.popUpView.frame.origin.y = self.tableView.frame.maxY - self.popUpView.frame.size.height - 10
+//            self.backgroundView.alpha = 0.5
+//            self.navigationController?.navigationBar.isUserInteractionEnabled = false
+//        })
         
         if (self.groupsButton.title == "Groups") {
             self.groupsButton.title = "Connect"
@@ -225,6 +250,13 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                 })
             } else {
                 // Alert View saying to select devices to group
+                let alertController = UIAlertController(title: "Please select device(s)", message: "", preferredStyle: UIAlertControllerStyle.alert)
+                let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel) {
+                    (result : UIAlertAction) -> Void in
+                }
+                
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
             }
         }
     }
@@ -272,13 +304,9 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     
     /**************************************************************************************/
     /**************************************************************************************/
-    /**
-     * Writing to the bluetooth module
-     */
     
     func startManager() {
         centralManager = CBCentralManager(delegate: self, queue: nil)
-        //        centralManager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerOptionRestoreIdentifierKey : Device.restoreIdentifier])
     }
     
     func scanForDevice() {
@@ -294,6 +322,9 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         centralManager.stopScan()
     }
     
+    /**
+     * Writing to the bluetooth module
+     */
     func writeBLEData(_ value: Int) {
 
         let hex = String(format:"%2X", value)
@@ -359,31 +390,60 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
         
-        print(error.debugDescription)
+        let alertController = UIAlertController(title: "Error Connecting", message: error?.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel) {
+            (result : UIAlertAction) -> Void in
+            
+            UIView.animate(withDuration: 0.35, animations: {
+                self.popUpView.frame.origin.y = self.tableView.frame.maxY
+                self.backgroundView.alpha = 0.0
+                self.navigationController?.navigationBar.isUserInteractionEnabled = true
+            })
+        }
+        
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?){
        
-        if (self.tableView.isEditing) {
-            self.tableView?.setEditing(false, animated: true)
-            self.groupsButton.title = "Groups"
-            cancelOrMenuButton = UIBarButtonItem(image: UIImage(named: "icons8-Menu-25.png"), style: .plain, target: self, action: #selector(DiscoveryViewController.segueToMenu))
-            self.navigationItem.leftBarButtonItem  = cancelOrMenuButton
-            peripheral.delegate = nil
-        } else {
-            if self.connectedPeripheral != nil {
-                self.connectedPeripheral.delegate = nil
-                self.connectedPeripheral = nil
-                self.writeCharacteristic = nil
-                self.readCharacteristic = nil
+        if (error != nil) {
+            let alertController = UIAlertController(title: "Error Disconnecting", message: error?.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
+            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel) {
+                (result : UIAlertAction) -> Void in
             }
+            
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true, completion: nil)
+            
+        } else {
+            if (self.tableView.isEditing) {
+                self.tableView?.setEditing(false, animated: true)
+                self.groupsButton.title = "Groups"
+                cancelOrMenuButton = UIBarButtonItem(image: UIImage(named: "icons8-Menu-25.png"), style: .plain, target: self, action: #selector(DiscoveryViewController.segueToMenu))
+                self.navigationItem.leftBarButtonItem  = cancelOrMenuButton
+                peripheral.delegate = nil
+            } else {
+                if self.connectedPeripheral != nil {
+                    self.connectedPeripheral.delegate = nil
+                    self.connectedPeripheral = nil
+                    self.writeCharacteristic = nil
+                    self.readCharacteristic = nil
+                }
+            }
+            
+            UIView.animate(withDuration: 0.35, animations: {
+                self.popUpView.frame.origin.y = self.tableView.frame.maxY
+                self.backgroundView.alpha = 0.0
+                self.navigationController?.navigationBar.isUserInteractionEnabled = true
+            })
+            
+            print("did disconnect")
+            
+            self.tableView.isUserInteractionEnabled = true
         }
-        
-        print("did disconnect")
-        
-        self.tableView.isUserInteractionEnabled = true
-//        scanForNewPeripherals()
     }
+    
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         for service in peripheral.services! {
@@ -421,25 +481,49 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         
+        var errorTitle: String = ""
+        var errorMessage: String = ""
+        
         switch (central.state) {
             
         case .poweredOff:
             print("power off")
+            errorTitle = "Bluetooh Off"
+            errorMessage = "You have turned off Bluetooth. Please turn on to discover devices."
             break
         case .poweredOn:
             print("power on")
+            errorTitle = "Bluetooth On"
+            errorMessage = "Pull down to refresh the device list."
             break
         case .resetting:
             print("resetting")
             break
         case .unauthorized:
             print("unauthorized")
+            errorTitle = "Unauthorized"
+            errorMessage = "You have not authorized Bluetooth for your device"
             break
         case .unsupported:
             print("unsupported")
+            errorTitle = "Bluetooth Unsupported"
+            errorMessage = "Your device does not support Bluetooth."
             break
         default:
             print("default")
+        }
+        
+        let alertController = UIAlertController(title: errorTitle, message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel) {
+            (result : UIAlertAction) -> Void in
+        }
+        
+        alertController.addAction(okAction)
+        
+        if (openAppFlag) {
+            openAppFlag = false
+        } else {
+            self.present(alertController, animated: true, completion: nil)
         }
     }
 }
