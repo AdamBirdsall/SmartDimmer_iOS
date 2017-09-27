@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		81136FFB1F3402FC001CA824 /* titleImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 81136FF91F3402FC001CA824 /* titleImage.png */; };
 		81136FFC1F3402FC001CA824 /* Brilliance LED logo 2016_Stacked.png in Resources */ = {isa = PBXBuildFile; fileRef = 81136FFA1F3402FC001CA824 /* Brilliance LED logo 2016_Stacked.png */; };
+		811591AD1F7B5AC5007DC146 /* HelpPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811591AC1F7B5AC5007DC146 /* HelpPageViewController.swift */; };
 		81373E9C1F537CAA00937FF2 /* Peripherals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81373E9B1F537CAA00937FF2 /* Peripherals.swift */; };
 		813AD0EE1F4548F300A650BD /* Icon-Small_29.png in Resources */ = {isa = PBXBuildFile; fileRef = 813AD0E81F4548F300A650BD /* Icon-Small_29.png */; };
 		813AD0EF1F4548F300A650BD /* Icon-Small@2x_58.png in Resources */ = {isa = PBXBuildFile; fileRef = 813AD0E91F4548F300A650BD /* Icon-Small@2x_58.png */; };
@@ -51,6 +52,7 @@
 		6DA9427C4E4A846EB51BCB55 /* Pods_Smart_Dimmer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Smart_Dimmer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81136FF91F3402FC001CA824 /* titleImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = titleImage.png; sourceTree = "<group>"; };
 		81136FFA1F3402FC001CA824 /* Brilliance LED logo 2016_Stacked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Brilliance LED logo 2016_Stacked.png"; sourceTree = "<group>"; };
+		811591AC1F7B5AC5007DC146 /* HelpPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpPageViewController.swift; sourceTree = "<group>"; };
 		81373E9B1F537CAA00937FF2 /* Peripherals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Peripherals.swift; sourceTree = "<group>"; };
 		813AD0E81F4548F300A650BD /* Icon-Small_29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small_29.png"; sourceTree = "<group>"; };
 		813AD0E91F4548F300A650BD /* Icon-Small@2x_58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x_58.png"; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				819225291F342E7800DA080E /* MenuTableViewController.swift */,
 				813AFBEC1F1EF632007A11AC /* DiscoveryViewController.swift */,
 				81C6CB891F451FE300FBBC8C /* SetupViewController.swift */,
+				811591AC1F7B5AC5007DC146 /* HelpPageViewController.swift */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 			files = (
 				813DD1F11F04824C0025A93C /* Smart_Dimmer.xcdatamodeld in Sources */,
 				8192252A1F342E7800DA080E /* MenuTableViewController.swift in Sources */,
+				811591AD1F7B5AC5007DC146 /* HelpPageViewController.swift in Sources */,
 				81D239431F4D35BC002683FB /* CoreDataDevice.swift in Sources */,
 				81D239401F4D3173002683FB /* DevicesMO+CoreDataClass.swift in Sources */,
 				81D239411F4D3173002683FB /* DevicesMO+CoreDataProperties.swift in Sources */,

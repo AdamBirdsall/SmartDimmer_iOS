@@ -243,7 +243,7 @@
                                                     <rect key="frame" x="8" y="6" width="359" height="30"/>
                                                     <state key="normal" title="Help"/>
                                                     <connections>
-                                                        <segue destination="Hue-Rp-j4M" kind="show" id="gaF-ss-enD"/>
+                                                        <segue destination="aMP-b1-rAY" kind="show" identifier="showHelp" id="lWw-gy-1Bs"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -300,23 +300,103 @@
             </objects>
             <point key="canvasLocation" x="4937" y="1494"/>
         </scene>
-        <!--Help Guide-->
-        <scene sceneID="Xd3-FS-th1">
+        <!--View Controller-->
+        <scene sceneID="ZFu-XG-dEa">
             <objects>
-                <viewController title="Help Guide" id="Hue-Rp-j4M" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="firstPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="5Ah-zt-ipY" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="bbI-H8-5Pn"/>
-                        <viewControllerLayoutGuide type="bottom" id="tRt-qp-qxY"/>
+                        <viewControllerLayoutGuide type="top" id="zan-u1-GGi"/>
+                        <viewControllerLayoutGuide type="bottom" id="8Bk-KW-zLh"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="DLf-Dq-nfH">
+                    <view key="view" contentMode="scaleToFill" id="vOg-U3-Jez">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2fh-gP-Wyb">
+                                <rect key="frame" x="152" y="323" width="34" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="2fh-gP-Wyb" firstAttribute="centerY" secondItem="vOg-U3-Jez" secondAttribute="centerY" id="qAJ-hM-XCm"/>
+                            <constraint firstItem="2fh-gP-Wyb" firstAttribute="leading" secondItem="vOg-U3-Jez" secondAttribute="leading" constant="152" id="ypx-3p-0Qs"/>
+                        </constraints>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lhd-D9-tbG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JBE-Sb-wiz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4937" y="2240"/>
+            <point key="canvasLocation" x="3997.5999999999999" y="2892.5037481259374"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Tqh-YY-eWd">
+            <objects>
+                <viewController storyboardIdentifier="secondPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="OLT-G1-ehd" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ier-tt-Mlu"/>
+                        <viewControllerLayoutGuide type="bottom" id="ka9-lW-Eq2"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hzv-dE-GxX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Second" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aGT-xu-tOb">
+                                <rect key="frame" x="166" y="323" width="59" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="aGT-xu-tOb" firstAttribute="centerY" secondItem="hzv-dE-GxX" secondAttribute="centerY" id="13Y-1s-i1O"/>
+                            <constraint firstItem="aGT-xu-tOb" firstAttribute="leading" secondItem="hzv-dE-GxX" secondAttribute="leading" constant="166" id="vTa-MJ-6ew"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kp9-yW-WYa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4936.8000000000002" y="2892.5037481259374"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Xtu-oV-YaR">
+            <objects>
+                <viewController storyboardIdentifier="thirdPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Tn3-QB-JzN" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="S6X-AN-m2G"/>
+                        <viewControllerLayoutGuide type="bottom" id="6KU-nF-zC9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="EuL-Ph-uPg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="third" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcV-zu-m0l">
+                                <rect key="frame" x="166" y="323" width="36" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="lcV-zu-m0l" firstAttribute="leading" secondItem="EuL-Ph-uPg" secondAttribute="leading" constant="166" id="1Ze-at-uqc"/>
+                            <constraint firstItem="lcV-zu-m0l" firstAttribute="centerY" secondItem="EuL-Ph-uPg" secondAttribute="centerY" id="QZG-qI-9B3"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HcW-yE-twK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5820" y="2892.5037481259374"/>
+        </scene>
+        <!--Help-->
+        <scene sceneID="g7w-hG-wQ2">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" title="Help" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="aMP-b1-rAY" customClass="HelpPageViewController" customModule="Smart_Dimmer" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kiM-yS-BbM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4937" y="2216"/>
         </scene>
         <!--Setup Devices-->
         <scene sceneID="CG8-H4-8gi">
