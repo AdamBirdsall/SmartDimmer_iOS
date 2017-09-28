@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		81136FFB1F3402FC001CA824 /* titleImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 81136FF91F3402FC001CA824 /* titleImage.png */; };
 		81136FFC1F3402FC001CA824 /* Brilliance LED logo 2016_Stacked.png in Resources */ = {isa = PBXBuildFile; fileRef = 81136FFA1F3402FC001CA824 /* Brilliance LED logo 2016_Stacked.png */; };
-		811591AD1F7B5AC5007DC146 /* HelpPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811591AC1F7B5AC5007DC146 /* HelpPageViewController.swift */; };
 		81373E9C1F537CAA00937FF2 /* Peripherals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81373E9B1F537CAA00937FF2 /* Peripherals.swift */; };
 		813AD0EE1F4548F300A650BD /* Icon-Small_29.png in Resources */ = {isa = PBXBuildFile; fileRef = 813AD0E81F4548F300A650BD /* Icon-Small_29.png */; };
 		813AD0EF1F4548F300A650BD /* Icon-Small@2x_58.png in Resources */ = {isa = PBXBuildFile; fileRef = 813AD0E91F4548F300A650BD /* Icon-Small@2x_58.png */; };
@@ -34,6 +33,13 @@
 		813DD1F31F04824C0025A93C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 813DD1F21F04824C0025A93C /* Assets.xcassets */; };
 		813DD1F61F04824C0025A93C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 813DD1F41F04824C0025A93C /* LaunchScreen.storyboard */; };
 		813DD1FF1F04871A0025A93C /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 813DD1FE1F04871A0025A93C /* CoreBluetooth.framework */; };
+		8148F6341F7C6CB700E2E5EB /* pullToRefresh.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 8148F62E1F7C6CB700E2E5EB /* pullToRefresh.PNG */; };
+		8148F6351F7C6CB700E2E5EB /* setupPopup.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 8148F62F1F7C6CB700E2E5EB /* setupPopup.PNG */; };
+		8148F6361F7C6CB700E2E5EB /* sideMenu.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 8148F6301F7C6CB700E2E5EB /* sideMenu.PNG */; };
+		8148F6371F7C6CB700E2E5EB /* groupsSelect.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 8148F6311F7C6CB700E2E5EB /* groupsSelect.PNG */; };
+		8148F6381F7C6CB700E2E5EB /* adjustBrightness.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 8148F6321F7C6CB700E2E5EB /* adjustBrightness.PNG */; };
+		8148F6391F7C6CB700E2E5EB /* mainScreen.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 8148F6331F7C6CB700E2E5EB /* mainScreen.PNG */; };
+		8148F63E1F7C958300E2E5EB /* HelpPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8148F63D1F7C958300E2E5EB /* HelpPageViewController.swift */; };
 		817B2BC91F42AD1700D9B7E9 /* appIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 817B2BC81F42AD1700D9B7E9 /* appIcon.png */; };
 		817B2BCB1F42AD1E00D9B7E9 /* topBarTitle.png in Resources */ = {isa = PBXBuildFile; fileRef = 817B2BCA1F42AD1E00D9B7E9 /* topBarTitle.png */; };
 		818BBA921F42B14000B6F1DD /* icons8-Menu-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 818BBA911F42B14000B6F1DD /* icons8-Menu-50.png */; };
@@ -52,7 +58,6 @@
 		6DA9427C4E4A846EB51BCB55 /* Pods_Smart_Dimmer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Smart_Dimmer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81136FF91F3402FC001CA824 /* titleImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = titleImage.png; sourceTree = "<group>"; };
 		81136FFA1F3402FC001CA824 /* Brilliance LED logo 2016_Stacked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Brilliance LED logo 2016_Stacked.png"; sourceTree = "<group>"; };
-		811591AC1F7B5AC5007DC146 /* HelpPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpPageViewController.swift; sourceTree = "<group>"; };
 		81373E9B1F537CAA00937FF2 /* Peripherals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Peripherals.swift; sourceTree = "<group>"; };
 		813AD0E81F4548F300A650BD /* Icon-Small_29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small_29.png"; sourceTree = "<group>"; };
 		813AD0E91F4548F300A650BD /* Icon-Small@2x_58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x_58.png"; sourceTree = "<group>"; };
@@ -79,6 +84,13 @@
 		813DD1F51F04824C0025A93C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		813DD1F71F04824C0025A93C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		813DD1FE1F04871A0025A93C /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		8148F62E1F7C6CB700E2E5EB /* pullToRefresh.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pullToRefresh.PNG; sourceTree = "<group>"; };
+		8148F62F1F7C6CB700E2E5EB /* setupPopup.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setupPopup.PNG; sourceTree = "<group>"; };
+		8148F6301F7C6CB700E2E5EB /* sideMenu.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sideMenu.PNG; sourceTree = "<group>"; };
+		8148F6311F7C6CB700E2E5EB /* groupsSelect.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = groupsSelect.PNG; sourceTree = "<group>"; };
+		8148F6321F7C6CB700E2E5EB /* adjustBrightness.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = adjustBrightness.PNG; sourceTree = "<group>"; };
+		8148F6331F7C6CB700E2E5EB /* mainScreen.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainScreen.PNG; sourceTree = "<group>"; };
+		8148F63D1F7C958300E2E5EB /* HelpPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpPageViewController.swift; sourceTree = "<group>"; };
 		817B2BC81F42AD1700D9B7E9 /* appIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = appIcon.png; sourceTree = "<group>"; };
 		817B2BCA1F42AD1E00D9B7E9 /* topBarTitle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topBarTitle.png; sourceTree = "<group>"; };
 		818BBA911F42B14000B6F1DD /* icons8-Menu-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-Menu-50.png"; sourceTree = "<group>"; };
@@ -123,7 +135,7 @@
 				819225291F342E7800DA080E /* MenuTableViewController.swift */,
 				813AFBEC1F1EF632007A11AC /* DiscoveryViewController.swift */,
 				81C6CB891F451FE300FBBC8C /* SetupViewController.swift */,
-				811591AC1F7B5AC5007DC146 /* HelpPageViewController.swift */,
+				8148F63D1F7C958300E2E5EB /* HelpPageViewController.swift */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -140,6 +152,7 @@
 		81136FF81F3402EB001CA824 /* Pictures */ = {
 			isa = PBXGroup;
 			children = (
+				8148F63A1F7C6CED00E2E5EB /* HelpPictures */,
 				813AD1081F454B7800A650BD /* Icons */,
 				813AD0EC1F4548F300A650BD /* iTunesArtwork_512 */,
 				813AD0ED1F4548F300A650BD /* iTunesArtwork@2x_1024 */,
@@ -216,6 +229,19 @@
 				6DA9427C4E4A846EB51BCB55 /* Pods_Smart_Dimmer.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8148F63A1F7C6CED00E2E5EB /* HelpPictures */ = {
+			isa = PBXGroup;
+			children = (
+				8148F62E1F7C6CB700E2E5EB /* pullToRefresh.PNG */,
+				8148F62F1F7C6CB700E2E5EB /* setupPopup.PNG */,
+				8148F6301F7C6CB700E2E5EB /* sideMenu.PNG */,
+				8148F6311F7C6CB700E2E5EB /* groupsSelect.PNG */,
+				8148F6321F7C6CB700E2E5EB /* adjustBrightness.PNG */,
+				8148F6331F7C6CB700E2E5EB /* mainScreen.PNG */,
+			);
+			name = HelpPictures;
 			sourceTree = "<group>";
 		};
 		81D239371F4D1852002683FB /* CoreData */ = {
@@ -314,18 +340,23 @@
 				813AD0F81F454A0F00A650BD /* Icon_40.png in Resources */,
 				813AD0F01F4548F300A650BD /* Icon_57.png in Resources */,
 				813AD0F11F4548F300A650BD /* Icon@2x_114.png in Resources */,
+				8148F6371F7C6CB700E2E5EB /* groupsSelect.PNG in Resources */,
+				8148F6341F7C6CB700E2E5EB /* pullToRefresh.PNG in Resources */,
 				817B2BCB1F42AD1E00D9B7E9 /* topBarTitle.png in Resources */,
 				81136FFC1F3402FC001CA824 /* Brilliance LED logo 2016_Stacked.png in Resources */,
 				813AD1001F454AD000A650BD /* Icon_120.png in Resources */,
 				813DD1F61F04824C0025A93C /* LaunchScreen.storyboard in Resources */,
 				813AD1041F454B3400A650BD /* Icon_76.png in Resources */,
+				8148F6351F7C6CB700E2E5EB /* setupPopup.PNG in Resources */,
 				813AD1011F454AD000A650BD /* Icon_180.png in Resources */,
 				818BBA941F42B1A600B6F1DD /* icons8-Menu-25.png in Resources */,
 				817B2BC91F42AD1700D9B7E9 /* appIcon.png in Resources */,
+				8148F6391F7C6CB700E2E5EB /* mainScreen.PNG in Resources */,
 				813AD0F71F454A0F00A650BD /* Icon_20.png in Resources */,
 				813DD1F31F04824C0025A93C /* Assets.xcassets in Resources */,
 				818BBA921F42B14000B6F1DD /* icons8-Menu-50.png in Resources */,
 				813AD1051F454B3400A650BD /* Icon_152.png in Resources */,
+				8148F6361F7C6CB700E2E5EB /* sideMenu.PNG in Resources */,
 				813AD0F91F454A0F00A650BD /* Icon_60.png in Resources */,
 				813AD0F21F4548F300A650BD /* iTunesArtwork_512 in Resources */,
 				813AD0FF1F454AD000A650BD /* Icon_80.png in Resources */,
@@ -334,6 +365,7 @@
 				813AD0FB1F454A6700A650BD /* Icon_87.png in Resources */,
 				813AD0EE1F4548F300A650BD /* Icon-Small_29.png in Resources */,
 				81136FFB1F3402FC001CA824 /* titleImage.png in Resources */,
+				8148F6381F7C6CB700E2E5EB /* adjustBrightness.PNG in Resources */,
 				813AD0EF1F4548F300A650BD /* Icon-Small@2x_58.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -395,7 +427,7 @@
 			files = (
 				813DD1F11F04824C0025A93C /* Smart_Dimmer.xcdatamodeld in Sources */,
 				8192252A1F342E7800DA080E /* MenuTableViewController.swift in Sources */,
-				811591AD1F7B5AC5007DC146 /* HelpPageViewController.swift in Sources */,
+				8148F63E1F7C958300E2E5EB /* HelpPageViewController.swift in Sources */,
 				81D239431F4D35BC002683FB /* CoreDataDevice.swift in Sources */,
 				81D239401F4D3173002683FB /* DevicesMO+CoreDataClass.swift in Sources */,
 				81D239411F4D3173002683FB /* DevicesMO+CoreDataProperties.swift in Sources */,
