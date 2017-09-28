@@ -244,13 +244,6 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBAction func switchToGroups(_ sender: Any) {
         
-//        self.popUpView.alpha = 1.0
-//        UIView.animate(withDuration: 0.35, animations: {
-//            self.popUpView.frame.origin.y = self.tableView.frame.maxY - self.popUpView.frame.size.height - 10
-//            self.backgroundView.alpha = 0.5
-//            self.navigationController?.navigationBar.isUserInteractionEnabled = false
-//        })
-        
         if (self.groupsButton.title == "Groups") {
             self.groupsButton.title = "Connect"
             
