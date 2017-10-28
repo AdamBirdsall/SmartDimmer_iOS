@@ -12,9 +12,8 @@ import CoreData
 import SimpleAnimation
 
 class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate, UINavigationControllerDelegate {
-
-    let managedObjectContext = (UIApplication.shared.delegate
-        as! AppDelegate).persistentContainer.viewContext
+    
+    var coreDataDevices: [NSManagedObject] = []
     
     let DISCOVERY_UUID = "00001523-1212-EFDE-1523-785FEABCD123"
     let WRITE_CHARACTERISTIC = "00001525-1212-EFDE-1523-785FEABCD123"
@@ -26,7 +25,6 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var writeCharacteristic: CBCharacteristic!
     var readCharacteristic: CBCharacteristic!
     
-    var coreDataArray = Array<CoreDataDevice>()
     
     @IBOutlet weak var disconnectButton: UIButton!
     @IBOutlet weak var brightnessView: UIView!
@@ -51,6 +49,8 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.backgroundView.alpha = 0.0
         
         self.nameTextField.delegate = self
+        
+        retrieve()
         
         self.startManager()
     }
@@ -104,7 +104,7 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         
-        retrieveCoreData()
+        self.nameTextField.text = self.tableView.cellForRow(at: indexPath)?.textLabel?.text
         
         connectedPeripheral = peripherals[indexPath.row]
         centralManager.connect(connectedPeripheral, options: nil)
@@ -120,14 +120,25 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // Configure the cell...
         
         let peripheral = peripherals[indexPath.row]
+        var nameString = ""
         
-        cell.textLabel?.text = peripheral.name
+        for device in coreDataDevices {
+            if (peripheral.identifier.uuidString == device.value(forKey: "uuid") as! String) {
+                nameString = device.value(forKey: "name") as! String
+            }
+        }
+        
+        if (nameString == ""){
+            cell.textLabel?.text = peripheral.name
+        } else {
+            cell.textLabel?.text = nameString
+        }
+        
         cell.detailTextLabel?.text = peripheral.identifier.uuidString
         
         return cell
     }
     
-
     @IBAction func lowestBrightness(_ sender: Any) {
         writeBLEData(202)
     }
@@ -137,65 +148,13 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     @IBAction func disconnectPressed(_ sender: Any) {
-        saveToCoreData(peripheral: connectedPeripheral)
+        save(uuidString: connectedPeripheral.identifier.uuidString, nameString: self.nameTextField.text!)
+        
+        self.nameTextField.resignFirstResponder()
+        
+        self.nameTextField.text = ""
+        
         centralManager.cancelPeripheralConnection(connectedPeripheral)
-    }
-    
-    func saveToCoreData(peripheral: CBPeripheral) {
-        let entityDescription =
-            NSEntityDescription.entity(forEntityName: "Devices",
-                                       in: managedObjectContext)
-        
-        let device = DevicesMO(entity: entityDescription!,
-                               insertInto: managedObjectContext)
-        
-        device.name = nameTextField.text!
-        device.uuid = peripheral.identifier.uuidString
-        device.groups = ""
-        
-        do {
-            try managedObjectContext.save()
-            self.nameTextField.text = ""
-            
-        } catch let error {
-            print(error.localizedDescription)
-        }
-    }
-    
-    func retrieveCoreData() {
-        let entityDescription =
-            NSEntityDescription.entity(forEntityName: "Devices",
-                                       in: managedObjectContext)
-        
-        let request: NSFetchRequest<DevicesMO> = DevicesMO.fetchRequest()
-        request.entity = entityDescription
-        
-//        let pred = NSPredicate(format: "(name = %@)", name.text!)
-//        request.predicate = pred
-        
-        do {
-            var results =
-                try managedObjectContext.fetch(request as!
-                    NSFetchRequest<NSFetchRequestResult>)
-            
-            if results.count > 0 {
-                let match = results[0] as! NSManagedObject
-                
-                let newDevice: CoreDataDevice = CoreDataDevice()
-                newDevice.name = match.value(forKey: "name") as! String
-                newDevice.uuid = match.value(forKey: "uuid") as! String
-                newDevice.groups = match.value(forKey: "groups") as! String
-                
-                coreDataArray.append(newDevice)
-                
-            } else {
-//                status.text = "No Match"
-            }
-            
-        } catch let error {
-            print(error.localizedDescription)
-//            status.text = error.localizedDescription
-        }
     }
     
     func scanAgain() {
@@ -214,6 +173,7 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func startManager() {
         centralManager = CBCentralManager(delegate: self, queue: nil)
     }
+    
     func scanForDevice() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
@@ -226,6 +186,7 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(DiscoveryViewController.stopScanning), userInfo: nil, repeats: false)
     }
+    
     func stopScanning() {
         
         let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector (DiscoveryViewController.scanAgain))
@@ -368,6 +329,76 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
             break
         default:
             print("default")
+        }
+    }
+    
+    // Core Data Functions
+    func save(uuidString: String, nameString: String) {
+        
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        // 1
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        for device in coreDataDevices {
+            if (uuidString == device.value(forKey: "uuid") as! String) {
+                
+                let updateDevice = managedContext.object(with: device.objectID)
+                
+                updateDevice.setValue(nameString, forKey: "name")
+                
+                return
+            }
+        }
+        
+        // 2
+        let entity =
+            NSEntityDescription.entity(forEntityName: "Devices",
+                                       in: managedContext)!
+        
+        
+        
+        let addDevice = NSManagedObject(entity: entity,
+                                     insertInto: managedContext)
+        
+        // 3
+        addDevice.setValue(uuidString, forKey: "uuid")
+        addDevice.setValue(nameString, forKeyPath: "name")
+        
+        // 4
+        do {
+            try managedContext.save()
+            coreDataDevices.append(addDevice)
+            
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    func retrieve() {
+        //1
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        //2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Devices")
+        
+        //3
+        do {
+            coreDataDevices = try managedContext.fetch(fetchRequest)
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
         }
     }
 }

@@ -46,9 +46,6 @@
 		818BBA941F42B1A600B6F1DD /* icons8-Menu-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 818BBA931F42B1A600B6F1DD /* icons8-Menu-25.png */; };
 		8192252A1F342E7800DA080E /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819225291F342E7800DA080E /* MenuTableViewController.swift */; };
 		81C6CB8A1F451FE300FBBC8C /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CB891F451FE300FBBC8C /* SetupViewController.swift */; };
-		81D239401F4D3173002683FB /* DevicesMO+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D2393E1F4D3173002683FB /* DevicesMO+CoreDataClass.swift */; };
-		81D239411F4D3173002683FB /* DevicesMO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D2393F1F4D3173002683FB /* DevicesMO+CoreDataProperties.swift */; };
-		81D239431F4D35BC002683FB /* CoreDataDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D239421F4D35BC002683FB /* CoreDataDevice.swift */; };
 		DD5E2600D95112704FC70449 /* Pods_Smart_Dimmer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DA9427C4E4A846EB51BCB55 /* Pods_Smart_Dimmer.framework */; };
 /* End PBXBuildFile section */
 
@@ -97,9 +94,6 @@
 		818BBA931F42B1A600B6F1DD /* icons8-Menu-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-Menu-25.png"; sourceTree = "<group>"; };
 		819225291F342E7800DA080E /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		81C6CB891F451FE300FBBC8C /* SetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
-		81D2393E1F4D3173002683FB /* DevicesMO+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DevicesMO+CoreDataClass.swift"; sourceTree = "<group>"; };
-		81D2393F1F4D3173002683FB /* DevicesMO+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DevicesMO+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		81D239421F4D35BC002683FB /* CoreDataDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataDevice.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,7 +125,6 @@
 			isa = PBXGroup;
 			children = (
 				81373E9D1F537CB600937FF2 /* BLE */,
-				81D239371F4D1852002683FB /* CoreData */,
 				819225291F342E7800DA080E /* MenuTableViewController.swift */,
 				813AFBEC1F1EF632007A11AC /* DiscoveryViewController.swift */,
 				81C6CB891F451FE300FBBC8C /* SetupViewController.swift */,
@@ -242,16 +235,6 @@
 				8148F6331F7C6CB700E2E5EB /* mainScreen.PNG */,
 			);
 			name = HelpPictures;
-			sourceTree = "<group>";
-		};
-		81D239371F4D1852002683FB /* CoreData */ = {
-			isa = PBXGroup;
-			children = (
-				81D2393E1F4D3173002683FB /* DevicesMO+CoreDataClass.swift */,
-				81D2393F1F4D3173002683FB /* DevicesMO+CoreDataProperties.swift */,
-				81D239421F4D35BC002683FB /* CoreDataDevice.swift */,
-			);
-			name = CoreData;
 			sourceTree = "<group>";
 		};
 		81D4085C1F159F18006DEC13 /* DiscoverTableView */ = {
@@ -428,9 +411,6 @@
 				813DD1F11F04824C0025A93C /* Smart_Dimmer.xcdatamodeld in Sources */,
 				8192252A1F342E7800DA080E /* MenuTableViewController.swift in Sources */,
 				8148F63E1F7C958300E2E5EB /* HelpPageViewController.swift in Sources */,
-				81D239431F4D35BC002683FB /* CoreDataDevice.swift in Sources */,
-				81D239401F4D3173002683FB /* DevicesMO+CoreDataClass.swift in Sources */,
-				81D239411F4D3173002683FB /* DevicesMO+CoreDataProperties.swift in Sources */,
 				813AFBED1F1EF632007A11AC /* DiscoveryViewController.swift in Sources */,
 				81373E9C1F537CAA00937FF2 /* Peripherals.swift in Sources */,
 				81C6CB8A1F451FE300FBBC8C /* SetupViewController.swift in Sources */,

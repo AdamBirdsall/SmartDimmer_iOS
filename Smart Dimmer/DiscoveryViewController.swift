@@ -12,7 +12,11 @@ import SideMenu
 import CoreData
 import StepSlider
 
+// TODO: make slider vertical for brightness
+
 class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate, UINavigationControllerDelegate {
+    
+    var coreDataDevices: [NSManagedObject] = []
     
     let DISCOVERY_UUID = "00001523-1212-EFDE-1523-785FEABCD123"
     let WRITE_CHARACTERISTIC = "00001525-1212-EFDE-1523-785FEABCD123"
@@ -101,6 +105,8 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        retrieve()
+
         self.popUpView.frame.origin.y = self.view.frame.maxY
         self.backgroundView.alpha = 0.0
     }
@@ -165,11 +171,15 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         return peripherals.count
     }
     
+    var deviceNameString = ""
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         if (!self.tableView.isEditing) {
             self.tableView.deselectRow(at: indexPath, animated: true)
+            deviceNameString = (self.tableView.cellForRow(at: indexPath)?.textLabel?.text)!
         }
+
         connectedPeripheral = peripherals[indexPath.row]
         centralManager.connect(connectedPeripheral, options: nil)
     }
@@ -191,8 +201,20 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         // Configure the cell...
         
         let peripheral = peripherals[indexPath.row]
+        var nameString = ""
         
-        cell.textLabel?.text = peripheral.name
+        for device in coreDataDevices {
+            if (peripheral.identifier.uuidString == device.value(forKey: "uuid") as! String) {
+                nameString = device.value(forKey: "name") as! String
+            }
+        }
+        
+        if (nameString == ""){
+            cell.textLabel?.text = peripheral.name
+        } else {
+            cell.textLabel?.text = nameString
+        }
+        
         cell.detailTextLabel?.text = peripheral.identifier.uuidString
         
         return cell
@@ -203,9 +225,9 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func updateLightValue(_ sender: Any) {
         
-        let brightnessValue = self.mainStepSlider.index * 20
+        let brightnessValue = self.mainStepSlider.index * 10
         
-        self.brightnessLabel.text = "Brightness: \(brightnessValue)"
+        self.brightnessLabel.text = "\(brightnessValue)"
 
         writeBLEData(Int(brightnessValue))
     }
@@ -222,6 +244,8 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             }
             
         } else {
+            self.connectedLabel.text = ""
+
             if (connectedPeripheral != nil) {
                 centralManager.cancelPeripheralConnection(connectedPeripheral)
             } else {
@@ -390,12 +414,13 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.backgroundView.alpha = 0.5
                 self.navigationController?.navigationBar.isUserInteractionEnabled = false
             })
-            self.connectedLabel.text = "Connected to: \(connectedPeripheral.name!)"
+            self.connectedLabel.text = "Connected to: \(deviceNameString)"
             self.tableView.isUserInteractionEnabled = false
             
             connectedPeripheral.delegate = self
             connectedPeripheral.discoverServices(nil)
         } else {
+            self.connectedLabel.text = "Connected to: Group"
             peripheral.delegate = self
             peripheral.discoverServices(nil)
         }
@@ -537,6 +562,29 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             openAppFlag = false
         } else {
             self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    func retrieve() {
+        //1
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        //2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Devices")
+        
+        //3
+        do {
+            coreDataDevices = try managedContext.fetch(fetchRequest)
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
         }
     }
 }
