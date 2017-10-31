@@ -9,5 +9,6 @@ target 'Smart Dimmer' do
   pod 'SideMenu'
   pod 'StepSlider'
   pod 'SimpleAnimation'
+  pod 'VerticalSteppedSlider', :git => 'https://github.com/mludowise/VerticalSteppedSlider.git'
 
 end

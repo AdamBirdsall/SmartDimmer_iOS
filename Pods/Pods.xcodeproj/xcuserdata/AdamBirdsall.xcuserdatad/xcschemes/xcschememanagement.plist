@@ -24,25 +24,35 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>VerticalSteppedSlider.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>277CB672D9BEDFA4BE38E4C4F964B027</key>
+		<key>1A6654D1320FABE9D85BCE3A950A080C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>529AB41BF06E3B7E3EE99F8017B9EC37</key>
+		<key>3A94F69844C6C51D5B5052B127B40F5B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EB3C55A5742F36E80FBB4327C71FCA2C</key>
+		<key>5A805F6B0888D600148577856A9E0991</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F35AA06D624A831AC96D435E9C09B0EE</key>
+		<key>8668533392807ED671D7EE45BC2410CC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A17B26ECDAB6AB37351238474B3C14F2</key>
 		<dict>
 			<key>primary</key>
 			<true/>

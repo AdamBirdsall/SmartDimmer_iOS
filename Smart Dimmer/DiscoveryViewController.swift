@@ -11,6 +11,7 @@ import CoreBluetooth
 import SideMenu
 import CoreData
 import StepSlider
+import VerticalSteppedSlider
 
 // TODO: make slider vertical for brightness
 
@@ -43,6 +44,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     var cancelOrMenuButton: UIBarButtonItem!
     @IBOutlet weak var groupsButton: UIBarButtonItem!
     
+    @IBOutlet weak var verticalStepSlider: VSSlider!
     @IBOutlet weak var mainStepSlider: StepSlider!
     @IBOutlet weak var sliderView: UIView!
     @IBOutlet weak var disconnectButton: UIButton!
@@ -65,10 +67,10 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         // Notification Center for resigning the app
         NotificationCenter.default.addObserver(self, selector: #selector(DiscoveryViewController.disconnectFromPeripherals), name: NSNotification.Name(rawValue: "disconnectFromAll"), object: nil)
     
-        mainStepSlider.setIndex(0, animated: true)
-        mainStepSlider.addTarget(self, action:
+//        verticalStepSlider.setIndex(0, animated: true)
+        verticalStepSlider.addTarget(self, action:
             #selector(DiscoveryViewController.updateLightValue(_:)), for: UIControlEvents.valueChanged)
-        
+//
         self.disconnectButton.layer.cornerRadius = 12.5
         self.popUpView.layer.cornerRadius = 12.5
         self.popUpView.frame.origin.y = self.tableView.frame.maxY
@@ -223,16 +225,27 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     /**************************************************************************************/
     /**************************************************************************************/
     
+    var defaultValue:Float = 0.0
     func updateLightValue(_ sender: Any) {
         
-        let brightnessValue = self.mainStepSlider.index * 10
+        let brightnessValue = self.verticalStepSlider.roundedValue * 10
         
-        self.brightnessLabel.text = "\(brightnessValue)"
-
-        writeBLEData(Int(brightnessValue))
+        if (brightnessValue != defaultValue) {
+            
+            self.brightnessLabel.text = "\(Int(brightnessValue))"
+            
+            writeBLEData(Int(brightnessValue))
+            
+            defaultValue = brightnessValue
+            
+        } else {
+            
+        }
     }
     
     @IBAction func doneClicked(_ sender: Any) {
+        
+        defaultValue = 0.0
         
         if (self.tableView.isEditing) {
             
