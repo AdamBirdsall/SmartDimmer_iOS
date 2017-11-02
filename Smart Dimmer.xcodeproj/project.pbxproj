@@ -46,6 +46,7 @@
 		818BBA941F42B1A600B6F1DD /* icons8-Menu-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 818BBA931F42B1A600B6F1DD /* icons8-Menu-25.png */; };
 		8192252A1F342E7800DA080E /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819225291F342E7800DA080E /* MenuTableViewController.swift */; };
 		81C6CB8A1F451FE300FBBC8C /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CB891F451FE300FBBC8C /* SetupViewController.swift */; };
+		81E1057E1FAA935B00E2B0BB /* CoreDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E1057D1FAA935B00E2B0BB /* CoreDataObject.swift */; };
 		DD5E2600D95112704FC70449 /* Pods_Smart_Dimmer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DA9427C4E4A846EB51BCB55 /* Pods_Smart_Dimmer.framework */; };
 /* End PBXBuildFile section */
 
@@ -94,6 +95,7 @@
 		818BBA931F42B1A600B6F1DD /* icons8-Menu-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-Menu-25.png"; sourceTree = "<group>"; };
 		819225291F342E7800DA080E /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		81C6CB891F451FE300FBBC8C /* SetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
+		81E1057D1FAA935B00E2B0BB /* CoreDataObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 		81136FF61F3402C4001CA824 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				81E1057C1FAA934000E2B0BB /* CoreData */,
 				81373E9D1F537CB600937FF2 /* BLE */,
 				819225291F342E7800DA080E /* MenuTableViewController.swift */,
 				813AFBEC1F1EF632007A11AC /* DiscoveryViewController.swift */,
@@ -244,6 +247,14 @@
 				81136FF71F3402CA001CA824 /* Storyboards */,
 			);
 			name = DiscoverTableView;
+			sourceTree = "<group>";
+		};
+		81E1057C1FAA934000E2B0BB /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				81E1057D1FAA935B00E2B0BB /* CoreDataObject.swift */,
+			);
+			name = CoreData;
 			sourceTree = "<group>";
 		};
 		E810DC16443AF9776EDC4C11 /* Pods */ = {
@@ -421,6 +432,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				813DD1F11F04824C0025A93C /* Smart_Dimmer.xcdatamodeld in Sources */,
+				81E1057E1FAA935B00E2B0BB /* CoreDataObject.swift in Sources */,
 				8192252A1F342E7800DA080E /* MenuTableViewController.swift in Sources */,
 				8148F63E1F7C958300E2E5EB /* HelpPageViewController.swift in Sources */,
 				813AFBED1F1EF632007A11AC /* DiscoveryViewController.swift in Sources */,

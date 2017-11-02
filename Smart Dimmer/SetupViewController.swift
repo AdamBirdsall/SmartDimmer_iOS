@@ -351,6 +351,12 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 
                 updateDevice.setValue(nameString, forKey: "name")
                 
+                do {
+                    try managedContext.save()
+                } catch let error as NSError {
+                    print("Could not save. \(error), \(error.userInfo)")
+                }
+                
                 return
             }
         }

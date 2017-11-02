@@ -13,11 +13,13 @@ import CoreData
 import StepSlider
 import VerticalSteppedSlider
 
-// TODO: make slider vertical for brightness
 
 class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate, UINavigationControllerDelegate {
     
     var coreDataDevices: [NSManagedObject] = []
+    var deviceNameString = ""
+    var deviceUuidString = ""
+    var defaultValue:Float = 0.0
     
     let DISCOVERY_UUID = "00001523-1212-EFDE-1523-785FEABCD123"
     let WRITE_CHARACTERISTIC = "00001525-1212-EFDE-1523-785FEABCD123"
@@ -49,6 +51,9 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var sliderView: UIView!
     @IBOutlet weak var disconnectButton: UIButton!
     
+    @IBOutlet weak var onOffSwitch: UISwitch!
+    
+    // Sets the 'pull down to refresh' variable
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action:
@@ -67,10 +72,9 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         // Notification Center for resigning the app
         NotificationCenter.default.addObserver(self, selector: #selector(DiscoveryViewController.disconnectFromPeripherals), name: NSNotification.Name(rawValue: "disconnectFromAll"), object: nil)
     
-//        verticalStepSlider.setIndex(0, animated: true)
         verticalStepSlider.addTarget(self, action:
             #selector(DiscoveryViewController.updateLightValue(_:)), for: UIControlEvents.valueChanged)
-//
+
         self.disconnectButton.layer.cornerRadius = 12.5
         self.popUpView.layer.cornerRadius = 12.5
         self.popUpView.frame.origin.y = self.tableView.frame.maxY
@@ -143,6 +147,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         SideMenuManager.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
     }
     
+    // Disconnects from peripherals. Used when screen changes
     func disconnectFromPeripherals() {
         if (self.tableView.isEditing) {
             
@@ -162,73 +167,18 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     
     /**************************************************************************************/
     /**************************************************************************************/
-    /**
-     * Tableview functions
-     */
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return peripherals.count
-    }
+    // Button Actions and writing to the BLE devices
     
-    var deviceNameString = ""
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-        if (!self.tableView.isEditing) {
-            self.tableView.deselectRow(at: indexPath, animated: true)
-            deviceNameString = (self.tableView.cellForRow(at: indexPath)?.textLabel?.text)!
-        }
-
-        connectedPeripheral = peripherals[indexPath.row]
-        centralManager.connect(connectedPeripheral, options: nil)
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        self.tableView.deselectRow(at: indexPath, animated: true)
-        if (self.tableView.isEditing) {
-            
-            let index = connectedPeripheralArray.index(where: {$0.connectedPeripheral.identifier.uuidString == peripherals[indexPath.row].identifier.uuidString})
-            self.connectedPeripheralArray.remove(at: index!)
-            
-            centralManager.cancelPeripheralConnection(peripherals[indexPath.row])
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        
-        // Configure the cell...
-        
-        let peripheral = peripherals[indexPath.row]
-        var nameString = ""
-        
-        for device in coreDataDevices {
-            if (peripheral.identifier.uuidString == device.value(forKey: "uuid") as! String) {
-                nameString = device.value(forKey: "name") as! String
-            }
-        }
-        
-        if (nameString == ""){
-            cell.textLabel?.text = peripheral.name
-        } else {
-            cell.textLabel?.text = nameString
-        }
-        
-        cell.detailTextLabel?.text = peripheral.identifier.uuidString
-        
-        return cell
-    }
-    
-    /**************************************************************************************/
-    /**************************************************************************************/
-    
-    var defaultValue:Float = 0.0
     func updateLightValue(_ sender: Any) {
         
         let brightnessValue = self.verticalStepSlider.roundedValue * 10
+        
+        if (brightnessValue > 0.0) {
+            self.onOffSwitch.isOn = true
+        } else {
+            self.onOffSwitch.isOn = false
+        }
         
         if (brightnessValue != defaultValue) {
             
@@ -240,6 +190,59 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             
         } else {
             
+        }
+    }
+    
+    @IBAction func switchClicked(_ sender: Any) {
+        
+        if (onOffSwitch.isOn) {
+            guard let appDelegate =
+                UIApplication.shared.delegate as? AppDelegate else {
+                    return
+            }
+            
+            let managedContext =
+                appDelegate.persistentContainer.viewContext
+            
+            for device in coreDataDevices {
+                if (deviceUuidString == device.value(forKey: "uuid") as! String) {
+                    
+                    let updateDevice = managedContext.object(with: device.objectID)
+                    
+                    // If it does not have a previous value set, then put to 100 on switch on
+                    let setSliderValue = Float(updateDevice.value(forKey: "previousBrightness") as? String ?? "100.0")!
+                    
+                    self.verticalStepSlider.value = setSliderValue / 10
+                    
+                    writeBLEData(Int(setSliderValue))
+                }
+            }
+        } else {
+            self.verticalStepSlider.value = self.verticalStepSlider.minimumValue
+            writeBLEData(0)
+        }
+    }
+    
+    /**
+     * Writing to the bluetooth module
+     */
+    func writeBLEData(_ value: Int) {
+        
+        let hex = String(format:"%2X", value)
+        
+        let trimmedString = hex.trimmingCharacters(in: .whitespaces)
+        
+        let data = trimmedString.hexadecimal()
+        
+        if (self.tableView.isEditing) {
+            for newPeripheral in connectedPeripheralArray {
+                newPeripheral.connectedPeripheral.writeValue(data!, for: newPeripheral.connectedWriteCharacteristic, type: CBCharacteristicWriteType.withResponse)
+            }
+        } else {
+            
+            save(uuidString: connectedPeripheral.identifier.uuidString, nameString: connectedPeripheral.name!, brightnessInt: String(value))
+            
+            connectedPeripheral?.writeValue(data!, for: writeCharacteristic, type: CBCharacteristicWriteType.withResponse)
         }
     }
     
@@ -326,6 +329,12 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         self.tableView?.setEditing(false, animated: true)
     }
     
+    /**************************************************************************************/
+    /**************************************************************************************/
+    
+    // Bluetooth scanning and refreshing functions
+    
+    // function to show the side menu
     func segueToMenu() {
         self.performSegue(withIdentifier: "showMenu", sender: self)
     }
@@ -352,9 +361,6 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(DiscoveryViewController.endRefresh), userInfo: nil, repeats: false)
     }
     
-    /**************************************************************************************/
-    /**************************************************************************************/
-    
     func startManager() {
         centralManager = CBCentralManager(delegate: self, queue: nil)
     }
@@ -372,26 +378,10 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         centralManager.stopScan()
     }
     
-    /**
-     * Writing to the bluetooth module
-     */
-    func writeBLEData(_ value: Int) {
-
-        let hex = String(format:"%2X", value)
-        
-        let trimmedString = hex.trimmingCharacters(in: .whitespaces)
-        
-        let data = trimmedString.hexadecimal()
-        
-        if (self.tableView.isEditing) {
-            for newPeripheral in connectedPeripheralArray {
-                newPeripheral.connectedPeripheral.writeValue(data!, for: newPeripheral.connectedWriteCharacteristic, type: CBCharacteristicWriteType.withResponse)
-            }
-        } else {
-            connectedPeripheral?.writeValue(data!, for: writeCharacteristic, type: CBCharacteristicWriteType.withResponse)
-        }
-    }
+    /**************************************************************************************/
+    /**************************************************************************************/
     
+    // Bluetooth peripheral functions
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if let error = error {
             print("Writing error", error)
@@ -420,7 +410,12 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         
+        // If the user did NOT select a group of devices
         if (!self.tableView.isEditing) {
+            
+            self.onOffSwitch.isEnabled = true
+            self.onOffSwitch.isHidden = false
+            
             self.popUpView.alpha = 1.0
             UIView.animate(withDuration: 0.35, animations: {
                 self.popUpView.frame.origin.y = self.tableView.frame.maxY - self.popUpView.frame.size.height - 10
@@ -428,11 +423,45 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.navigationController?.navigationBar.isUserInteractionEnabled = false
             })
             self.connectedLabel.text = "Connected to: \(deviceNameString)"
+            
+            guard let appDelegate =
+                UIApplication.shared.delegate as? AppDelegate else {
+                    return
+            }
+            
+            let managedContext =
+                appDelegate.persistentContainer.viewContext
+            
+            for device in coreDataDevices {
+                if (deviceUuidString == device.value(forKey: "uuid") as! String) {
+                    
+                    let updateDevice = managedContext.object(with: device.objectID)
+                    
+                    let brightnessValue = updateDevice.value(forKey: "brightnessValue") as? String ?? "0.0"
+                    
+                    self.verticalStepSlider.value = (Float(brightnessValue)!) / 10
+                    
+                    // If there is a previous brightness value greater than 0, then turn on the switch
+                    if (Float(brightnessValue)! > 0.0) {
+                        self.onOffSwitch.isOn = true
+                    } else {
+                        self.onOffSwitch.isOn = false
+                    }
+                }
+            }
+            
             self.tableView.isUserInteractionEnabled = false
             
             connectedPeripheral.delegate = self
             connectedPeripheral.discoverServices(nil)
-        } else {
+            
+        } else { // User selected a group of devices
+            
+            // TODO: setup groups switch. for now, disable groups switch
+            self.onOffSwitch.isEnabled = false
+            self.onOffSwitch.isHidden = true
+            //**********************************************************
+            
             self.connectedLabel.text = "Connected to: Group"
             peripheral.delegate = self
             peripheral.discoverServices(nil)
@@ -530,6 +559,10 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    /**************************************************************************************/
+    /**************************************************************************************/
+    
+    // Bluetooth turing on / off
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         
         var errorTitle: String = ""
@@ -578,6 +611,64 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    /**************************************************************************************/
+    /**************************************************************************************/
+    
+    // Core Data Functions
+    func save(uuidString: String, nameString: String, brightnessInt: String) {
+        
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        // 1
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        for device in coreDataDevices {
+            if (uuidString == device.value(forKey: "uuid") as! String) {
+                
+                let updateDevice = managedContext.object(with: device.objectID)
+                let previousValue = updateDevice.value(forKey: "brightnessValue")
+                
+                updateDevice.setValue(previousValue, forKey: "previousBrightness")
+                updateDevice.setValue(brightnessInt, forKey: "brightnessValue")
+                
+                do {
+                    try managedContext.save()
+                } catch let error as NSError {
+                    print("Could not save. \(error), \(error.userInfo)")
+                }
+                
+                return
+            }
+        }
+        
+        // 2
+        let entity =
+            NSEntityDescription.entity(forEntityName: "Devices",
+                                       in: managedContext)!
+        
+        let addDevice = NSManagedObject(entity: entity,
+                                        insertInto: managedContext)
+        
+        // 3
+        addDevice.setValue(uuidString, forKey: "uuid")
+        addDevice.setValue(nameString, forKeyPath: "name")
+        addDevice.setValue(brightnessInt, forKey: "brightnessValue")
+        
+        // 4
+        do {
+            try managedContext.save()
+            
+            coreDataDevices.append(addDevice)
+            
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
     func retrieve() {
         //1
         guard let appDelegate =
@@ -599,6 +690,67 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
+    }
+    
+    /**************************************************************************************/
+    /**************************************************************************************/
+    /**
+     * Tableview functions
+     */
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return peripherals.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if (!self.tableView.isEditing) {
+            self.tableView.deselectRow(at: indexPath, animated: true)
+            deviceNameString = (self.tableView.cellForRow(at: indexPath)?.textLabel?.text)!
+            deviceUuidString = (self.tableView.cellForRow(at: indexPath)?.detailTextLabel?.text)!
+        }
+        
+        connectedPeripheral = peripherals[indexPath.row]
+        centralManager.connect(connectedPeripheral, options: nil)
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        self.tableView.deselectRow(at: indexPath, animated: true)
+        if (self.tableView.isEditing) {
+            
+            let index = connectedPeripheralArray.index(where: {$0.connectedPeripheral.identifier.uuidString == peripherals[indexPath.row].identifier.uuidString})
+            self.connectedPeripheralArray.remove(at: index!)
+            
+            centralManager.cancelPeripheralConnection(peripherals[indexPath.row])
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        
+        // Configure the cell...
+        
+        let peripheral = peripherals[indexPath.row]
+        var nameString = ""
+        
+        for device in coreDataDevices {
+            if (peripheral.identifier.uuidString == device.value(forKey: "uuid") as! String) {
+                nameString = device.value(forKey: "name") as! String
+            }
+        }
+        
+        if (nameString == ""){
+            cell.textLabel?.text = peripheral.name
+        } else {
+            cell.textLabel?.text = nameString
+        }
+        
+        cell.detailTextLabel?.text = peripheral.identifier.uuidString
+        
+        return cell
     }
 }
 extension String {
