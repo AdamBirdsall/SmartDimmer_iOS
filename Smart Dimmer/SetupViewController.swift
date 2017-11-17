@@ -15,6 +15,8 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     var coreDataDevices: [NSManagedObject] = []
     
+    var openAppFlag: Bool = true
+    
     let DISCOVERY_UUID = "00001523-1212-EFDE-1523-785FEABCD123"
     let WRITE_CHARACTERISTIC = "00001525-1212-EFDE-1523-785FEABCD123"
     let READ_CHARACTERISTIC = "00001524-1212-EFDE-1523-785FEABCD123"
@@ -275,12 +277,11 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
         print("did disconnect")
         
         self.tableView.isUserInteractionEnabled = true
-//        scanForNewPeripherals()
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         for service in peripheral.services! {
-            print("Service: \(service)")
+//            print("Service: \(service)")
             
             let aService = service as CBService
             
@@ -299,36 +300,61 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
             if (aCharacteristic.uuid == CBUUID(string: WRITE_CHARACTERISTIC)) {
                 writeCharacteristic = aCharacteristic
                 
-                print("\n\nWrite Characteristics: \(characteristic)")
+//                print("\n\nWrite Characteristics: \(characteristic)")
                 
             } else if (aCharacteristic.uuid == CBUUID(string: READ_CHARACTERISTIC)) {
                 readCharacteristic = aCharacteristic
-                print("\n\nRead Characteristic: \(characteristic)")
+//                print("\n\nRead Characteristic: \(characteristic)")
             }
         }
     }
     
+    // Bluetooth turing on / off
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        
+        var errorTitle: String = ""
+        var errorMessage: String = ""
         
         switch (central.state) {
             
         case .poweredOff:
             print("power off")
+            errorTitle = "Bluetooh Off"
+            errorMessage = "You have turned off Bluetooth. Please turn on to discover devices."
             break
         case .poweredOn:
             print("power on")
+            errorTitle = "Bluetooth On"
+            errorMessage = "Press the refresh button to update the device list."
             break
         case .resetting:
             print("resetting")
             break
         case .unauthorized:
             print("unauthorized")
+            errorTitle = "Unauthorized"
+            errorMessage = "You have not authorized Bluetooth for your device"
             break
         case .unsupported:
             print("unsupported")
+            errorTitle = "Bluetooth Unsupported"
+            errorMessage = "Your device does not support Bluetooth."
             break
         default:
             print("default")
+        }
+        
+        let alertController = UIAlertController(title: errorTitle, message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel) {
+            (result : UIAlertAction) -> Void in
+        }
+        
+        alertController.addAction(okAction)
+        
+        if (openAppFlag) {
+            openAppFlag = false
+        } else {
+            self.present(alertController, animated: true, completion: nil)
         }
     }
     

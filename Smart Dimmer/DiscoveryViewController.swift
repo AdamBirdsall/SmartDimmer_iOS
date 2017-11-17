@@ -233,6 +233,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         } else {
             self.verticalStepSlider.value = self.verticalStepSlider.minimumValue
+            self.brightnessLabel.text = "0"
             writeBLEData(0)
         }
     }
@@ -247,6 +248,8 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         let trimmedString = hex.trimmingCharacters(in: .whitespaces)
         
         let data = trimmedString.hexadecimal()
+        
+        self.brightnessLabel.text = String(value)
         
         if (self.tableView.isEditing) {
             for newPeripheral in connectedPeripheralArray {
@@ -313,6 +316,9 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             
             if (connectedPeripheralArray.count > 0) {
+                
+                self.brightnessLabel.text = "0"
+                
                 self.popUpView.transform = .identity
                 self.popUpView.slideIn(from: .bottom)
                 
@@ -320,6 +326,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                     self.backgroundView.alpha = 0.5
                     self.navigationController?.navigationBar.isUserInteractionEnabled = false
                 })
+                
             } else {
                 // Alert View saying to select devices to group
                 let alertController = UIAlertController(title: "Please select device(s)", message: "", preferredStyle: UIAlertControllerStyle.alert)
@@ -422,7 +429,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
      */
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
 
-        print("Peripheral: \(peripheral)")
+//        print("Peripheral: \(peripheral)")
         peripherals.append(peripheral)
         self.tableView.reloadData()
     }
@@ -461,6 +468,8 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                     let brightnessValue = updateDevice.value(forKey: "brightnessValue") as? String ?? "0.0"
                     
                     self.verticalStepSlider.value = (Float(brightnessValue)!) / 10
+                    
+                    self.brightnessLabel.text = String(brightnessValue)
                     
                     // If there is a previous brightness value greater than 0, then turn on the switch
                     if (Float(brightnessValue)! > 0.0) {
@@ -536,6 +545,8 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                 }
             }
             
+            self.connectedLabel.text = ""
+            
             self.popUpView.transform = .identity
             self.popUpView.slideOut(to: .bottom)
             
@@ -544,7 +555,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.navigationController?.navigationBar.isUserInteractionEnabled = true
             })
             
-            print("did disconnect")
+//            print("did disconnect")
             
             self.tableView.isUserInteractionEnabled = true
         }
@@ -553,7 +564,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         for service in peripheral.services! {
-            print("Service: \(service)")
+//            print("Service: \(service)")
             
             let aService = service as CBService
             
@@ -573,7 +584,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                 writeCharacteristic = aCharacteristic
                 
-                print("\n\nWrite Characteristics: \(characteristic)")
+//                print("\n\nWrite Characteristics: \(characteristic)")
                 
                 if (self.tableView.isEditing) {
                     let newPeripheral: Peripherals = Peripherals()

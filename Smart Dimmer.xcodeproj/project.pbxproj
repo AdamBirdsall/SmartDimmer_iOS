@@ -47,6 +47,7 @@
 		8192252A1F342E7800DA080E /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819225291F342E7800DA080E /* MenuTableViewController.swift */; };
 		81C6CB8A1F451FE300FBBC8C /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CB891F451FE300FBBC8C /* SetupViewController.swift */; };
 		81E1057E1FAA935B00E2B0BB /* CoreDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E1057D1FAA935B00E2B0BB /* CoreDataObject.swift */; };
+		81E74B381FBE81D500EFB8AA /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E74B371FBE81D500EFB8AA /* iTunesArtwork@2x.png */; };
 		DD5E2600D95112704FC70449 /* Pods_Smart_Dimmer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DA9427C4E4A846EB51BCB55 /* Pods_Smart_Dimmer.framework */; };
 /* End PBXBuildFile section */
 
@@ -96,6 +97,8 @@
 		819225291F342E7800DA080E /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		81C6CB891F451FE300FBBC8C /* SetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
 		81E1057D1FAA935B00E2B0BB /* CoreDataObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataObject.swift; sourceTree = "<group>"; };
+		81E74B361FBE81B100EFB8AA /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
+		81E74B371FBE81D500EFB8AA /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +151,8 @@
 		81136FF81F3402EB001CA824 /* Pictures */ = {
 			isa = PBXGroup;
 			children = (
+				81E74B361FBE81B100EFB8AA /* iTunesArtwork@2x */,
+				81E74B371FBE81D500EFB8AA /* iTunesArtwork@2x.png */,
 				8148F63A1F7C6CED00E2E5EB /* HelpPictures */,
 				813AD1081F454B7800A650BD /* Icons */,
 				813AD0EC1F4548F300A650BD /* iTunesArtwork_512 */,
@@ -296,13 +301,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = "Adam Birdsall";
 				TargetAttributes = {
 					813DD1E41F04824C0025A93C = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = FT34PLEEM7;
-						LastSwiftMigration = 0830;
+						DevelopmentTeam = 56E638GTTS;
+						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -349,6 +354,7 @@
 				813AD0F71F454A0F00A650BD /* Icon_20.png in Resources */,
 				813DD1F31F04824C0025A93C /* Assets.xcassets in Resources */,
 				818BBA921F42B14000B6F1DD /* icons8-Menu-50.png in Resources */,
+				81E74B381FBE81D500EFB8AA /* iTunesArtwork@2x.png in Resources */,
 				813AD1051F454B3400A650BD /* Icon_152.png in Resources */,
 				8148F6361F7C6CB700E2E5EB /* sideMenu.PNG in Resources */,
 				813AD0F91F454A0F00A650BD /* Icon_60.png in Resources */,
@@ -474,7 +480,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -482,7 +490,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -525,7 +537,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -533,7 +547,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -565,11 +583,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = FT34PLEEM7;
+				DEVELOPMENT_TEAM = 56E638GTTS;
 				INFOPLIST_FILE = "Smart Dimmer/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.AdamBirdsall.SmartDimmerDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.BrillianceLED.SmartDimmer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -581,11 +599,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = FT34PLEEM7;
+				DEVELOPMENT_TEAM = 56E638GTTS;
 				INFOPLIST_FILE = "Smart Dimmer/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.AdamBirdsall.SmartDimmerDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.BrillianceLED.SmartDimmer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
