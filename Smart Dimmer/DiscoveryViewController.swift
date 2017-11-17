@@ -12,6 +12,7 @@ import SideMenu
 import CoreData
 import StepSlider
 import VerticalSteppedSlider
+import SimpleAnimation
 
 
 class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate, UINavigationControllerDelegate {
@@ -77,7 +78,6 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
 
         self.disconnectButton.layer.cornerRadius = 12.5
         self.popUpView.layer.cornerRadius = 12.5
-        self.popUpView.frame.origin.y = self.tableView.frame.maxY
         self.popUpView.alpha = 0.0
         
         self.sliderView.layer.cornerRadius = 12.5
@@ -113,7 +113,6 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewDidAppear(_ animated: Bool) {
         retrieve()
 
-        self.popUpView.frame.origin.y = self.view.frame.maxY
         self.backgroundView.alpha = 0.0
     }
     
@@ -205,7 +204,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                 appDelegate.persistentContainer.viewContext
             
             for device in coreDataDevices {
-                if (deviceUuidString == device.value(forKey: "uuid") as! String) {
+                if (self.tableView.isEditing) {
                     
                     let updateDevice = managedContext.object(with: device.objectID)
                     
@@ -215,6 +214,21 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                     self.verticalStepSlider.value = setSliderValue / 10
                     
                     writeBLEData(Int(setSliderValue))
+                    
+                    return
+                    
+                } else {
+                    if (deviceUuidString == device.value(forKey: "uuid") as! String) {
+                        
+                        let updateDevice = managedContext.object(with: device.objectID)
+                        
+                        // If it does not have a previous value set, then put to 100 on switch on
+                        let setSliderValue = Float(updateDevice.value(forKey: "previousBrightness") as? String ?? "100.0")!
+                        
+                        self.verticalStepSlider.value = setSliderValue / 10
+                        
+                        writeBLEData(Int(setSliderValue))
+                    }
                 }
             }
         } else {
@@ -236,6 +250,8 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         
         if (self.tableView.isEditing) {
             for newPeripheral in connectedPeripheralArray {
+                save(uuidString: newPeripheral.connectedPeripheral.identifier.uuidString, nameString: newPeripheral.connectedPeripheral.name!, brightnessInt: String(value))
+
                 newPeripheral.connectedPeripheral.writeValue(data!, for: newPeripheral.connectedWriteCharacteristic, type: CBCharacteristicWriteType.withResponse)
             }
         } else {
@@ -269,8 +285,10 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                 let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel) {
                     (result : UIAlertAction) -> Void in
                     
-                    UIView.animate(withDuration: 0.35, animations: {
-                        self.popUpView.frame.origin.y = self.tableView.frame.maxY
+                    self.popUpView.transform = .identity
+                    self.popUpView.slideOut(to: .bottom)
+                    
+                    UIView.animate(withDuration: 0.15, animations: {
                         self.backgroundView.alpha = 0.0
                         self.navigationController?.navigationBar.isUserInteractionEnabled = true
                     })
@@ -293,13 +311,14 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             
             self.tableView?.setEditing(true, animated: true)
         } else {
+            
             if (connectedPeripheralArray.count > 0) {
-                self.popUpView.alpha = 1.0
-                UIView.animate(withDuration: 0.35, animations: {
-                    self.popUpView.frame.origin.y = self.tableView.frame.maxY - self.popUpView.frame.size.height - 10
+                self.popUpView.transform = .identity
+                self.popUpView.slideIn(from: .bottom)
+                
+                UIView.animate(withDuration: 0.15, animations: {
                     self.backgroundView.alpha = 0.5
                     self.navigationController?.navigationBar.isUserInteractionEnabled = false
-                    self.tableView.isUserInteractionEnabled = false
                 })
             } else {
                 // Alert View saying to select devices to group
@@ -416,12 +435,14 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             self.onOffSwitch.isEnabled = true
             self.onOffSwitch.isHidden = false
             
-            self.popUpView.alpha = 1.0
-            UIView.animate(withDuration: 0.35, animations: {
-                self.popUpView.frame.origin.y = self.tableView.frame.maxY - self.popUpView.frame.size.height - 10
+            self.popUpView.transform = .identity
+            self.popUpView.slideIn(from: .bottom)
+            
+            UIView.animate(withDuration: 0.15, animations: {
                 self.backgroundView.alpha = 0.5
                 self.navigationController?.navigationBar.isUserInteractionEnabled = false
             })
+            
             self.connectedLabel.text = "Connected to: \(deviceNameString)"
             
             guard let appDelegate =
@@ -457,10 +478,11 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             
         } else { // User selected a group of devices
             
-            // TODO: setup groups switch. for now, disable groups switch
-            self.onOffSwitch.isEnabled = false
-            self.onOffSwitch.isHidden = true
-            //**********************************************************
+            self.onOffSwitch.isEnabled = true
+            self.onOffSwitch.isHidden = false
+            
+            // Setting the value to zero initially for groups
+            self.verticalStepSlider.value = self.verticalStepSlider.minimumValue
             
             self.connectedLabel.text = "Connected to: Group"
             peripheral.delegate = self
@@ -474,8 +496,10 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel) {
             (result : UIAlertAction) -> Void in
             
-            UIView.animate(withDuration: 0.35, animations: {
-                self.popUpView.frame.origin.y = self.tableView.frame.maxY
+            self.popUpView.transform = .identity
+            self.popUpView.slideOut(to: .bottom)
+            
+            UIView.animate(withDuration: 0.15, animations: {
                 self.backgroundView.alpha = 0.0
                 self.navigationController?.navigationBar.isUserInteractionEnabled = true
             })
@@ -512,8 +536,10 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                 }
             }
             
-            UIView.animate(withDuration: 0.35, animations: {
-                self.popUpView.frame.origin.y = self.tableView.frame.maxY
+            self.popUpView.transform = .identity
+            self.popUpView.slideOut(to: .bottom)
+            
+            UIView.animate(withDuration: 0.15, animations: {
                 self.backgroundView.alpha = 0.0
                 self.navigationController?.navigationBar.isUserInteractionEnabled = true
             })
@@ -756,7 +782,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
 extension String {
     
     func hexadecimal() -> Data? {
-        var data = Data(capacity: characters.count / 2)
+        var data = Data(capacity: self.count / 2)
         
         let regex = try! NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive)
         regex.enumerateMatches(in: self, range: NSMakeRange(0, utf16.count)) { match, flags, stop in
