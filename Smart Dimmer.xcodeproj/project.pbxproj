@@ -37,7 +37,6 @@
 		8148F6351F7C6CB700E2E5EB /* setupPopup.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 8148F62F1F7C6CB700E2E5EB /* setupPopup.PNG */; };
 		8148F6361F7C6CB700E2E5EB /* sideMenu.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 8148F6301F7C6CB700E2E5EB /* sideMenu.PNG */; };
 		8148F6371F7C6CB700E2E5EB /* groupsSelect.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 8148F6311F7C6CB700E2E5EB /* groupsSelect.PNG */; };
-		8148F6381F7C6CB700E2E5EB /* adjustBrightness.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 8148F6321F7C6CB700E2E5EB /* adjustBrightness.PNG */; };
 		8148F6391F7C6CB700E2E5EB /* mainScreen.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 8148F6331F7C6CB700E2E5EB /* mainScreen.PNG */; };
 		8148F63E1F7C958300E2E5EB /* HelpPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8148F63D1F7C958300E2E5EB /* HelpPageViewController.swift */; };
 		817B2BC91F42AD1700D9B7E9 /* appIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 817B2BC81F42AD1700D9B7E9 /* appIcon.png */; };
@@ -48,6 +47,7 @@
 		81C6CB8A1F451FE300FBBC8C /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CB891F451FE300FBBC8C /* SetupViewController.swift */; };
 		81E1057E1FAA935B00E2B0BB /* CoreDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E1057D1FAA935B00E2B0BB /* CoreDataObject.swift */; };
 		81E74B381FBE81D500EFB8AA /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E74B371FBE81D500EFB8AA /* iTunesArtwork@2x.png */; };
+		81F753AD1FBFBD240047EDE4 /* adjustBrightness.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 81F753AC1FBFBD240047EDE4 /* adjustBrightness.PNG */; };
 		DD5E2600D95112704FC70449 /* Pods_Smart_Dimmer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DA9427C4E4A846EB51BCB55 /* Pods_Smart_Dimmer.framework */; };
 /* End PBXBuildFile section */
 
@@ -87,7 +87,6 @@
 		8148F62F1F7C6CB700E2E5EB /* setupPopup.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setupPopup.PNG; sourceTree = "<group>"; };
 		8148F6301F7C6CB700E2E5EB /* sideMenu.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sideMenu.PNG; sourceTree = "<group>"; };
 		8148F6311F7C6CB700E2E5EB /* groupsSelect.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = groupsSelect.PNG; sourceTree = "<group>"; };
-		8148F6321F7C6CB700E2E5EB /* adjustBrightness.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = adjustBrightness.PNG; sourceTree = "<group>"; };
 		8148F6331F7C6CB700E2E5EB /* mainScreen.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainScreen.PNG; sourceTree = "<group>"; };
 		8148F63D1F7C958300E2E5EB /* HelpPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpPageViewController.swift; sourceTree = "<group>"; };
 		817B2BC81F42AD1700D9B7E9 /* appIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = appIcon.png; sourceTree = "<group>"; };
@@ -99,6 +98,7 @@
 		81E1057D1FAA935B00E2B0BB /* CoreDataObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataObject.swift; sourceTree = "<group>"; };
 		81E74B361FBE81B100EFB8AA /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
 		81E74B371FBE81D500EFB8AA /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
+		81F753AC1FBFBD240047EDE4 /* adjustBrightness.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = adjustBrightness.PNG; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,11 +235,11 @@
 		8148F63A1F7C6CED00E2E5EB /* HelpPictures */ = {
 			isa = PBXGroup;
 			children = (
+				81F753AC1FBFBD240047EDE4 /* adjustBrightness.PNG */,
 				8148F62E1F7C6CB700E2E5EB /* pullToRefresh.PNG */,
 				8148F62F1F7C6CB700E2E5EB /* setupPopup.PNG */,
 				8148F6301F7C6CB700E2E5EB /* sideMenu.PNG */,
 				8148F6311F7C6CB700E2E5EB /* groupsSelect.PNG */,
-				8148F6321F7C6CB700E2E5EB /* adjustBrightness.PNG */,
 				8148F6331F7C6CB700E2E5EB /* mainScreen.PNG */,
 			);
 			name = HelpPictures;
@@ -342,6 +342,7 @@
 				8148F6371F7C6CB700E2E5EB /* groupsSelect.PNG in Resources */,
 				8148F6341F7C6CB700E2E5EB /* pullToRefresh.PNG in Resources */,
 				817B2BCB1F42AD1E00D9B7E9 /* topBarTitle.png in Resources */,
+				81F753AD1FBFBD240047EDE4 /* adjustBrightness.PNG in Resources */,
 				81136FFC1F3402FC001CA824 /* Brilliance LED logo 2016_Stacked.png in Resources */,
 				813AD1001F454AD000A650BD /* Icon_120.png in Resources */,
 				813DD1F61F04824C0025A93C /* LaunchScreen.storyboard in Resources */,
@@ -365,7 +366,6 @@
 				813AD0FB1F454A6700A650BD /* Icon_87.png in Resources */,
 				813AD0EE1F4548F300A650BD /* Icon-Small_29.png in Resources */,
 				81136FFB1F3402FC001CA824 /* titleImage.png in Resources */,
-				8148F6381F7C6CB700E2E5EB /* adjustBrightness.PNG in Resources */,
 				813AD0EF1F4548F300A650BD /* Icon-Small@2x_58.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
