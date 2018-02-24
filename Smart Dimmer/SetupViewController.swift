@@ -152,6 +152,8 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBAction func disconnectPressed(_ sender: Any) {
         save(uuidString: connectedPeripheral.identifier.uuidString, nameString: self.nameTextField.text!)
         
+        writeBLEData(0)
+        
         self.nameTextField.resignFirstResponder()
         
         self.nameTextField.text = ""

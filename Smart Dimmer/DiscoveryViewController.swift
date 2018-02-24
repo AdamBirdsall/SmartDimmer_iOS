@@ -18,6 +18,7 @@ import SimpleAnimation
 class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate, UINavigationControllerDelegate {
     
     var coreDataDevices: [NSManagedObject] = []
+    var listOfDevices: [CoreDataObject] = []
     var deviceNameString = ""
     var deviceUuidString = ""
     var defaultValue:Float = 0.0
@@ -181,7 +182,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         
         if (brightnessValue != defaultValue) {
             
-            self.brightnessLabel.text = "\(Int(brightnessValue))"
+            self.brightnessLabel.text = "\(Int(brightnessValue))%"
             
             writeBLEData(Int(brightnessValue))
             
@@ -233,7 +234,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         } else {
             self.verticalStepSlider.value = self.verticalStepSlider.minimumValue
-            self.brightnessLabel.text = "0"
+            self.brightnessLabel.text = "0%"
             writeBLEData(0)
         }
     }
@@ -249,7 +250,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         
         let data = trimmedString.hexadecimal()
         
-        self.brightnessLabel.text = String(value)
+        self.brightnessLabel.text = "\(String(value))%"
         
         if (self.tableView.isEditing) {
             for newPeripheral in connectedPeripheralArray {
@@ -317,7 +318,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             
             if (connectedPeripheralArray.count > 0) {
                 
-                self.brightnessLabel.text = "0"
+                self.brightnessLabel.text = "0%"
                 
                 self.popUpView.transform = .identity
                 self.popUpView.slideIn(from: .bottom)
@@ -431,7 +432,8 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
 
 //        print("Peripheral: \(peripheral)")
         peripherals.append(peripheral)
-        self.tableView.reloadData()
+        self.getListOfDevices()
+//        self.tableView.reloadData()
     }
         
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
@@ -469,7 +471,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                     self.verticalStepSlider.value = (Float(brightnessValue)!) / 10
                     
-                    self.brightnessLabel.text = String(brightnessValue)
+                    self.brightnessLabel.text = "\(String(describing: String(brightnessValue)))%"
                     
                     // If there is a previous brightness value greater than 0, then turn on the switch
                     if (Float(brightnessValue)! > 0.0) {
@@ -652,6 +654,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     /**************************************************************************************/
     
     // Core Data Functions
+    // TODO: add group name to this
     func save(uuidString: String, nameString: String, brightnessInt: String) {
         
         guard let appDelegate =
@@ -671,6 +674,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                 updateDevice.setValue(previousValue, forKey: "previousBrightness")
                 updateDevice.setValue(brightnessInt, forKey: "brightnessValue")
+//                updateDevice.setValue(groupName, forKey: "groupName")
                 
                 do {
                     try managedContext.save()
@@ -694,6 +698,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         addDevice.setValue(uuidString, forKey: "uuid")
         addDevice.setValue(nameString, forKeyPath: "name")
         addDevice.setValue(brightnessInt, forKey: "brightnessValue")
+//        addDevice.setValue(groupName, forKey: "groupName")
         
         // 4
         do {
@@ -734,12 +739,38 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     /**
      * Tableview functions
      */
+    
+    func getListOfDevices() {
+        
+        for peripheral in peripherals {
+        
+            let newCoreDataElement = CoreDataObject()
+            newCoreDataElement.name = peripheral.name!
+            newCoreDataElement.groupName = ""
+            newCoreDataElement.uuidString = peripheral.identifier.uuidString
+            newCoreDataElement.brightnessValue = ""
+            newCoreDataElement.previousValue = ""
+
+            for device in coreDataDevices {
+                if (peripheral.identifier.uuidString == device.value(forKey: "uuid") as! String) {
+                    newCoreDataElement.name = device.value(forKey: "name") as! String
+                    newCoreDataElement.groupName = device.value(forKey: "groupName") as! String
+                    newCoreDataElement.brightnessValue = device.value(forKey: "brightnessValue") as! String
+                    newCoreDataElement.previousValue = device.value(forKey: "previousBrightness") as! String
+                }
+            }
+
+            listOfDevices.append(newCoreDataElement)
+        }
+        self.tableView.reloadData()
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return peripherals.count
+        return listOfDevices.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -747,6 +778,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         if (!self.tableView.isEditing) {
             self.tableView.deselectRow(at: indexPath, animated: true)
             deviceNameString = (self.tableView.cellForRow(at: indexPath)?.textLabel?.text)!
+            // TODO: switching this label to show group name instead of uuid
             deviceUuidString = (self.tableView.cellForRow(at: indexPath)?.detailTextLabel?.text)!
         }
         
@@ -770,22 +802,30 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         
         // Configure the cell...
         
-        let peripheral = peripherals[indexPath.row]
-        var nameString = ""
-        
-        for device in coreDataDevices {
-            if (peripheral.identifier.uuidString == device.value(forKey: "uuid") as! String) {
-                nameString = device.value(forKey: "name") as! String
-            }
+        listOfDevices = listOfDevices.sorted { (object1, object2) -> Bool in
+            return object1.name > object2.name
         }
         
-        if (nameString == ""){
-            cell.textLabel?.text = peripheral.name
+        let device = listOfDevices[indexPath.row]
+        
+//        let peripheral = peripherals[indexPath.row]
+//        var nameString = ""
+//        var groupNameString = ""
+        
+//        for device in coreDataDevices {
+//            if (peripheral.identifier.uuidString == device.value(forKey: "uuid") as! String) {
+//                nameString = device.value(forKey: "name") as! String
+//                groupNameString = device.value(forKey: "groupName") as! String
+//            }
+//        }
+        
+        cell.textLabel?.text = device.name
+        
+        if (device.groupName == "") {
+            cell.detailTextLabel?.text = ""
         } else {
-            cell.textLabel?.text = nameString
+            cell.detailTextLabel?.text = device.groupName
         }
-        
-        cell.detailTextLabel?.text = peripheral.identifier.uuidString
         
         return cell
     }
