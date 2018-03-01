@@ -18,7 +18,6 @@ import SimpleAnimation
 class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate, UINavigationControllerDelegate {
     
     var coreDataDevices: [NSManagedObject] = []
-    var listOfDevices: [CoreDataObject] = []
     var deviceNameString = ""
     var deviceUuidString = ""
     var defaultValue:Float = 0.0
@@ -32,6 +31,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     var centralManager: CBCentralManager!
     var connectedPeripheral: CBPeripheral!
     var peripherals = Array<CBPeripheral>()
+    var peripheralNames: [PeripheralObject] = []
     var writeCharacteristic: CBCharacteristic!
     var readCharacteristic: CBCharacteristic!
     
@@ -49,7 +49,6 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var groupsButton: UIBarButtonItem!
     
     @IBOutlet weak var verticalStepSlider: VSSlider!
-    @IBOutlet weak var mainStepSlider: StepSlider!
     @IBOutlet weak var sliderView: UIView!
     @IBOutlet weak var disconnectButton: UIButton!
     
@@ -105,7 +104,10 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+//        retrieve()
+        
         peripherals.removeAll()
+        peripheralNames.removeAll()
         self.tableView.reloadData()
     
         Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(DiscoveryViewController.scanForDevice), userInfo: nil, repeats: false)
@@ -165,6 +167,19 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    func powerTurnedOff() {
+        self.tableView.isUserInteractionEnabled = true
+        self.tableView.reloadData()
+        
+        self.popUpView.transform = .identity
+        self.popUpView.slideOut(to: .bottom)
+        
+        UIView.animate(withDuration: 0.15, animations: {
+            self.backgroundView.alpha = 0.0
+            self.navigationController?.navigationBar.isUserInteractionEnabled = true
+        })
+    }
+    
     /**************************************************************************************/
     /**************************************************************************************/
     
@@ -204,38 +219,91 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             let managedContext =
                 appDelegate.persistentContainer.viewContext
             
-            for device in coreDataDevices {
-                if (self.tableView.isEditing) {
+            // is in groups
+            if (self.tableView.isEditing) {
+                
+                for newPeripheral in connectedPeripheralArray {
                     
-                    let updateDevice = managedContext.object(with: device.objectID)
-                    
-                    // If it does not have a previous value set, then put to 100 on switch on
-                    let setSliderValue = Float(updateDevice.value(forKey: "previousBrightness") as? String ?? "100.0")!
-                    
-                    self.verticalStepSlider.value = setSliderValue / 10
-                    
-                    writeBLEData(Int(setSliderValue))
-                    
-                    return
-                    
-                } else {
-                    if (deviceUuidString == device.value(forKey: "uuid") as! String) {
+                    for device in coreDataDevices {
+                        if (newPeripheral.connectedPeripheral.identifier.uuidString == device.value(forKey: "uuid") as! String) {
+                            let updateDevice = managedContext.object(with: device.objectID)
+                            
+                            // If it does not have a brightness value set, then put to 100 on switch on
+                            let brightnessValue = updateDevice.value(forKey: "previousBrightness") as? String ?? "100"
+                            
+                            let setSliderValue = Float(updateDevice.value(forKey: "previousBrightness") as? String ?? "100.0")!
+                                                        
+                            let hex = String(format:"%2X", Int(setSliderValue))
+                            
+                            let trimmedString = hex.trimmingCharacters(in: .whitespaces)
+                            
+                            let data = trimmedString.hexadecimal()
+                            
+                            newPeripheral.connectedPeripheral?.writeValue(data!, for: newPeripheral.connectedWriteCharacteristic, type: CBCharacteristicWriteType.withResponse)
+                            
+                            saveSwitchValue(uuidString: newPeripheral.connectedPeripheral.identifier.uuidString, brightnessInt: brightnessValue)
+                        }
+                    }
+                }
+                
+            } else { // is not in groups
+                
+                for device in coreDataDevices {
+                    if (connectedPeripheral.identifier.uuidString == device.value(forKey: "uuid") as! String) {
                         
                         let updateDevice = managedContext.object(with: device.objectID)
                         
-                        // If it does not have a previous value set, then put to 100 on switch on
+                        // If it does not have a brightness value set, then put to 100 on switch on
+                        let brightnessValue = updateDevice.value(forKey: "previousBrightness") as? String ?? "100"
+                        
                         let setSliderValue = Float(updateDevice.value(forKey: "previousBrightness") as? String ?? "100.0")!
                         
                         self.verticalStepSlider.value = setSliderValue / 10
                         
-                        writeBLEData(Int(setSliderValue))
+                        let hex = String(format:"%2X", Int(setSliderValue))
+                        
+                        let trimmedString = hex.trimmingCharacters(in: .whitespaces)
+                        
+                        let data = trimmedString.hexadecimal()
+                        
+                        self.brightnessLabel.text = "\(Int(setSliderValue))%"
+                        
+                        connectedPeripheral?.writeValue(data!, for: writeCharacteristic, type: CBCharacteristicWriteType.withResponse)
+                        
+                        saveSwitchValue(uuidString: connectedPeripheral.identifier.uuidString, brightnessInt: brightnessValue)
                     }
                 }
             }
         } else {
             self.verticalStepSlider.value = self.verticalStepSlider.minimumValue
             self.brightnessLabel.text = "0%"
-            writeBLEData(0)
+            
+            if (self.tableView.isEditing) {
+                
+                for newPeripheral in connectedPeripheralArray {
+                    let hex = String(format:"%2X", 0)
+                    
+                    let trimmedString = hex.trimmingCharacters(in: .whitespaces)
+                    
+                    let data = trimmedString.hexadecimal()
+                    
+                    newPeripheral.connectedPeripheral?.writeValue(data!, for: newPeripheral.connectedWriteCharacteristic, type: CBCharacteristicWriteType.withResponse)
+                    
+                    saveSwitchValue(uuidString: newPeripheral.connectedPeripheral.identifier.uuidString, brightnessInt: "0")
+                }
+                
+            } else {
+                
+                let hex = String(format:"%2X", 0)
+                
+                let trimmedString = hex.trimmingCharacters(in: .whitespaces)
+                
+                let data = trimmedString.hexadecimal()
+                
+                connectedPeripheral?.writeValue(data!, for: writeCharacteristic, type: CBCharacteristicWriteType.withResponse)
+                
+                saveSwitchValue(uuidString: connectedPeripheral.identifier.uuidString, brightnessInt: "0")
+            }
         }
     }
     
@@ -250,7 +318,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         
         let data = trimmedString.hexadecimal()
         
-        self.brightnessLabel.text = "\(String(value))%"
+        self.brightnessLabel.text = "\(value)%"
         
         if (self.tableView.isEditing) {
             for newPeripheral in connectedPeripheralArray {
@@ -308,33 +376,33 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         
         if (self.groupsButton.title == "Groups") {
             self.groupsButton.title = "Connect"
-            
+
             cancelOrMenuButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector (DiscoveryViewController.cancelGroupView))
             cancelOrMenuButton.tintColor = UIColor.red
             self.navigationItem.leftBarButtonItem  = cancelOrMenuButton
-            
+
             self.tableView?.setEditing(true, animated: true)
         } else {
-            
+
             if (connectedPeripheralArray.count > 0) {
-                
+
                 self.brightnessLabel.text = "0%"
-                
+
                 self.popUpView.transform = .identity
                 self.popUpView.slideIn(from: .bottom)
-                
+
                 UIView.animate(withDuration: 0.15, animations: {
                     self.backgroundView.alpha = 0.5
                     self.navigationController?.navigationBar.isUserInteractionEnabled = false
                 })
-                
+
             } else {
                 // Alert View saying to select devices to group
                 let alertController = UIAlertController(title: "Please select device(s)", message: "", preferredStyle: UIAlertControllerStyle.alert)
                 let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel) {
                     (result : UIAlertAction) -> Void in
                 }
-                
+
                 alertController.addAction(okAction)
                 self.present(alertController, animated: true, completion: nil)
             }
@@ -376,6 +444,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
 
     func scanForNewPeripherals() {
         self.peripherals.removeAll()
+        self.peripheralNames.removeAll()
         self.tableView.reloadData()
         for peripheral in connectedPeripheralArray {
             centralManager.cancelPeripheralConnection(peripheral.connectedPeripheral)
@@ -430,10 +499,23 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
      */
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
 
-//        print("Peripheral: \(peripheral)")
+        let newPeripheralName = PeripheralObject()
+        newPeripheralName.name = peripheral.name!
+        newPeripheralName.uuid = peripheral.identifier.uuidString
+        
         peripherals.append(peripheral)
-        self.getListOfDevices()
-//        self.tableView.reloadData()
+        
+        for device in coreDataDevices {
+            if (newPeripheralName.uuid == device.value(forKey: "uuid") as! String) {
+                newPeripheralName.name = device.value(forKey: "name") as! String
+            }
+        }
+        
+        peripheralNames.append(newPeripheralName)
+        
+        peripheralNames = peripheralNames.sorted(by: { $0.name.uppercased() < $1.name.uppercased() })
+        
+        self.tableView.reloadData()
     }
         
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
@@ -453,34 +535,10 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             })
             
             self.connectedLabel.text = "Connected to: \(deviceNameString)"
-            
-            guard let appDelegate =
-                UIApplication.shared.delegate as? AppDelegate else {
-                    return
-            }
-            
-            let managedContext =
-                appDelegate.persistentContainer.viewContext
-            
-            for device in coreDataDevices {
-                if (deviceUuidString == device.value(forKey: "uuid") as! String) {
-                    
-                    let updateDevice = managedContext.object(with: device.objectID)
-                    
-                    let brightnessValue = updateDevice.value(forKey: "brightnessValue") as? String ?? "0.0"
-                    
-                    self.verticalStepSlider.value = (Float(brightnessValue)!) / 10
-                    
-                    self.brightnessLabel.text = "\(String(describing: String(brightnessValue)))%"
-                    
-                    // If there is a previous brightness value greater than 0, then turn on the switch
-                    if (Float(brightnessValue)! > 0.0) {
-                        self.onOffSwitch.isOn = true
-                    } else {
-                        self.onOffSwitch.isOn = false
-                    }
-                }
-            }
+      
+            self.verticalStepSlider.value = verticalStepSlider.minimumValue
+            self.brightnessLabel.text = "0%"
+            self.onOffSwitch.isOn = false
             
             self.tableView.isUserInteractionEnabled = false
             
@@ -507,13 +565,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel) {
             (result : UIAlertAction) -> Void in
             
-            self.popUpView.transform = .identity
-            self.popUpView.slideOut(to: .bottom)
-            
-            UIView.animate(withDuration: 0.15, animations: {
-                self.backgroundView.alpha = 0.0
-                self.navigationController?.navigationBar.isUserInteractionEnabled = true
-            })
+            self.powerTurnedOff()
         }
         
         alertController.addAction(okAction)
@@ -526,6 +578,8 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             let alertController = UIAlertController(title: "Error Disconnecting", message: error?.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
             let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel) {
                 (result : UIAlertAction) -> Void in
+                
+                self.powerTurnedOff()
             }
             
             alertController.addAction(okAction)
@@ -557,8 +611,6 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.navigationController?.navigationBar.isUserInteractionEnabled = true
             })
             
-//            print("did disconnect")
-            
             self.tableView.isUserInteractionEnabled = true
         }
     }
@@ -566,7 +618,6 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         for service in peripheral.services! {
-//            print("Service: \(service)")
             
             let aService = service as CBService
             
@@ -652,7 +703,36 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
     
     /**************************************************************************************/
     /**************************************************************************************/
-    
+
+    func saveSwitchValue(uuidString: String, brightnessInt: String) {
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        // 1
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        for device in coreDataDevices {
+            if (uuidString == device.value(forKey: "uuid") as! String) {
+                
+                let updateDevice = managedContext.object(with: device.objectID)
+                let previousValue = updateDevice.value(forKey: "brightnessValue")
+                
+                updateDevice.setValue(previousValue, forKey: "previousBrightness")
+                updateDevice.setValue(brightnessInt, forKey: "brightnessValue")
+                
+                do {
+                    try managedContext.save()
+                } catch let error as NSError {
+                    print("Could not save. \(error), \(error.userInfo)")
+                }
+                
+                return
+            }
+        }
+    }
     // Core Data Functions
     // TODO: add group name to this
     func save(uuidString: String, nameString: String, brightnessInt: String) {
@@ -674,7 +754,6 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                 updateDevice.setValue(previousValue, forKey: "previousBrightness")
                 updateDevice.setValue(brightnessInt, forKey: "brightnessValue")
-//                updateDevice.setValue(groupName, forKey: "groupName")
                 
                 do {
                     try managedContext.save()
@@ -698,7 +777,6 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         addDevice.setValue(uuidString, forKey: "uuid")
         addDevice.setValue(nameString, forKeyPath: "name")
         addDevice.setValue(brightnessInt, forKey: "brightnessValue")
-//        addDevice.setValue(groupName, forKey: "groupName")
         
         // 4
         do {
@@ -740,40 +818,18 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
      * Tableview functions
      */
     
-    func getListOfDevices() {
-        
-        for peripheral in peripherals {
-        
-            let newCoreDataElement = CoreDataObject()
-            newCoreDataElement.name = peripheral.name!
-            newCoreDataElement.groupName = ""
-            newCoreDataElement.uuidString = peripheral.identifier.uuidString
-            newCoreDataElement.brightnessValue = ""
-            newCoreDataElement.previousValue = ""
-
-            for device in coreDataDevices {
-                if (peripheral.identifier.uuidString == device.value(forKey: "uuid") as! String) {
-                    newCoreDataElement.name = device.value(forKey: "name") as! String
-                    newCoreDataElement.groupName = device.value(forKey: "groupName") as! String
-                    newCoreDataElement.brightnessValue = device.value(forKey: "brightnessValue") as! String
-                    newCoreDataElement.previousValue = device.value(forKey: "previousBrightness") as! String
-                }
-            }
-
-            listOfDevices.append(newCoreDataElement)
-        }
-        self.tableView.reloadData()
-    }
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return listOfDevices.count
+        return peripheralNames.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        deviceUuidString = ""
+        deviceNameString = ""
         
         if (!self.tableView.isEditing) {
             self.tableView.deselectRow(at: indexPath, animated: true)
@@ -782,18 +838,32 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             deviceUuidString = (self.tableView.cellForRow(at: indexPath)?.detailTextLabel?.text)!
         }
         
-        connectedPeripheral = peripherals[indexPath.row]
-        centralManager.connect(connectedPeripheral, options: nil)
+        for peripheral in peripherals {
+            
+            if (peripheral.identifier.uuidString == peripheralNames[indexPath.row].uuid) {
+                connectedPeripheral = peripheral
+                centralManager.connect(connectedPeripheral, options: nil)
+                return
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         if (self.tableView.isEditing) {
             
-            let index = connectedPeripheralArray.index(where: {$0.connectedPeripheral.identifier.uuidString == peripherals[indexPath.row].identifier.uuidString})
+            let index = connectedPeripheralArray.index(where: {$0.connectedPeripheral.identifier.uuidString == peripheralNames[indexPath.row].uuid})
             self.connectedPeripheralArray.remove(at: index!)
             
-            centralManager.cancelPeripheralConnection(peripherals[indexPath.row])
+            
+            for peripheral in peripherals {
+                
+                if (peripheral.identifier.uuidString == peripheralNames[indexPath.row].uuid) {
+                    connectedPeripheral = peripheral
+                    centralManager.cancelPeripheralConnection(connectedPeripheral)
+                    return
+                }
+            }
         }
     }
     
@@ -801,31 +871,11 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
         // Configure the cell...
+    
+        let peripheral = peripheralNames[indexPath.row]
         
-        listOfDevices = listOfDevices.sorted { (object1, object2) -> Bool in
-            return object1.name > object2.name
-        }
-        
-        let device = listOfDevices[indexPath.row]
-        
-//        let peripheral = peripherals[indexPath.row]
-//        var nameString = ""
-//        var groupNameString = ""
-        
-//        for device in coreDataDevices {
-//            if (peripheral.identifier.uuidString == device.value(forKey: "uuid") as! String) {
-//                nameString = device.value(forKey: "name") as! String
-//                groupNameString = device.value(forKey: "groupName") as! String
-//            }
-//        }
-        
-        cell.textLabel?.text = device.name
-        
-        if (device.groupName == "") {
-            cell.detailTextLabel?.text = ""
-        } else {
-            cell.detailTextLabel?.text = device.groupName
-        }
+        cell.textLabel?.text = peripheral.name
+        cell.detailTextLabel?.text = peripheral.uuid
         
         return cell
     }

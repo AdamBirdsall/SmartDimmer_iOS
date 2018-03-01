@@ -10,8 +10,7 @@ import Foundation
 
 class CoreDataObject {
     var name: String = ""
-    var groupName: String = ""
     var uuidString: String = ""
     var brightnessValue: String = ""
-    var previousValue: String = ""
+    var previousBrightness: String = ""
 }

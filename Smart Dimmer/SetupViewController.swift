@@ -14,8 +14,10 @@ import SimpleAnimation
 class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate, UINavigationControllerDelegate {
     
     var coreDataDevices: [NSManagedObject] = []
+    var peripheralNames: [PeripheralObject] = []
     
     var openAppFlag: Bool = true
+    var didDisconnect: Bool = false
     
     let DISCOVERY_UUID = "00001523-1212-EFDE-1523-785FEABCD123"
     let WRITE_CHARACTERISTIC = "00001525-1212-EFDE-1523-785FEABCD123"
@@ -108,8 +110,14 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         self.nameTextField.text = self.tableView.cellForRow(at: indexPath)?.textLabel?.text
         
-        connectedPeripheral = peripherals[indexPath.row]
-        centralManager.connect(connectedPeripheral, options: nil)
+        for peripheral in peripherals {
+            
+            if (peripheral.identifier.uuidString == peripheralNames[indexPath.row].uuid) {
+                connectedPeripheral = peripheral
+                centralManager.connect(connectedPeripheral, options: nil)
+                return
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -121,44 +129,26 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         // Configure the cell...
         
-        let peripheral = peripherals[indexPath.row]
-        var nameString = ""
+        let peripheral = peripheralNames[indexPath.row]
         
-        for device in coreDataDevices {
-            if (peripheral.identifier.uuidString == device.value(forKey: "uuid") as! String) {
-                nameString = device.value(forKey: "name") as! String
-            }
-        }
-        
-        if (nameString == ""){
-            cell.textLabel?.text = peripheral.name
-        } else {
-            cell.textLabel?.text = nameString
-        }
-        
-        cell.detailTextLabel?.text = peripheral.identifier.uuidString
+        cell.textLabel?.text = peripheral.name
+        cell.detailTextLabel?.text = peripheral.uuid
         
         return cell
     }
     
     @IBAction func lowestBrightness(_ sender: Any) {
-        writeBLEData(202)
+        writeBLEData(202, disconnectFlag: false)
     }
     
     @IBAction func highestBrightness(_ sender: Any) {
-        writeBLEData(201)
+        writeBLEData(201, disconnectFlag: false)
     }
     
     @IBAction func disconnectPressed(_ sender: Any) {
         save(uuidString: connectedPeripheral.identifier.uuidString, nameString: self.nameTextField.text!)
         
-        writeBLEData(0)
-        
-        self.nameTextField.resignFirstResponder()
-        
-        self.nameTextField.text = ""
-        
-        centralManager.cancelPeripheralConnection(connectedPeripheral)
+        writeBLEData(0, disconnectFlag: true)
     }
     
     func scanAgain() {
@@ -167,6 +157,7 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func scanForNewPeripherals() {
         self.peripherals.removeAll()
+        self.peripheralNames.removeAll()
         self.tableView.reloadData()
         scanForDevice()
     }
@@ -199,7 +190,9 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
         centralManager.stopScan()
     }
     
-    func writeBLEData(_ value: Int) {
+    func writeBLEData(_ value: Int, disconnectFlag: Bool) {
+        
+        self.didDisconnect = disconnectFlag
         
         let hex = String(format:"%2X", value)
         //        let hexData = hex.data(using: .utf8)
@@ -224,7 +217,19 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
             print("Writing error", error)
         } else {
             print("\n\nWrite Succeeded")
-            connectedPeripheral.discoverServices(nil)
+            if (self.didDisconnect) {
+                self.nameTextField.resignFirstResponder()
+                
+                self.nameTextField.text = ""
+                
+                centralManager.cancelPeripheralConnection(connectedPeripheral)
+                
+                self.didDisconnect = false
+                
+                self.scanAgain()
+            } else {
+                connectedPeripheral.discoverServices(nil)
+            }
         }
     }
     
@@ -233,8 +238,22 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
      */
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         
-        print("Peripheral: \(peripheral)")
+        let newPeripheralName = PeripheralObject()
+        newPeripheralName.name = peripheral.name!
+        newPeripheralName.uuid = peripheral.identifier.uuidString
+        
         peripherals.append(peripheral)
+        
+        for device in coreDataDevices {
+            if (newPeripheralName.uuid == device.value(forKey: "uuid") as! String) {
+                newPeripheralName.name = device.value(forKey: "name") as! String
+            }
+        }
+        
+        peripheralNames.append(newPeripheralName)
+        
+        peripheralNames = peripheralNames.sorted(by: { $0.name.uppercased() < $1.name.uppercased() })
+        
         self.tableView.reloadData()
     }
     
