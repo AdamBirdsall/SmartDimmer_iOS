@@ -37,6 +37,18 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var backgroundView: UIView!
     
     @IBOutlet weak var nameTextField: UITextField!
+    
+    
+    // Sets the 'pull down to refresh' variable
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action:
+            #selector(SetupViewController.scanForNewPeripherals), for: UIControlEvents.allEvents)
+        refreshControl.tintColor = UIColor.black
+        
+        return refreshControl
+    }()
+    
     /**
      * View did load default functions
      */
@@ -57,6 +69,8 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
         retrieve()
         
         self.startManager()
+        
+        self.tableView.addSubview(self.refreshControl)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -70,9 +84,6 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector (DiscoveryViewController.scanAgain))
-        self.navigationItem.rightBarButtonItem = refreshButton
         
         Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(DiscoveryViewController.scanForDevice), userInfo: nil, repeats: false)
     }
@@ -151,9 +162,6 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
         writeBLEData(0, disconnectFlag: true)
     }
     
-    func scanAgain() {
-        scanForNewPeripherals()
-    }
     
     func scanForNewPeripherals() {
         self.peripherals.removeAll()
@@ -172,11 +180,6 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func scanForDevice() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        let uiBusy = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-        uiBusy.hidesWhenStopped = true
-        uiBusy.startAnimating()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uiBusy)
-        
         centralManager.scanForPeripherals(withServices: [CBUUID(string: DISCOVERY_UUID)], options: nil)
 
         Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(DiscoveryViewController.stopScanning), userInfo: nil, repeats: false)
@@ -184,8 +187,7 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func stopScanning() {
         
-        let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector (DiscoveryViewController.scanAgain))
-        self.navigationItem.rightBarButtonItem = refreshButton
+        refreshControl.endRefreshing()
         
         centralManager.stopScan()
     }
@@ -226,7 +228,7 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 
                 self.didDisconnect = false
                 
-                self.scanAgain()
+                self.scanForNewPeripherals()
             } else {
                 connectedPeripheral.discoverServices(nil)
             }

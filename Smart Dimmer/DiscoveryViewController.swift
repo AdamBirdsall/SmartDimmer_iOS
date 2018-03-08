@@ -222,6 +222,8 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             // is in groups
             if (self.tableView.isEditing) {
                 
+                var brightnessValueText : Float = 0.0
+                
                 for newPeripheral in connectedPeripheralArray {
                     
                     for device in coreDataDevices {
@@ -238,6 +240,12 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                             let trimmedString = hex.trimmingCharacters(in: .whitespaces)
                             
                             let data = trimmedString.hexadecimal()
+                            
+                            if (setSliderValue > brightnessValueText) {
+                                brightnessValueText = setSliderValue
+                                self.brightnessLabel.text = "\(Int(setSliderValue))%"
+                                self.verticalStepSlider.value = brightnessValueText / 10
+                            }
                             
                             newPeripheral.connectedPeripheral?.writeValue(data!, for: newPeripheral.connectedWriteCharacteristic, type: CBCharacteristicWriteType.withResponse)
                             
@@ -334,6 +342,10 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    func writeToSwitchData(_ value: Int) {
+        
+    }
+    
     @IBAction func doneClicked(_ sender: Any) {
         
         defaultValue = 0.0
@@ -387,6 +399,23 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             if (connectedPeripheralArray.count > 0) {
 
                 self.brightnessLabel.text = "0%"
+                
+                var brightnessTextValue: Float = 0.0
+                
+                for connectedPeripheralObject in connectedPeripheralArray {
+                    for device in coreDataDevices {
+                        if (connectedPeripheralObject.connectedPeripheral.identifier.uuidString == device.value(forKey: "uuid") as! String) {
+                            let temp: Float = Float(device.value(forKey: "brightnessValue") as? String ?? "100.0")!
+
+                            if (temp > brightnessTextValue) {
+                                brightnessTextValue = temp
+                                
+                                self.brightnessLabel.text = "\(brightnessTextValue)%"
+                                self.verticalStepSlider.value = brightnessTextValue / 10
+                            }
+                        }
+                    }
+                }
 
                 self.popUpView.transform = .identity
                 self.popUpView.slideIn(from: .bottom)
@@ -534,16 +563,33 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.navigationController?.navigationBar.isUserInteractionEnabled = false
             })
             
-            self.connectedLabel.text = "Connected to: \(deviceNameString)"
-      
-            self.verticalStepSlider.value = verticalStepSlider.minimumValue
-            self.brightnessLabel.text = "0%"
-            self.onOffSwitch.isOn = false
             
             self.tableView.isUserInteractionEnabled = false
             
             connectedPeripheral.delegate = self
             connectedPeripheral.discoverServices(nil)
+            
+            self.connectedLabel.text = "Connected to: \(deviceNameString)"
+            
+            self.verticalStepSlider.value = verticalStepSlider.minimumValue
+            self.brightnessLabel.text = "0%"
+            self.onOffSwitch.isOn = false
+            
+            for device in coreDataDevices {
+                if (connectedPeripheral.identifier.uuidString == device.value(forKey: "uuid") as! String) {
+                    let temp: Float = Float(device.value(forKey: "brightnessValue") as? String ?? "100.0")!
+                    
+                    if (temp > 0.0) {
+                        self.verticalStepSlider.value = temp / 10
+                        self.brightnessLabel.text = "\(temp)%"
+                        self.onOffSwitch.isOn = true
+                    } else {
+                        self.verticalStepSlider.value = verticalStepSlider.minimumValue
+                        self.brightnessLabel.text = "0%"
+                        self.onOffSwitch.isOn = false
+                    }
+                }
+            }
             
         } else { // User selected a group of devices
             
