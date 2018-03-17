@@ -36,8 +36,12 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var backgroundView: UIView!
     
+    @IBOutlet weak var highestButton: UIButton!
+    @IBOutlet weak var lowestButton: UIButton!
+    @IBOutlet weak var renameDeviceLabel: UILabel!
     @IBOutlet weak var nameTextField: UITextField!
     
+    @IBOutlet weak var selectBrightnessLabel: UILabel!
     
     // Sets the 'pull down to refresh' variable
     lazy var refreshControl: UIRefreshControl = {
@@ -262,7 +266,7 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         
         self.popUpView.transform = .identity
-        self.popUpView.bounceIn(from: .top)
+        self.popUpView.slideIn(from: .bottom)
         
         UIView.animate(withDuration: 0.15, animations: {
             self.backgroundView.alpha = 0.5
@@ -283,7 +287,7 @@ class SetupViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?){
         
         self.popUpView.transform = .identity
-        self.popUpView.slideOut(to: .top)
+        self.popUpView.slideOut(to: .bottom)
         
         UIView.animate(withDuration: 0.15, animations: {
             self.backgroundView.alpha = 0.0

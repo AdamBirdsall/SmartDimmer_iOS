@@ -577,7 +577,7 @@ class DiscoveryViewController: UIViewController, UITableViewDelegate, UITableVie
             
             for device in coreDataDevices {
                 if (connectedPeripheral.identifier.uuidString == device.value(forKey: "uuid") as! String) {
-                    let temp: Float = Float(device.value(forKey: "brightnessValue") as? String ?? "100.0")!
+                    let temp: Float = Float(device.value(forKey: "brightnessValue") as? String ?? "0.0")!
                     
                     if (temp > 0.0) {
                         self.verticalStepSlider.value = temp / 10
